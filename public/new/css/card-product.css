@@ -1,0 +1,161 @@
+.products
+{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 80px 150px 50px 180px;
+}
+
+.products-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.products-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+}
+
+
+@media (min-width: 1500px) {
+  .products {
+      padding-left: 220px;
+  }
+}
+
+.product-detail .stars
+{
+  display: flex !important;
+  justify-content: space-between !important;
+  margin-right: 30px;
+}
+
+
+.product-detail .title-detail
+{
+  font-weight: 600;
+  color: var(--navy);
+  font-size: 18px;
+  margin-top: 5px;
+  margin-left: 3px;
+
+}
+
+.product-detail .time
+{
+  display: flex !important;
+  justify-content:flex-start !important;
+  margin-left: 5px;
+}
+
+.product-detail .time i
+{
+  color: grey;
+  margin-right: 10px;
+}
+
+.product-detail .time p
+{
+  color: grey;
+  margin: 0 0 10px 0;
+  font-size: 14px;
+}
+
+.product-detail .price
+{
+  display: flex !important;
+  align-items: center !important;
+  justify-content:flex-start !important;
+  margin-left: 5px;
+}
+
+.product-detail .beli
+{
+  display: flex !important;
+  align-items: center !important;
+  justify-content:center !important;
+  margin: 30px 0 20px 0;
+}
+
+.product-detail .price del
+{
+  color: red;
+  font-size: 14px;
+  margin: 0 20px 0 0;
+}
+
+.product-detail .price p
+{
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.product-card {
+    border-radius: 24px;
+    background-color: white;
+    padding: 20px;
+    max-width: 400px;
+    /* margin: 2.5rem; */
+  }
+  
+  .product-card img {
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+  }
+  
+  /* .product-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  } */
+  
+  .label-detail {
+    color: var(--grey-secondary);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+
+  
+  .btn-fav {
+    padding: 0 !important;
+    border: none !important;
+  }
+  
+  .btn-fav > svg {
+    fill: transparent;
+  }
+  
+  .btn-fav > svg > path {
+    stroke: var(--red);
+  }
+  
+  .btn-fav.active > svg {
+    fill: var(--red);
+  }
+  
+  .price-detail {
+    color: var(--blue-primary);
+    font-weight: 600;
+    font-size: 18px;
+  }
+  
+  .btn-rounded {
+    color: var(--blue-primary);
+    background-color: #f6fafd;
+    border: 1px solid var(--blue-primary);
+  }
+  
+  .dark .btn-rounded:hover,
+  .dark .btn-rounded.active,
+  .btn-rounded:hover,
+  .btn-rounded.active {
+    color: white;
+    background-color: var(--blue-primary);
+  }
+  

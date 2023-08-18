@@ -1,0 +1,227 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Models\Produk;
+use App\Models\Kerjasama;
+use PDF;
+use Illuminate\Http\Request;
+use App\Models\KeranjangProduk;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use RealRashid\SweetAlert\Facades\Alert;
+class AuthController extends Controller
+{
+    public function login($params = null)
+    {
+        $admin = Auth::user();
+        
+        if ($admin) {
+            if ($admin->role == '1') {
+                return redirect()->route('admin-dashboard');
+            }
+
+            if (isset($params) && !empty($params)) {
+                $nourut = KeranjangProduk::selectRaw('MAX(SUBSTRING(no_invoice, 9, 3)) AS no_invoice')->first();
+                $invoice = sprintf('%03d', ($nourut['no_invoice'] + 1));
+                $bulan = number2roman(date('m'));
+                $tahun = date('Y');
+                $no_invoice = 'NO. INV-' . $invoice . '/ICEDU/' . $bulan . '/' . $tahun;
+
+                KeranjangProduk::create([
+                    'username' => $admin->email,
+                    'slug' => $params,
+                    'aktif' => 1,
+                    'no_invoice' => $no_invoice,
+                    'created_at' => date('Y-m-d H:i:s')
+                ]);
+
+                return redirect()->route('keranjang-invoice');
+            }
+
+            return redirect()->route('home-beranda');
+        }
+
+        return view('auth.login');
+    }
+
+    public function authLogin(Request $request)
+    {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        // return $request;
+
+        $user = User::where('username', $request->username)->first();
+        $credentials = $request->only('username', 'password');
+
+        if (Auth::attempt($credentials)) {
+
+            $request->session()->regenerate();
+
+            if ($user->role == 5) {
+                return redirect()->route('pemateri-dashboard');
+            }
+
+            if ($user->role != 1) {
+                if (isset($request->slug) && !empty($request->slug)) {
+                    $nourut = KeranjangProduk::selectRaw('MAX(SUBSTRING(no_invoice, 9, 3)) AS no_invoice')->first();
+                    $invoice = sprintf('%03d', ($nourut['no_invoice'] + 1));
+                    $bulan = number2roman(date('m'));
+                    $tahun = date('Y');
+                    $no_invoice = 'NO. INV-' . $invoice . '/ICEDU/' . $bulan . '/' . $tahun;
+
+                    KeranjangProduk::create([
+                        'username' => $user->email,
+                        'slug' => $request->slug,
+                        'aktif' => 1,
+                        'no_invoice' => $no_invoice,
+                        'created_at' => date('Y-m-d H:i:s')
+                    ]);
+
+                    return redirect()->route('keranjang-invoice');
+                }
+
+
+
+                Alert::success('Berhasil Login', 'Selamat Datang '.$user->name.', Pilih dan Daftar Kelas Sekarang Juga!');
+                return redirect()->route('home-beranda');
+            }
+
+            return redirect()->route('admin-dashboard');
+        }
+
+        Alert::warning('Warning', 'Username atau Password Anda Salah');
+        return redirect()->back();  
+        // return back()->withErrors([
+        //     'credentials' => 'Username atau Password anda salah'
+        // ])->withInput();
+    }
+
+    public function authLogout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('home-beranda');
+    }
+
+    public function register()
+    {
+        $products = Produk::where('aktif', 1)
+            ->whereIn('nama_produk', ['brevet-ab', 'seminar'])
+            ->get();
+
+        $instansi = Kerjasama::all();
+
+        return view('auth.register', [
+            'produk' => $products,
+            'instansi' => $instansi,
+        ]);
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $data = User::where(['email' => $request->input('email')])->count();
+        return response()->json(['message' => $data]);
+    }
+
+    public function authRegister(Request $request)
+    {
+        $slugProduct = $request->slug;
+
+        $pwd = $request->input('password');
+        $nourut = KeranjangProduk::selectRaw('MAX(SUBSTRING(no_invoice, 9, 3)) AS no_invoice')
+            ->first();
+
+        $invoice = sprintf('%03d', ($nourut['no_invoice'] + 1));
+        $bulan = number2roman(date('m'));
+        $tahun = date('Y');
+        $no_invoice = 'NO. INV-' . $invoice . '/ICEDU/' . $bulan . '/' . $tahun;
+
+        User::create([
+            'name' => $request->input('nama'),
+            'no_hp' => $request->input('no_hp'),
+            'email' => $request->input('email'),
+            'pekerjaan' => $request->input('pekerjaan'),
+            'kerjasama_id' => $request->input('kerjasama'),
+            'username' => $request->input('email'),
+            'active' => '1',
+            'role' => '2',
+            'password' => Hash::make($pwd),
+            'created_at' => date('Y-m-d H:i:s')
+        ]);
+
+        if (isset($slugProduct) && !empty($slugProduct)) {
+            KeranjangProduk::create([
+                'username' => $request->input('email'),
+                'slug' => $slugProduct,
+                'aktif' => 1,
+                'no_invoice' => $no_invoice,
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+        }
+
+        if (auth()->attempt(array('username' => $request->input('email'), 'password' => $pwd))) {
+            if (isset($slugProduct) && !empty($slugProduct)) {
+                return redirect()->route('keranjang-invoice');
+            } else {
+                $data = array();
+                $data['email'] = $request->input('email');
+                $data['subject'] = 'Informasi IC Education';
+                $data['nama'] = $request->input('nama');
+                $data['username'] = $request->input('email');
+                $data['password'] = $pwd;
+                $data['produk'] = $request->input('nama_produk');
+                $data['isregonly'] = "1";
+
+                try {
+                    Mail::send('mail', $data, function ($message) use ($data) {
+                        $message->to($data["email"], $data["nama"])
+                            ->subject($data["subject"])
+                            ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com']);
+                    });
+                } catch (JWTException $exception) {
+                    $serverstatuscode = "0";
+                    $serverstatusdes = $exception->getMessage();
+                }
+
+                return redirect()->route('user-dashboard')->with('success', 'Anda tidak membeli produk apapun, Ayo buruan beli. Silahkan cek email yang terdaftar untuk mendapatkan informasi login');
+            }
+        } else {
+            return redirect()->route('login')->with('status', 'Username atau Password salah');
+        }
+    }
+
+    public function forgotPassword()
+    {
+        return view('auth.forgot');
+    }
+
+    public function authForgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'new_password' => 'required|confirmed',
+        ]);
+
+        if (auth()->user()) {
+            auth()->logout();
+        }
+
+        User::where('email', $request->email)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+        Alert::warning('Success', 'Password Anda Telah Dirubah');
+        return redirect()->route('login');
+        // return redirect()->route('login')->with('success', 'Password change successfully!');
+
+    }
+    
+}

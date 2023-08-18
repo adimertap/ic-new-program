@@ -1,0 +1,20 @@
+/* Your Custom CSS Goes here */
+
+#background-signin {
+    background-color: #f7d9ce !important; 
+}
+
+#datatable1 {
+    display: block;
+    overflow-x: auto;
+}
+
+#datatable4 {
+    /* display: block; */
+    overflow-x: auto;
+}
+
+.datatable-sertifikat {
+    display: block;
+    overflow-x: auto;
+}
