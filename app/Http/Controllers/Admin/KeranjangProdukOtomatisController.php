@@ -236,8 +236,8 @@ class KeranjangProdukOtomatisController extends Controller
                     Mail::send('mail-midtrans-kurang', $data, function ($message) use ($data, $pdf) {
                         $message->to($data["username"])
                             ->subject("Invoice IC Education")
-                            // ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
-                            ->cc(['info@iceducation.co.id'])
+                            ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
+                            // ->cc(['info@iceducation.co.id'])
                             ->attachData($pdf->output(), "invoice.pdf");
                     });
                 } catch (JWTException $exception) {

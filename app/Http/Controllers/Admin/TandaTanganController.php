@@ -124,8 +124,8 @@ class TandaTanganController extends Controller
                 Mail::send('mail-sertif', $data, function ($message) use ($data, $pdf) {
                     $message->to($data["email"])
                         ->subject($data['subject'])
-                        // ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
-                        ->cc(['info@iceducation.co.id'])
+                        ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
+                        // ->cc(['info@iceducation.co.id'])
                         ->attachData($pdf->output(), "sertifikat.pdf");
                 });
 

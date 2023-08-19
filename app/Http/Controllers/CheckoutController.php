@@ -187,8 +187,8 @@ class CheckoutController extends Controller
                     Mail::send('mail', $data, function ($message) use ($data, $pdf) {
                         $message->to($data["username"])
                             ->subject("Invoice IC Education")
-                            // ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
-                            ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
+                            ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
+                            // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
                             ->attachData($pdf->output(), "invoice.pdf");
                     });
                 } catch (JWTException $exception) {
@@ -336,8 +336,8 @@ class CheckoutController extends Controller
                 Mail::send('mail-midtrans', $data, function ($message) use ($data, $pdf) {
                     $message->to($data["username"])
                         ->subject("Invoice IC Education")
-                        // ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
-                        ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
+                        ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
+                        // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
                         ->attachData($pdf->output(), "invoice.pdf");
                 });
             } catch (JWTException $exception) {

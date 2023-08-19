@@ -107,7 +107,8 @@ class KeranjangProdukController extends Controller
         Mail::send('mail', $data, function ($message) use ($data, $pdf) {
           $message->to($data["email"], $data["nama"])
             ->subject($data["subject"])
-            ->cc('info@iceducation.co.id')
+            ->cc('adimertap@gmail.com')
+            // ->cc('info@iceducation.co.id')
             ->attachData($pdf->output(), "invoice.pdf");
         });
       } catch (JWTException $exception) {
@@ -198,7 +199,8 @@ class KeranjangProdukController extends Controller
 
       try {
         Mail::to(validate_email($mail["username"]) ? $mail["username"] : "info@iceducation.co.id")
-          ->cc('info@iceducation.co.id')
+          ->cc('adimertap@gmail.com')
+          // ->cc('info@iceducation.co.id')
           ->send(new CancelTransactionMail($mail));
       } catch (JWTException $exception) {
         $serverstatuscode = "0";
@@ -288,7 +290,8 @@ class KeranjangProdukController extends Controller
           Mail::send('mail', $data, function ($message) use ($data, $pdf) {
               $message->to($data["email"], $data["nama"])
                   ->subject($data["subject"])
-                  ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
+                  ->cc(['adimertap@gmail.com', 'contact.adimertap@gmail.com'])
+                  // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
                   ->attachData($pdf->output(), "invoice.pdf");
           });
       } catch (JWTException $exception) {

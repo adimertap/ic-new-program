@@ -184,8 +184,8 @@ class AuthController extends Controller
                 try {
                     Mail::send('mail', $data, function ($message) use ($data) {
                         $message->to($data["email"], $data["nama"])
-                            ->subject($data["subject"])
-                            ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com']);
+                            ->subject($data["subject"]);
+                            // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com']);
                     });
                 } catch (JWTException $exception) {
                     $serverstatuscode = "0";
