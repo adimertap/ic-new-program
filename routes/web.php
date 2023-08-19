@@ -56,6 +56,7 @@ Route::get('copy', function(){
 Route::get('payment/callback' , [CheckoutController::class, 'midtransCallback']);
 Route::get('payment/unfinish' , [CheckoutController::class, 'midtransUnfinished']);
 Route::get('payment/error' , [CheckoutController::class, 'midtransError']);
+Route::get('payment/success' , [CheckoutController::class, 'midtransSuccess']);
 Route::get('payment/pending' , [CheckoutController::class, 'midtransPending']);
 
 Route::get('/', [BerandaController::class, 'index'])->name('home-beranda');

@@ -409,7 +409,7 @@ class CheckoutController extends Controller
             }else if($checkout->tenor == 'Full'){
                 $status = '2';
             }
-            
+            $checkout->tenor = $checkout->sisaTenor;
             $checkout->status = $status;
             $checkout->payment_status = 'Paid';
             $checkout->update();
@@ -460,7 +460,7 @@ class CheckoutController extends Controller
         return view('home.pages.statusMidtrans.error_checkout');
     }
 
-    public function success()
+    public function midtransSuccess()
     {
         return view('home.pages.statusMidtrans.success_checkout');
     }
