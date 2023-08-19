@@ -370,7 +370,8 @@ class CheckoutController extends Controller
                 if ($fraud == 'challenge') {
                     $checkout->payment_status = 'Pending';
                     $checkout->save();
-                    $viewName = 'home.pages.statusMidtrans.pending_checkout';
+                    return response()->json(['message' => 'Payment Pending'], 200);
+                    // $viewName = 'home.pages.statusMidtrans.pending_checkout';
                     // return view('home.pages.statusMidtrans.pending_checkout');
                 }
                 else if ($fraud == 'accept') {
@@ -391,7 +392,8 @@ class CheckoutController extends Controller
                     $checkout->status = $status;
                     $checkout->payment_status = $pstatus;
                     $checkout->update();
-                    $viewName = 'home.pages.statusMidtrans.success_checkout';
+                    return response()->json(['message' => 'Payment Success'], 200);
+                    // $viewName = 'home.pages.statusMidtrans.success_checkout';
                     // return view('home.pages.statusMidtrans.success_checkout');
                 }
             }
@@ -399,7 +401,8 @@ class CheckoutController extends Controller
                 if ($fraud == 'challenge') {
                     $checkout->payment_status = 'Failed';
                     $checkout->save();
-                    $viewName = 'home.pages.statusMidtrans.error_checkout';
+                    return response()->json(['message' => 'Payment Failed'], 500);
+                    // $viewName = 'home.pages.statusMidtrans.error_checkout';
                     // return view('home.pages.statusMidtrans.error_checkout');
                 }
                 else if ($fraud == 'accept') {
@@ -410,7 +413,8 @@ class CheckoutController extends Controller
             else if ($transaction_status == 'deny') {
                 $checkout->payment_status = 'Failed';
                 $checkout->save();
-                $viewName = 'home.pages.statusMidtrans.error_checkout';
+                return response()->json(['message' => 'Payment Failed'], 500);
+                // $viewName = 'home.pages.statusMidtrans.error_checkout';
                 // return view('home.pages.statusMidtrans.error_checkout');
             }
             else if ($transaction_status == 'settlement') {
@@ -431,22 +435,25 @@ class CheckoutController extends Controller
                 $checkout->status = $status;
                 $checkout->payment_status = $pstatus;
                 $checkout->update();
-                $viewName = 'home.pages.statusMidtrans.success_checkout';
+                return response()->json(['message' => 'Payment Success'], 200);
+                // $viewName = 'home.pages.statusMidtrans.success_checkout';
                 // return view('home.pages.statusMidtrans.success_checkout');
             }
             else if ($transaction_status == 'pending') {
                 $checkout->payment_status = 'Pending';
                 $checkout->save();
-                $viewName = 'home.pages.statusMidtrans.pending_checkout';
+                return response()->json(['message' => 'Payment Pending'], 200);
+                // $viewName = 'home.pages.statusMidtrans.pending_checkout';
                 // return view('home.pages.statusMidtrans.pending_checkout');
             }
             else if ($transaction_status == 'expire') {
                 $checkout->payment_status = 'Failed';
                 $checkout->save();
-                $viewName = 'home.pages.statusMidtrans.error_checkout';
+                return response()->json(['message' => 'Payment Failed'], 500);
+                // $viewName = 'home.pages.statusMidtrans.error_checkout';
                 // return view('home.pages.statusMidtrans.error_checkout');
             }
-            return view($viewName);
+            // return view($viewName);
         } catch (\Throwable $th) {
             \Log::error('Exception in Midtrans callback: ' . $th->getMessage());
         
