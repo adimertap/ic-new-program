@@ -1,6 +1,5 @@
 @extends('user.layouts.user-app')
 
-
 @push('css')
 <link href="{{ asset('assets/plugins/highlight/styles/github-gist.css')}}" rel="stylesheet">
 @endpush
@@ -47,7 +46,7 @@
                     <div id="tableJenis"
                         data-list='{"valueNames":["no","nama","modul","materi","kuis","jenis"],"page":20,"pagination":true}'>
                         <div class="table-responsive scrollbar">
-                            <table class="small table table-bordered table-striped fs--1 mb-0" id="example">
+                            <table class="small table table-bordered table-striped fs--1 mb-0" id="tableManual">
                                 <thead>
                                     <tr>
                                         <th class="col-1 text-center">No</th>
@@ -163,9 +162,7 @@
                                         @endif --}}
                                     </tr>
                                     @empty
-                                    <tr>
-                                        <th colspan="11" class="text-center p-3">Belum ada riwayat Transaksi</th>
-                                    </tr>
+                                
                                     @endforelse
                                 </tbody>
                             </table>
@@ -174,7 +171,7 @@
                 </div>
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
                     tabindex="0">
-                    <table class="small table table-bordered table-striped fs--1 mb-0" id="example2">
+                    <table class="small table table-bordered table-striped fs--1 mb-0" id="tableOtomatis">
                         <thead>
                             <tr>
                                 <th class="col-1 text-center">No</th>
@@ -296,11 +293,13 @@
                                     @if($item->status != 2 && $item->payment_status != 'Paid' && $item->payment_status != 'Failed')
                                         <button type="button" class="btn btn-sm btn-success payment" value="{{ $item->id }}"
                                         style="font-size: 12px; margin-right:10px">Bayar</button>
+                                    
                                     @endif
                                     
                                     @if($item->payment_status == 'Paid' || $item->payment_status == 'Cicilan')
                                     <a href="{{ route('transaksi-invoice', $item->id) }}" class="btn btn-sm btn-primary"
-                                        style="font-size: 12px; margin-right:15px">Invoice</a>
+                                        style="font-size: 12px; margin-right:15px">Invoice
+                                    </a>
                                     @endif
 
                                     <a href="https://wa.me/628111474251" class="btn btn-sm btn-secondary"
@@ -309,9 +308,7 @@
                                 </td>
                             </tr>
                             @empty
-                            <tr>
-                                <th colspan="11" class="text-center p-3">Belum ada riwayat Transaksi</th>
-                            </tr>
+                          
                             @endforelse
                         </tbody>
                     </table>
@@ -359,88 +356,88 @@
         </div>
     </div>
 
-    <script>
-        $(document).ready(function () {
-            $('#example').DataTable();
-            var table = $('#example2').DataTable();
-            table.on('click', '.payment', function () {
-                var id = $(this).val();
-                $tr = $(this).closest('tr');
-                if ($($tr).hasClass('clid')) {
-                    $tr = $tr.prev('.parent')
-                }
-
-                var data = table.row($tr).data();
-                var id_temp = data[1]
-                var id_transaksi = $(id_temp).attr('id')
-                var sisaBayar = data[8]
-                if (sisaBayar == 'Pending') {
-                    var formattedPrice = data[7]
-                    var price = $(formattedPrice).attr('id')
-                } else {
-                    var formattedPrice = data[8]
-                    var percentage = parseFloat(formattedPrice.match(
-                        /\((-?\d+(?:\.\d+)?)%\)/)[1]);
-                    if (percentage == "-25") {
-                        var startIndex = sisaBayar.indexOf("Rp.") +
-                            4; // Add 4 to skip "Rp. "
-                        var endIndex = sisaBayar.indexOf("(-25%)");
-                        var formattedPrice = sisaBayar.substring(startIndex,
-                            endIndex).trim();
-                        $('#sisa75').hide()
-                        $('#sisa50').hide()
-                        $('#sisa25').show()
-                    } else if (percentage == "-50") {
-                        var startIndex = sisaBayar.indexOf("Rp.") +
-                            4; // Add 4 to skip "Rp. "
-                        var endIndex = sisaBayar.indexOf("(-50%)");
-                        var formattedPrice = sisaBayar.substring(startIndex,
-                            endIndex).trim();
-                        $('#sisa50').show()
-                        $('#sisa75').hide()
-                        $('#sisa25').show()
-                    } else if (percentage == "-75") {
-                        var startIndex = sisaBayar.indexOf("Rp.") +
-                            4; // Add 4 to skip "Rp. "
-                        var endIndex = sisaBayar.indexOf("(-75%)");
-                        var formattedPrice = sisaBayar.substring(startIndex,
-                            endIndex).trim();
-                        $('#sisa25').show()
-                        $('#sisa75').show()
-                        $('#sisa50').show()
-                    }
-                    var price = formattedPrice.replace('.', '').replace('.', '')
-                }
-                $.ajax({
-                    url: '/transaksi/cek/' + id,
-                    type: "GET",
-                    success: function (respon) {
-                        if (respon == "Data not Found") {
-                            $('#id_transaksi').val(id)
-                            $('#modalBayar').modal('show')
-
-                            $('#sisaPembayaran').val(price)
-                            $('#transaksi_id').val(id_transaksi)
-                            $('#sisaBayarHidden').val(price)
-                        } else {
-
-                            window.location.href = respon
-                        }
-                    },
-                    error: function (response) {
-                        console.log(response)
-                    }
-                });
-            })
-
-            $('#btnCancel').on('click', function () {
-                $('#modalBayar').modal('hide')
-            })
-        });
-
-    </script>
+   
 </main>
+<script>
+    $(document).ready(function () {
+        var tes = $('#tableManual').DataTable();
+        var table = $('#tableOtomatis').DataTable();
+        table.on('click', '.payment', function () {
+            var id = $(this).val();
+            $tr = $(this).closest('tr');
+            if ($($tr).hasClass('clid')) {
+                $tr = $tr.prev('.parent')
+            }
 
+            var data = table.row($tr).data();
+            var id_temp = data[1]
+            var id_transaksi = $(id_temp).attr('id')
+            var sisaBayar = data[8]
+            if (sisaBayar == 'Pending') {
+                var formattedPrice = data[7]
+                var price = $(formattedPrice).attr('id')
+            } else {
+                var formattedPrice = data[8]
+                var percentage = parseFloat(formattedPrice.match(
+                    /\((-?\d+(?:\.\d+)?)%\)/)[1]);
+                if (percentage == "-25") {
+                    var startIndex = sisaBayar.indexOf("Rp.") +
+                        4; // Add 4 to skip "Rp. "
+                    var endIndex = sisaBayar.indexOf("(-25%)");
+                    var formattedPrice = sisaBayar.substring(startIndex,
+                        endIndex).trim();
+                    $('#sisa75').hide()
+                    $('#sisa50').hide()
+                    $('#sisa25').show()
+                } else if (percentage == "-50") {
+                    var startIndex = sisaBayar.indexOf("Rp.") +
+                        4; // Add 4 to skip "Rp. "
+                    var endIndex = sisaBayar.indexOf("(-50%)");
+                    var formattedPrice = sisaBayar.substring(startIndex,
+                        endIndex).trim();
+                    $('#sisa50').show()
+                    $('#sisa75').hide()
+                    $('#sisa25').show()
+                } else if (percentage == "-75") {
+                    var startIndex = sisaBayar.indexOf("Rp.") +
+                        4; // Add 4 to skip "Rp. "
+                    var endIndex = sisaBayar.indexOf("(-75%)");
+                    var formattedPrice = sisaBayar.substring(startIndex,
+                        endIndex).trim();
+                    $('#sisa25').show()
+                    $('#sisa75').show()
+                    $('#sisa50').show()
+                }
+                var price = formattedPrice.replace('.', '').replace('.', '')
+            }
+            $.ajax({
+                url: '/transaksi/cek/' + id,
+                type: "GET",
+                success: function (respon) {
+                    if (respon == "Data not Found") {
+                        $('#id_transaksi').val(id)
+                        $('#modalBayar').modal('show')
+
+                        $('#sisaPembayaran').val(price)
+                        $('#transaksi_id').val(id_transaksi)
+                        $('#sisaBayarHidden').val(price)
+                    } else {
+
+                        window.location.href = respon
+                    }
+                },
+                error: function (response) {
+                    console.log(response)
+                }
+            });
+        })
+
+        $('#btnCancel').on('click', function () {
+            $('#modalBayar').modal('hide')
+        })
+    });
+
+</script>
 @endsection
 
 
