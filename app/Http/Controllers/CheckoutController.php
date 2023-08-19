@@ -368,6 +368,8 @@ class CheckoutController extends Controller
         if ($transaction_status == 'capture') {
             if ($fraud == 'challenge') {
             $checkout->payment_status = 'Pending';
+        $checkout->save();
+
             return view('home.pages.statusMidtrans.pending_checkout');
             }
             else if ($fraud == 'accept') {
@@ -391,13 +393,20 @@ class CheckoutController extends Controller
         else if ($transaction_status == 'cancel') {
             if ($fraud == 'challenge') {
             $checkout->payment_status = 'Failed';
+             $checkout->save();
+
+            return view('home.pages.statusMidtrans.error_checkout');
             }
             else if ($fraud == 'accept') {
             $checkout->payment_status = 'Failed';
+            $checkout->save();
+
             }
         }
         else if ($transaction_status == 'deny') {
             $checkout->payment_status = 'Failed';
+            $checkout->save();
+            return view('home.pages.statusMidtrans.error_checkout');
         }
         else if ($transaction_status == 'settlement') {
             if($checkout->tenor == '25'){
@@ -418,13 +427,17 @@ class CheckoutController extends Controller
         }
         else if ($transaction_status == 'pending') {
             $checkout->payment_status = 'Pending';
+            $checkout->save();
+
             return view('home.pages.statusMidtrans.pending_checkout');
         }
         else if ($transaction_status == 'expire') {
             $checkout->payment_status = 'Failed';
+            $checkout->save();
+
+            return view('home.pages.statusMidtrans.error_checkout');
         }
 
-        $checkout->save();
     }
 
     /**

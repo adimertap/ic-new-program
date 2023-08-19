@@ -53,7 +53,7 @@ Route::get('copy', function(){
     return redirect('/');
 });
 
-Route::get('payment/callback' , [CheckoutController::class, 'midtransCallback']);
+Route::match(['get', 'post'], 'payment/callback', [CheckoutController::class, 'midtransCallback']);
 Route::get('payment/unfinish' , [CheckoutController::class, 'midtransUnfinished']);
 Route::get('payment/error' , [CheckoutController::class, 'midtransError']);
 Route::get('payment/success' , [CheckoutController::class, 'midtransSuccess']);
