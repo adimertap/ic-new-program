@@ -67,11 +67,11 @@
                                     @foreach ($products as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->no_invoice }}</td>
-                                        <td>{{ $item->user->name }}</td>
-                                        <td>{{ $item->user->email }}</td>
-                                        <td>{{ $item->user->no_hp }}</td>
-                                        <td>{{ $item->user->pekerjaan }}</td>
+                                        <td>{{ $item->no_invoice ?? '' }}</td>
+                                        <td>{{ $item->user->name ?? '' }}</td>
+                                        <td>{{ $item->user->email ?? '' }}</td>
+                                        <td>{{ $item->user->no_hp ?? '' }}</td>
+                                        <td>{{ $item->user->pekerjaan ?? '' }}</td>
                                         <td>{{ $item->produk->nama_produk ?? 'product deleted' }}</td>
                                         <td>{{ $item->produk->kelas ?? 'product deleted' }}</td>
                                         <td>Rp. {{ convert_to_rupiah($item->harga_kelas) ?? 'product deleted' }}</td>
