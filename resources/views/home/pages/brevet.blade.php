@@ -44,15 +44,13 @@ Brevet |
             <div class="wadah text-center">
                 <div class="card p-2">
                     <div class="d-flex justify-content-between">
-                        <button class="btn btn-primary btn-filter btn-sm active">Semua</button>
-                        <button class="btn btn-primary btn-filter btn-sm">Online</button>
-                        <button class="btn btn-primary btn-filter btn-sm">Offline</button>
-
+                        <button class="btn btn-primary btn-filter btn-sm" value="semua">Semua</button>
+                        <button class="btn btn-primary btn-filter btn-sm" value="online">Online</button>
+                        <button class="btn btn-primary btn-filter btn-sm" value="offline">Offline</button>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="products" id="kelas">
@@ -223,50 +221,23 @@ Brevet |
         </div>
     </section>
 </div>
-<!-- faq selesai -->
-
 @endsection
-
-
 @push('js')
-
-
 <script>
-    // function myFunction(event, itemId, produk, kelas, tanggal) {
-    //     Swal.fire({
-    //         title: 'Confirm Order?',
-    //         text: `Apakah Anda Ingin Membeli Kelas ${produk}, ${kelas} tanggal ${tanggal} ?`,
-    //         icon: 'info',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#d33',
-    //         confirmButtonText: 'Ya, Tentu!'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             const Toast = Swal.mixin({
-    //                 toast: true,
-    //                 position: 'center',
-    //                 showConfirmButton: false,
-    //                 timer: 2000,
-    //                 timerProgressBar: true,
-    //                 didOpen: (toast) => {
-    //                     toast.addEventListener('mouseenter', Swal.stopTimer)
-    //                     toast.addEventListener('mouseleave', Swal.resumeTimer)
-    //                 }
-    //             })
+    $(document).ready(function() {
+        $('.btn-filter').on('click', function() {
+            $('.btn-filter').removeClass('active'); // Remove 'active' class from all buttons
+            $(this).addClass('active'); // Add 'active' class to the clicked button
 
-    //             Toast.fire({
-    //             icon: 'success',
-    //             title: 'Mohon Tunggu, Redirect ke Halaman Pembayaran'
-    //             })
-
-    //             event.preventDefault()
-    //             setTimeout(function(event) {
-    //                 document.getElementById(`checkout-form-${itemId}`).submit()
-    //             }, 2000);  
-    //         }
-    //     })
-    // }
+            var jenis = $(this).val();
+            var url = '/produk/brevet';
+            if (jenis !== 'semua') {
+                url += '?jenis=' + jenis;
+            }
+            window.location.href = url;
+        });
+    })
+   
 
     var chevronIcons = document.getElementsByClassName("chevron-icon");
 

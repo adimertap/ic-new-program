@@ -42,6 +42,17 @@ USKP |
                 <h5 class="sub-title">Product Kelas Kami</h5>
                 <h1 class="judulfix mt-0" style="font-size: 30px">KELAS USKP REVIEW</h1>
             </div>
+            <div class="filter">
+                <div class="wadah text-center">
+                    <div class="card p-2">
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary btn-filter btn-sm" value="semua">Semua</button>
+                            <button class="btn btn-primary btn-filter btn-sm" value="online">Online</button>
+                            <button class="btn btn-primary btn-filter btn-sm" value="offline">Offline</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="products" id="kelas">
@@ -232,6 +243,19 @@ USKP |
 
 @push('js')
 <script>
+     $(document).ready(function() {
+        $('.btn-filter').on('click', function() {
+            $('.btn-filter').removeClass('active'); // Remove 'active' class from all buttons
+            $(this).addClass('active'); // Add 'active' class to the clicked button
+
+            var jenis = $(this).val();
+            var url = '/produk/uskp-review';
+            if (jenis !== 'semua') {
+                url += '?jenis=' + jenis;
+            }
+            window.location.href = url;
+        });
+    })
     var chevronIcons = document.getElementsByClassName("chevron-icon");
 
     for (var i = 0; i < chevronIcons.length; i++) {

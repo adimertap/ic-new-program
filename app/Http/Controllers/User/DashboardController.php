@@ -28,16 +28,6 @@ class DashboardController extends Controller
 {
     public function __construct()
     {
-        // Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        // Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
-        // Midtrans\Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
-        // Midtrans\Config::$is3ds = env('MIDTRANS_IS_3DS');
-
-        // Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        // Midtrans\Config::$serverKey = "SB-Mid-server-ThmSXotcqD9A6m7KSd-SIaEG";
-        // Midtrans\Config::$isProduction = false;
-        // Midtrans\Config::$isSanitized = false;
-        // Midtrans\Config::$is3ds = false;
         Config::$serverKey = "SB-Mid-server-ThmSXotcqD9A6m7KSd-SIaEG";
         Config::$isProduction = false;
         Config::$isSanitized = false;
@@ -266,38 +256,6 @@ class DashboardController extends Controller
             return redirect()->back();
         }
 
-        // $pdf = Pdf::loadView('user.pages.sertifikat')->setPaper('landscape');
-        // return $pdf->download('sertifikat.pdf');
-        // return view('user.pages.sertifikat', compact('user','cek','sertif','ttd'));
-
-        // $cek = KeranjangProduk::with('produk')
-        //   ->where('username', Auth()->user()->username)
-        //   ->where('slug', 'like', 'brevet-ab%')
-        //   ->where('status', '2')
-        // ->value('slug');
-
-        // $filename = $cek . '-' . Auth::user()->name . '.jpg';
-
-        // $image = Image::make(public_path('storage/sertifikat/downloaded/' . $filename));
-        // $ttd = Image::make(public_path('images/ttd.png'));
-        // $stempel = Image::make(public_path('images/stempel.png'));
-
-        // $ttd->resize(955, null, function($constraint) {
-        //     $constraint->aspectRatio();
-        // });
-
-        // $stempel->resize(1032, null, function($constraint){
-        //     $constraint->aspectRatio();
-        // });
-
-        // $image->insert($image);
-        // $image->insert($ttd, 'bottom-right', 247, 137 );
-        // $image->insert($stempel, 'bottom-right', 532, 137);
-
-        // $pathToFile = public_path('/images/sertifikat/user-download/');
-        // $image->save($pathToFile . $filename);
-
-        // return response()->download($pathToFile . $filename);
     }
 
     public function printNilaiBaru($id)
