@@ -100,7 +100,7 @@
           @csrf
           @method('put')
           <input type="hidden" name="username" value="{{ auth()->user()->username }}">
-          <input type="hidden" name="id_keranjang" value="{{ $cekBrevet->id }}">
+          <input type="hidden" name="id_keranjang" value="{{ $cekBrevet->id ?? '' }}">
 
           <button class="btn btn-primary" type="submit">Request Sertifikat</button>
         </form>
