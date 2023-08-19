@@ -370,7 +370,7 @@ class CheckoutController extends Controller
                 if ($fraud == 'challenge') {
                     $checkout->payment_status = 'Pending';
                     $checkout->save();
-                    return redirect()->route('midtransPending')->withStatus(307);
+                    $viewName = 'home.pages.statusMidtrans.pending_checkout';
                     // return view('home.pages.statusMidtrans.pending_checkout');
                 }
                 else if ($fraud == 'accept') {
@@ -391,7 +391,7 @@ class CheckoutController extends Controller
                     $checkout->status = $status;
                     $checkout->payment_status = $pstatus;
                     $checkout->update();
-                    return redirect()->route('midtransSuccess')->withStatus(307);
+                    $viewName = 'home.pages.statusMidtrans.success_checkout';
                     // return view('home.pages.statusMidtrans.success_checkout');
                 }
             }
@@ -399,7 +399,7 @@ class CheckoutController extends Controller
                 if ($fraud == 'challenge') {
                     $checkout->payment_status = 'Failed';
                     $checkout->save();
-                    return redirect()->route('midtransError')->withStatus(307);
+                    $viewName = 'home.pages.statusMidtrans.error_checkout';
                     // return view('home.pages.statusMidtrans.error_checkout');
                 }
                 else if ($fraud == 'accept') {
@@ -410,7 +410,7 @@ class CheckoutController extends Controller
             else if ($transaction_status == 'deny') {
                 $checkout->payment_status = 'Failed';
                 $checkout->save();
-                return redirect()->route('midtransError')->withStatus(307);
+                $viewName = 'home.pages.statusMidtrans.error_checkout';
                 // return view('home.pages.statusMidtrans.error_checkout');
             }
             else if ($transaction_status == 'settlement') {
@@ -431,23 +431,27 @@ class CheckoutController extends Controller
                 $checkout->status = $status;
                 $checkout->payment_status = $pstatus;
                 $checkout->update();
-                return redirect()->route('midtransSuccess')->withStatus(307);
+                $viewName = 'home.pages.statusMidtrans.success_checkout';
                 // return view('home.pages.statusMidtrans.success_checkout');
             }
             else if ($transaction_status == 'pending') {
                 $checkout->payment_status = 'Pending';
                 $checkout->save();
-                return redirect()->route('midtransPending')->withStatus(307);
+                $viewName = 'home.pages.statusMidtrans.pending_checkout';
                 // return view('home.pages.statusMidtrans.pending_checkout');
             }
             else if ($transaction_status == 'expire') {
                 $checkout->payment_status = 'Failed';
                 $checkout->save();
-                return redirect()->route('midtransError')->withStatus(307);
+                $viewName = 'home.pages.statusMidtrans.error_checkout';
                 // return view('home.pages.statusMidtrans.error_checkout');
             }
+            return view($viewName);
         } catch (\Throwable $th) {
-            return $th;
+            \Log::error('Exception in Midtrans callback: ' . $th->getMessage());
+        
+            // Return a JSON response to acknowledge the notification
+            return response()->json(['message' => 'Notification processing error'], Response::HTTP_OK);
         }
     }
 
