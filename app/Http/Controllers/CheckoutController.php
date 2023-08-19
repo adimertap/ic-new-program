@@ -370,7 +370,7 @@ class CheckoutController extends Controller
                 if ($fraud == 'challenge') {
                     $checkout->payment_status = 'Pending';
                     $checkout->save();
-                    return redirect()->route('midtransPending');
+                    return redirect()->route('midtransPending')->withStatus(307);
                     // return view('home.pages.statusMidtrans.pending_checkout');
                 }
                 else if ($fraud == 'accept') {
@@ -391,7 +391,7 @@ class CheckoutController extends Controller
                     $checkout->status = $status;
                     $checkout->payment_status = $pstatus;
                     $checkout->update();
-                    return redirect()->route('midtransSuccess');
+                    return redirect()->route('midtransSuccess')->withStatus(307);
                     // return view('home.pages.statusMidtrans.success_checkout');
                 }
             }
@@ -399,7 +399,7 @@ class CheckoutController extends Controller
                 if ($fraud == 'challenge') {
                     $checkout->payment_status = 'Failed';
                     $checkout->save();
-                    return redirect()->route('midtransError');
+                    return redirect()->route('midtransError')->withStatus(307);
                     // return view('home.pages.statusMidtrans.error_checkout');
                 }
                 else if ($fraud == 'accept') {
@@ -410,7 +410,7 @@ class CheckoutController extends Controller
             else if ($transaction_status == 'deny') {
                 $checkout->payment_status = 'Failed';
                 $checkout->save();
-                return redirect()->route('midtransError');
+                return redirect()->route('midtransError')->withStatus(307);
                 // return view('home.pages.statusMidtrans.error_checkout');
             }
             else if ($transaction_status == 'settlement') {
@@ -431,19 +431,19 @@ class CheckoutController extends Controller
                 $checkout->status = $status;
                 $checkout->payment_status = $pstatus;
                 $checkout->update();
-                return redirect()->route('midtransSuccess');
+                return redirect()->route('midtransSuccess')->withStatus(307);
                 // return view('home.pages.statusMidtrans.success_checkout');
             }
             else if ($transaction_status == 'pending') {
                 $checkout->payment_status = 'Pending';
                 $checkout->save();
-                return redirect()->route('midtransPending');
+                return redirect()->route('midtransPending')->withStatus(307);
                 // return view('home.pages.statusMidtrans.pending_checkout');
             }
             else if ($transaction_status == 'expire') {
                 $checkout->payment_status = 'Failed';
                 $checkout->save();
-                return redirect()->route('midtransError');
+                return redirect()->route('midtransError')->withStatus(307);
                 // return view('home.pages.statusMidtrans.error_checkout');
             }
         } catch (\Throwable $th) {
