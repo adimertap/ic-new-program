@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        // "*"
+        'https://dev.iceducation.co.id/payment/callback',
+        'http://127.0.0.1:8000/payment/callback'
     ];
 }
