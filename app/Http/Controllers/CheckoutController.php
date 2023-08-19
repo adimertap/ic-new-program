@@ -357,86 +357,91 @@ class CheckoutController extends Controller
 
     public function midtransCallback (Request $request)
     {
-        $notif = $request->method() == 'POST' ? new Midtrans\Notification() : Midtrans\Transaction::status($request->order_id);
+        try {
+            $notif = $request->method() == 'POST' ? new Midtrans\Notification() : Midtrans\Transaction::status($request->order_id);
 
-        $transaction_status = $notif->transaction_status;
-        $fraud = $notif->fraud_status;
-
-        $checkout_id = explode('-', $notif->order_id)[0];
-        $checkout = KeranjangProduk::find($checkout_id);
-        
-        if ($transaction_status == 'capture') {
-            if ($fraud == 'challenge') {
-            $checkout->payment_status = 'Pending';
-        $checkout->save();
-
-            return view('home.pages.statusMidtrans.pending_checkout');
-            }
-            else if ($fraud == 'accept') {
-            if($checkout->tenor == '25'){
-                $status = '5';
-            }else if($checkout->tenor == '50'){
-                $status = '3';
-            }else if($checkout->tenor == '75'){
-                $status = '4';
-            }else if($checkout->tenor == 'Full'){
-                $status = '2';
-            }
-            $checkout->tenor = $checkout->sisaTenor;
-            $checkout->status = $status;
-            $checkout->payment_status = 'Paid';
-            $checkout->update();
-
-            return view('home.pages.statusMidtrans.success_checkout');
-        }
-        }
-        else if ($transaction_status == 'cancel') {
-            if ($fraud == 'challenge') {
-            $checkout->payment_status = 'Failed';
-             $checkout->save();
-
-            return view('home.pages.statusMidtrans.error_checkout');
-            }
-            else if ($fraud == 'accept') {
-            $checkout->payment_status = 'Failed';
+            $transaction_status = $notif->transaction_status;
+            $fraud = $notif->fraud_status;
+    
+            $checkout_id = explode('-', $notif->order_id)[0];
+            $checkout = KeranjangProduk::where('id', $checkout_id)->first();
+            
+            if ($transaction_status == 'capture') {
+                if ($fraud == 'challenge') {
+                $checkout->payment_status = 'Pending';
             $checkout->save();
-
+    
+                return view('home.pages.statusMidtrans.pending_checkout');
+                }
+                else if ($fraud == 'accept') {
+                if($checkout->tenor == '25'){
+                    $status = '5';
+                }else if($checkout->tenor == '50'){
+                    $status = '3';
+                }else if($checkout->tenor == '75'){
+                    $status = '4';
+                }else if($checkout->tenor == 'Full'){
+                    $status = '2';
+                }
+                $checkout->tenor = $checkout->sisaTenor;
+                $checkout->status = $status;
+                $checkout->payment_status = 'Paid';
+                $checkout->update();
+    
+                return view('home.pages.statusMidtrans.success_checkout');
             }
-        }
-        else if ($transaction_status == 'deny') {
-            $checkout->payment_status = 'Failed';
-            $checkout->save();
-            return view('home.pages.statusMidtrans.error_checkout');
-        }
-        else if ($transaction_status == 'settlement') {
-            if($checkout->tenor == '25'){
-                $status = '5';
-            }else if($checkout->tenor == '50'){
-                $status = '3';
-            }else if($checkout->tenor == '75'){
-                $status = '4';
-            }else if($checkout->tenor == 'Full'){
-                $status = '2';
             }
-            $checkout->tenor = $checkout->sisaTenor;
-            $checkout->status = $status;
-            $checkout->payment_status = 'Paid';
-            $checkout->update();
-
-            return view('home.pages.statusMidtrans.success_checkout');
+            else if ($transaction_status == 'cancel') {
+                if ($fraud == 'challenge') {
+                $checkout->payment_status = 'Failed';
+                 $checkout->save();
+    
+                return view('home.pages.statusMidtrans.error_checkout');
+                }
+                else if ($fraud == 'accept') {
+                $checkout->payment_status = 'Failed';
+                $checkout->save();
+    
+                }
+            }
+            else if ($transaction_status == 'deny') {
+                $checkout->payment_status = 'Failed';
+                $checkout->save();
+                return view('home.pages.statusMidtrans.error_checkout');
+            }
+            else if ($transaction_status == 'settlement') {
+                if($checkout->tenor == '25'){
+                    $status = '5';
+                }else if($checkout->tenor == '50'){
+                    $status = '3';
+                }else if($checkout->tenor == '75'){
+                    $status = '4';
+                }else if($checkout->tenor == 'Full'){
+                    $status = '2';
+                }
+                $checkout->tenor = $checkout->sisaTenor;
+                $checkout->status = $status;
+                $checkout->payment_status = 'Paid';
+                $checkout->update();
+    
+                return view('home.pages.statusMidtrans.success_checkout');
+            }
+            else if ($transaction_status == 'pending') {
+                $checkout->payment_status = 'Pending';
+                $checkout->save();
+    
+                return view('home.pages.statusMidtrans.pending_checkout');
+            }
+            else if ($transaction_status == 'expire') {
+                $checkout->payment_status = 'Failed';
+                $checkout->save();
+    
+                return view('home.pages.statusMidtrans.error_checkout');
+            }
+        } catch (\Throwable $th) {
+            return $th;
         }
-        else if ($transaction_status == 'pending') {
-            $checkout->payment_status = 'Pending';
-            $checkout->save();
-
-            return view('home.pages.statusMidtrans.pending_checkout');
-        }
-        else if ($transaction_status == 'expire') {
-            $checkout->payment_status = 'Failed';
-            $checkout->save();
-
-            return view('home.pages.statusMidtrans.error_checkout');
-        }
+       
 
     }
 
