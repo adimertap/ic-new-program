@@ -19,7 +19,7 @@
                     <div class="section-description section-description-inline d-flex justify-content-center">
 
                  
-                        <h5>Transaksi Data Lama <b class="text-primary">{{ $instansi->nama }}</b></h5>
+                        <h5>Transaksi Data Lama</h5>
                     </div>
 
                     @if (session()->has('success'))
