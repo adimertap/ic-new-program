@@ -54,10 +54,10 @@ Route::get('copy', function(){
 });
 
 Route::post('payment/callback', [CheckoutController::class, 'midtransCallback']);
-Route::get('payment/unfinish' , [CheckoutController::class, 'midtransUnfinished']);
-Route::get('payment/error' , [CheckoutController::class, 'midtransError']);
-Route::get('payment/success' , [CheckoutController::class, 'midtransSuccess']);
-Route::get('payment/pending' , [CheckoutController::class, 'midtransPending']);
+Route::get('payment/unfinish' , [CheckoutController::class, 'midtransUnfinished'])->name('midtransUnfinished');
+Route::get('payment/error' , [CheckoutController::class, 'midtransError'])->name('midtransError');
+Route::get('payment/success' , [CheckoutController::class, 'midtransSuccess'])->name('midtransSuccess');
+Route::get('payment/pending' , [CheckoutController::class, 'midtransPending'])->name('midtransPending');
 
 Route::get('/', [BerandaController::class, 'index'])->name('home-beranda');
 Route::get('/check/dashboard', [BerandaController::class, 'dashboard_check'])->name('dashboard-check');

@@ -368,81 +368,87 @@ class CheckoutController extends Controller
             
             if ($transaction_status == 'capture') {
                 if ($fraud == 'challenge') {
-                $checkout->payment_status = 'Pending';
-            $checkout->save();
-    
-                return view('home.pages.statusMidtrans.pending_checkout');
+                    $checkout->payment_status = 'Pending';
+                    $checkout->save();
+                    return redirect()->route('midtransPending');
+                    // return view('home.pages.statusMidtrans.pending_checkout');
                 }
                 else if ($fraud == 'accept') {
-                if($checkout->tenor == '25'){
-                    $status = '5';
-                }else if($checkout->tenor == '50'){
-                    $status = '3';
-                }else if($checkout->tenor == '75'){
-                    $status = '4';
-                }else if($checkout->tenor == 'Full'){
-                    $status = '2';
+                    if($checkout->tenor == '25'){
+                        $status = '5';
+                        $pstatus = 'Cicilan';
+                    }else if($checkout->tenor == '50'){
+                        $status = '3';
+                        $pstatus = 'Cicilan';
+                    }else if($checkout->tenor == '75'){
+                        $status = '4';
+                        $pstatus = 'Cicilan';
+                    }else if($checkout->tenor == 'Full'){
+                        $status = '2';
+                        $pstatus = 'Paid';
+                    }
+                    $checkout->tenor = $checkout->sisaTenor;
+                    $checkout->status = $status;
+                    $checkout->payment_status = $pstatus;
+                    $checkout->update();
+                    return redirect()->route('midtransSuccess');
+                    // return view('home.pages.statusMidtrans.success_checkout');
                 }
-                $checkout->tenor = $checkout->sisaTenor;
-                $checkout->status = $status;
-                $checkout->payment_status = 'Paid';
-                $checkout->update();
-    
-                return view('home.pages.statusMidtrans.success_checkout');
-            }
             }
             else if ($transaction_status == 'cancel') {
                 if ($fraud == 'challenge') {
-                $checkout->payment_status = 'Failed';
-                 $checkout->save();
-    
-                return view('home.pages.statusMidtrans.error_checkout');
+                    $checkout->payment_status = 'Failed';
+                    $checkout->save();
+                    return redirect()->route('midtransError');
+                    // return view('home.pages.statusMidtrans.error_checkout');
                 }
                 else if ($fraud == 'accept') {
-                $checkout->payment_status = 'Failed';
-                $checkout->save();
-    
+                    $checkout->payment_status = 'Failed';
+                    $checkout->save();
                 }
             }
             else if ($transaction_status == 'deny') {
                 $checkout->payment_status = 'Failed';
                 $checkout->save();
-                return view('home.pages.statusMidtrans.error_checkout');
+                return redirect()->route('midtransError');
+                // return view('home.pages.statusMidtrans.error_checkout');
             }
             else if ($transaction_status == 'settlement') {
                 if($checkout->tenor == '25'){
                     $status = '5';
+                    $pstatus = 'Cicilan';
                 }else if($checkout->tenor == '50'){
                     $status = '3';
+                    $pstatus = 'Cicilan';
                 }else if($checkout->tenor == '75'){
                     $status = '4';
+                    $pstatus = 'Cicilan';
                 }else if($checkout->tenor == 'Full'){
                     $status = '2';
+                    $pstatus = 'Paid';
                 }
                 $checkout->tenor = $checkout->sisaTenor;
                 $checkout->status = $status;
-                $checkout->payment_status = 'Paid';
+                $checkout->payment_status = $pstatus;
                 $checkout->update();
-    
-                return view('home.pages.statusMidtrans.success_checkout');
+                return redirect()->route('midtransSuccess');
+                // return view('home.pages.statusMidtrans.success_checkout');
             }
             else if ($transaction_status == 'pending') {
                 $checkout->payment_status = 'Pending';
                 $checkout->save();
-    
-                return view('home.pages.statusMidtrans.pending_checkout');
+                return redirect()->route('midtransPending');
+                // return view('home.pages.statusMidtrans.pending_checkout');
             }
             else if ($transaction_status == 'expire') {
                 $checkout->payment_status = 'Failed';
                 $checkout->save();
-    
-                return view('home.pages.statusMidtrans.error_checkout');
+                return redirect()->route('midtransError');
+                // return view('home.pages.statusMidtrans.error_checkout');
             }
         } catch (\Throwable $th) {
             return $th;
         }
-       
-
     }
 
     /**
