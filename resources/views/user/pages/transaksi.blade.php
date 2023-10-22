@@ -29,11 +29,8 @@
             <div class="d-flex justify-content-between">
                 <nav class="">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
-                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                            aria-selected="true">Transaksi Manual</button>
-                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
-                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Transaksi
+                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Transaksi Manual</button>
+                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Transaksi
                             Otomatis</button>
                     </div>
                 </nav>
@@ -41,10 +38,8 @@
         </div>
         <div class="card-body">
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"
-                    tabindex="0">
-                    <div id="tableJenis"
-                        data-list='{"valueNames":["no","nama","modul","materi","kuis","jenis"],"page":20,"pagination":true}'>
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
+                    <div id="tableJenis" data-list='{"valueNames":["no","nama","modul","materi","kuis","jenis"],"page":20,"pagination":true}'>
                         <div class="table-responsive scrollbar">
                             <table class="small table table-bordered table-striped fs--1 mb-0" id="tableManual">
                                 <thead>
@@ -56,6 +51,8 @@
                                         <th class="sort text-center" style="width: 50px">Tanggal</th>
                                         <th class="sort text-center" style="width: 90px">Harga Produk</th>
                                         <th class="sort text-center" style="width: 70px">Diskon</th>
+                                        <th class="sort text-center" style="width: 70px">Voucher</th>
+
                                         <th class="sort text-center" style="width: 100px">Pembayaran</th>
                                         <th class="sort text-center" style="width: 100px">Kurang Bayar</th>
                                         <th class="sort text-center" style="width: 100px">Status</th>
@@ -76,6 +73,13 @@
                                             {{ $item->diskon }} %
                                             @else
                                             Rp. {{ convert_to_rupiah($item->diskon) }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($item->Voucher)
+                                            - Rp. {{ convert_to_rupiah($item->Voucher->nilai) }}
+                                            @else
+                                            -
                                             @endif
                                         </td>
 
@@ -144,12 +148,9 @@
                                         </td>
                                         <td class="d-flex">
                                             @if($item->payment_status =='Paid' || $item->payment_status == 'Cicilan')
-                                            <a href="{{ route('transaksi-invoice', $item->id) }}"
-                                                class="btn btn-sm btn-primary"
-                                                style="font-size: 12px; margin-right:15px">Invoice</a>
+                                            <a href="{{ route('transaksi-invoice', $item->id) }}" class="btn btn-sm btn-primary" style="font-size: 12px; margin-right:15px">Invoice</a>
                                             @endif
-                                            <a href="https://wa.me/628111474251" class="btn btn-sm btn-secondary"
-                                                style="font-size: 12px">Chat</a>
+                                            <a href="https://wa.me/628111474251" class="btn btn-sm btn-secondary" style="font-size: 12px">Chat</a>
                                         </td>
                                         {{-- @if ($item->status == '2')
                                         <td>Dikonfirmasi</td>
@@ -162,15 +163,14 @@
                                         @endif --}}
                                     </tr>
                                     @empty
-                                
+
                                     @endforelse
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
-                    tabindex="0">
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
                     <table class="small table table-bordered table-striped fs--1 mb-0" id="tableOtomatis">
                         <thead>
                             <tr>
@@ -181,6 +181,7 @@
                                 <th class="sort text-center">Tanggal</th>
                                 <th class="sort text-center">Harga Produk</th>
                                 <th class="sort text-center">Diskon</th>
+                                <th class="sort text-center">Voucher</th>
                                 <th class="sort text-center">Pembayaran</th>
                                 <th class="sort text-center">Sisa</th>
                                 <th class="sort text-center">Status</th>
@@ -202,6 +203,13 @@
                                     {{ $item->diskon }} %
                                     @else
                                     Rp. {{ convert_to_rupiah($item->diskon) }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($item->Voucher)
+                                    - Rp. {{ convert_to_rupiah($item->Voucher->nilai) }}
+                                    @else
+                                    -
                                     @endif
                                 </td>
                                 <td class="text-center text-primary">
@@ -275,14 +283,14 @@
                                 </td>
                                 <td class="text-center">
                                     @if($item->status == 3 && $item->payment_status == 'Cicilan')
-                                        Terbayar 50%
+                                    Terbayar 50%
                                     @elseif($item->status == 5 && $item->payment_status == 'Cicilan')
-                                        Terbayar 25%
+                                    Terbayar 25%
                                     @elseif($item->status == 4 && $item->payment_status == 'Cicilan')
-                                        Terbayar 75%
+                                    Terbayar 75%
                                     @elseif($item->status == 2 && $item->payment_status == 'Paid' ||
                                     $item->payment_status == 'Cicilan')
-                                        Lunas
+                                    Lunas
                                     @elseif($item->payment_status == 'Pending')
                                     Menunggu Pembayaran
                                     @elseif($item->payment_status == 'Failed')
@@ -290,25 +298,23 @@
                                     @endif
                                 </td>
                                 <td class="d-flex">
-                                    @if($item->status != 2 && $item->payment_status != 'Paid' && $item->payment_status != 'Failed')
-                                        <button type="button" class="btn btn-sm btn-success payment" value="{{ $item->id }}"
-                                        style="font-size: 12px; margin-right:10px">Bayar</button>
-                                    
+                                    @if($item->status != 2 && $item->payment_status != 'Paid' && $item->payment_status
+                                    != 'Failed')
+                                    <button type="button" class="btn btn-sm btn-success payment" value="{{ $item->id }}" style="font-size: 12px; margin-right:10px">Bayar</button>
+
                                     @endif
-                                    
+
                                     @if($item->payment_status == 'Paid' || $item->payment_status == 'Cicilan')
-                                    <a href="{{ route('transaksi-invoice', $item->id) }}" class="btn btn-sm btn-primary"
-                                        style="font-size: 12px; margin-right:15px">Invoice
+                                    <a href="{{ route('transaksi-invoice', $item->id) }}" class="btn btn-sm btn-primary" style="font-size: 12px; margin-right:15px">Invoice
                                     </a>
                                     @endif
 
-                                    <a href="https://wa.me/628111474251" class="btn btn-sm btn-secondary"
-                                        style="font-size: 12px">Chat
+                                    <a href="https://wa.me/628111474251" class="btn btn-sm btn-secondary" style="font-size: 12px">Chat
                                     </a>
                                 </td>
                             </tr>
                             @empty
-                          
+
                             @endforelse
                         </tbody>
                     </table>
@@ -317,8 +323,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalBayar" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
-        aria-labelledby="addInstansiLabel" style="display: none;" aria-hidden="true">
+    <div class="modal fade" id="modalBayar" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="addInstansiLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-light">
@@ -333,8 +338,7 @@
                         <label class="mb-1">Sisa Pembayaran</label>
                         <div class="input-group m-b-sm">
                             <div class="input-group-text">Rp.</div>
-                            <input type="text" class="form-control" id="sisaPembayaran" placeholder="" name="sisaBayar"
-                                readonly>
+                            <input type="text" class="form-control" id="sisaPembayaran" placeholder="" name="sisaBayar" readonly>
                         </div>
                         <div class="form mb-3 mt-3">
                             <label class="mb-1">Pembayaran</label><span style="color: red">*</span>
@@ -347,8 +351,7 @@
                         </div>
                     </div>
                     <div class="card-footer bg-light d-flex justify-content-end">
-                        <button type="button" class="btn btn-info" style="margin-right: 12px" id="btnCancel"
-                            data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info" style="margin-right: 12px" id="btnCancel" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary ms-3">Bayar Sekarang</button>
                     </div>
                 </form>
@@ -356,13 +359,13 @@
         </div>
     </div>
 
-   
+
 </main>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         var tes = $('#tableManual').DataTable();
         var table = $('#tableOtomatis').DataTable();
-        table.on('click', '.payment', function () {
+        table.on('click', '.payment', function() {
             var id = $(this).val();
             $tr = $(this).closest('tr');
             if ($($tr).hasClass('clid')) {
@@ -378,42 +381,48 @@
                 var price = $(formattedPrice).attr('id')
             } else {
                 var formattedPrice = data[8]
-                var percentage = parseFloat(formattedPrice.match(
-                    /\((-?\d+(?:\.\d+)?)%\)/)[1]);
-                if (percentage == "-25") {
-                    var startIndex = sisaBayar.indexOf("Rp.") +
-                        4; // Add 4 to skip "Rp. "
-                    var endIndex = sisaBayar.indexOf("(-25%)");
-                    var formattedPrice = sisaBayar.substring(startIndex,
-                        endIndex).trim();
-                    $('#sisa75').hide()
-                    $('#sisa50').hide()
-                    $('#sisa25').show()
-                } else if (percentage == "-50") {
-                    var startIndex = sisaBayar.indexOf("Rp.") +
-                        4; // Add 4 to skip "Rp. "
-                    var endIndex = sisaBayar.indexOf("(-50%)");
-                    var formattedPrice = sisaBayar.substring(startIndex,
-                        endIndex).trim();
-                    $('#sisa50').show()
-                    $('#sisa75').hide()
-                    $('#sisa25').show()
-                } else if (percentage == "-75") {
-                    var startIndex = sisaBayar.indexOf("Rp.") +
-                        4; // Add 4 to skip "Rp. "
-                    var endIndex = sisaBayar.indexOf("(-75%)");
-                    var formattedPrice = sisaBayar.substring(startIndex,
-                        endIndex).trim();
-                    $('#sisa25').show()
-                    $('#sisa75').show()
-                    $('#sisa50').show()
+                if (data[2].trim() == 'ujian') {
+                    formattedPrice = $(formattedPrice).attr('id')
+                } else {
+                    var percentage = parseFloat(formattedPrice.match(
+                        /\((-?\d+(?:\.\d+)?)%\)/)[1]);
+                    if (percentage == "-25") {
+                        var startIndex = sisaBayar.indexOf("Rp.") +
+                            4; // Add 4 to skip "Rp. "
+                        var endIndex = sisaBayar.indexOf("(-25%)");
+                        formattedPrice = sisaBayar.substring(startIndex
+                            , endIndex).trim();
+                        $('#sisa75').hide()
+                        $('#sisa50').hide()
+                        $('#sisa25').show()
+                    } else if (percentage == "-50") {
+                        var startIndex = sisaBayar.indexOf("Rp.") +
+                            4; // Add 4 to skip "Rp. "
+                        var endIndex = sisaBayar.indexOf("(-50%)");
+                        formattedPrice = sisaBayar.substring(startIndex
+                            , endIndex).trim();
+                        $('#sisa50').show()
+                        $('#sisa75').hide()
+                        $('#sisa25').show()
+                    } else if (percentage == "-75") {
+                        var startIndex = sisaBayar.indexOf("Rp.") +
+                            4; // Add 4 to skip "Rp. "
+                        var endIndex = sisaBayar.indexOf("(-75%)");
+                        formattedPrice = sisaBayar.substring(startIndex
+                            , endIndex).trim();
+                        $('#sisa25').show()
+                        $('#sisa75').show()
+                        $('#sisa50').show()
+                    }
                 }
                 var price = formattedPrice.replace('.', '').replace('.', '')
+
+
             }
             $.ajax({
-                url: '/transaksi/cek/' + id,
-                type: "GET",
-                success: function (respon) {
+                url: '/transaksi/cek/' + id
+                , type: "GET"
+                , success: function(respon) {
                     if (respon == "Data not Found") {
                         $('#id_transaksi').val(id)
                         $('#modalBayar').modal('show')
@@ -425,14 +434,14 @@
 
                         window.location.href = respon
                     }
-                },
-                error: function (response) {
+                }
+                , error: function(response) {
                     console.log(response)
                 }
             });
         })
 
-        $('#btnCancel').on('click', function () {
+        $('#btnCancel').on('click', function() {
             $('#modalBayar').modal('hide')
         })
     });

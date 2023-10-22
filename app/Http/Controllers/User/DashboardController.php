@@ -170,7 +170,7 @@ class DashboardController extends Controller
 
     public function transaksi(Request $request)
     {
-        $manual = KeranjangProduk::with('produk')
+        $manual = KeranjangProduk::with('produk','Voucher')
             ->where('username', Auth::user()->username)
             ->where('type_pembayaran', 'Manual')
             ->orderBy('id', 'DESC')
@@ -218,24 +218,22 @@ class DashboardController extends Controller
 
     public function upload(Request $request)
     {
-
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
-        $files = $request->image;
-
-        if ($files) {
-            $image = auth()->user()->username . '.' . $files->getClientOriginalExtension();
-            Storage::disk('profile')
-                ->put($image, file_get_contents($files));
-
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imagePath = $request->file('image');
+            $imageName = $imagePath->getClientOriginalName();
+            $imagePath->move(public_path().'/profile/', $imageName); 
+            $data[] = $imageName;
             User::where('id', Auth::user()->id)->update([
-                'image_name' => $image,
+                'image_name' => $imageName,
             ]);
+            return redirect()->route('profil');
+        } else {
+            return redirect()->back()->with('error', 'File upload failed.');
         }
-
-        return redirect()->route('profil');
     }
 
     public function printSertifikat($id)

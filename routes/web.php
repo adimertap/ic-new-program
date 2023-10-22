@@ -82,6 +82,7 @@ Route::get('register/{slug?}', [AuthController::class, 'register'])->name('regis
 Route::get('check-email', [AuthController::class, 'checkEmail'])->name('register-check-email');
 Route::post('register', [AuthController::class, 'authRegister'])->name('register-auth');
 
+
 Route::get('logout', [AuthController::class, 'authLogout'])->name('logut-auth');
 
 Route::name('pemateri-')->middleware('pemateri')->group( function(){
@@ -105,6 +106,9 @@ Route::name('admin-')->middleware('admin')->group( function(){
         Route::resource('master-jenis-instansi', JenisInstansiController::class);
 
         Route::get('/users', [UserController::class, 'index'])->name('user');
+        Route::get('/users/{id}', [UserController::class, 'dapodik'])->name('user-dapodik');
+        Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('user-reset-password');
+
         Route::delete('/deleteUser/{id}', [UserController::class, 'delete'])->name('delete-user');
 
         Route::get('/pemateri', [PemateriController::class, 'index'])->name('pemateri');
@@ -182,9 +186,15 @@ Route::name('admin-')->middleware('admin')->group( function(){
 });
 
 Route::middleware('user')->group(function() {
+    Route::get('register-data/{slug}', [AuthController::class, 'authRegisterDataUser'])->name('register-data');
+    Route::post('register-data/simpanInstansi', [AuthController::class, 'simpanInstansi'])->name('register-data-instansi');
+    Route::post('register-data/updateData', [AuthController::class, 'UpdateDataUser'])->name('register-data-update');
     Route::resource('checkout', CheckoutController::class);
     Route::post('/checkout/profile', [CheckoutController::class, 'profile_update'])
-    ->name('checkout-profile');
+        ->name('checkout-profile');
+    Route::get('/checkout/voucher/code', [CheckoutController::class, 'check_voucher'])
+        ->name('checkout-voucher-check');
+
 
     Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])
         ->name('user-dashboard');

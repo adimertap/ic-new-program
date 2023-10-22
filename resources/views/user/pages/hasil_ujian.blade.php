@@ -9,19 +9,23 @@
         @if (count($materi) != 0)
         @if (count($lulus) == 8)
           @if ($reqSertif == 2)
-          <div>
-            <a href="{{ route('print-sertifikat', $cekBrevet->id)}}" class="btn btn-primary"> Cetak Sertifikat</a>
-            <a href="{{ route('print-nilai', $cekBrevet->id)}}" class="btn btn-primary">Cetak Nilai</a>
-          </div>
+            @if($dapodik)
+            <div>
+              <a href="{{ route('print-sertifikat', $cekBrevet->id)}}" class="btn btn-primary"> Cetak Sertifikat</a>
+              <a href="{{ route('print-nilai', $cekBrevet->id)}}" class="btn btn-primary">Cetak Nilai</a>
+            </div>
+            @else
+            <p>Harap Melengkapi <strong><a href="{{ route('profil') }}">Data Dapodik</a></strong> Terlebih Dahulu</p>
+            @endif
+         
           @else
         @if ($reqSertif != 1)
-          @if ($dapodik)
+          {{-- @if ($dapodik) --}}
           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmRequestSertif">
             Request Sertifikat
           </button>
-          @else
-          <p>Harap Melengkapi <strong><a href="{{ route('profil') }}">Data Dapodik</a></strong> Terlebih Dahulu</p>
-          @endif
+          {{-- @else
+          @endif --}}
         @else
         <p>Sukses request sertifikat, Harap ditunggu</p>
         @endif

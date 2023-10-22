@@ -44,7 +44,6 @@ class KerjasamaController extends Controller
           $validator = Validator::make($request->all(), [
               'id_jenis' => ['required'],
               'nama' => ['required', 'string', 'min:4'],
-              'status' => ['required']
           ]);
 
           if ($validator->fails()) {

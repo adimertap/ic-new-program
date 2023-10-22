@@ -12,21 +12,22 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('new/css/main.css') }}" type="text/css">
     {{-- <link href="{{ asset('assets/css/custom.css')}}" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/2a6de0a323.js" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/6a9458011a.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     <link href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </head>
 
-<body style="background-color: {{ request()->segment(1) != 'checkout' ? '#fafafa' : '#f3f3f3'}}">
+<body style="background-color: {{ request()->segment(1) != 'checkout'  && request()->segment(1) != 'register-data' ? '#fafafa' : '#f3f3f3'  }}">
     @include('sweetalert::alert')
     {{-- header start --}}
     {{-- @include('home.includes.topbar') --}}
-    @if(request()->segment(1) != 'checkout' && request()->segment(1) != 'payment')
+    @if(request()->segment(1) != 'checkout' && request()->segment(1) != 'payment' && request()->segment(1) != 'register-data' )
         @include('home.includes.navbar')
     @endif
 
@@ -37,7 +38,7 @@
     {{-- content selesai --}}
 
     
-    @if(request()->segment(1) != 'checkout' && request()->segment(1) != 'payment')
+    @if(request()->segment(1) != 'checkout' && request()->segment(1) != 'payment' && request()->segment(1) != 'register-data' )
         @include('home.includes.footer')
     @endif
 

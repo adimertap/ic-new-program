@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Kerjasama::class, 'id', 'kerjasama_id');
     }
+
+    public function Dapodik(): HasOne
+    {
+        return $this->hasOne(Dapodik::class, 'id', 'user_id');
+    }
 }

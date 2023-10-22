@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Alert;
+use App\Models\Diskon;
 use App\Models\KeranjangProduk;
 use App\Models\Kerjasama;
 use App\Models\Produk;
@@ -78,6 +79,7 @@ class CheckoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function edit($id)
     {
         try {
@@ -120,21 +122,40 @@ class CheckoutController extends Controller
 
     public function update(Request $request, $slug)
     {   
-        // return $request;
         try {
             $find_produk = Produk::where('slug', $slug)->first();
             $user = User::where('id', Auth::user()->id)->first();
-            $user->pekerjaan = $request->pekerjaan;
-            $user->email = $request->email;
-            $user->no_hp = $request->no_hp;
-            $user->kerjasama_id = $request->instansi;
-            $user->update();
 
-            $nourut = KeranjangProduk::selectRaw('MAX(SUBSTRING(no_invoice, 9, 3)) AS no_invoice')->first();
-            $invoice = sprintf('%03d', ($nourut['no_invoice'] + 1));
+            $lastData = KeranjangProduk::latest()->first();
+            if(!$lastData){
+                $nomor = 1;
+            }else{
+                $nomor = $lastData->id + 1;
+            }
+            if ($nomor <= 10) {
+                $formattedNomor = str_pad($nomor, 3, '0', STR_PAD_LEFT);
+            } elseif ($nomor <= 100) {
+                $formattedNomor = str_pad($nomor, 3, '0', STR_PAD_LEFT);
+            } else {
+                $formattedNomor = (string) $nomor;
+            }
+          
+        
             $bulan = number2roman(date('m'));
             $tahun = date('Y');
-            $no_invoice = 'NO. INV-' . $invoice . '/ICEDU/' . $bulan . '/' . $tahun;
+            $no_invoice = 'NO. INV-' . $formattedNomor . '/ICEDU/' . $bulan . '/' . $tahun;
+            
+            if($request->voucher_code){
+                $disc = Diskon::where('kode', $request->voucher_code)->first();
+                if($disc){
+                    $vcdisc = $disc->id;
+                }else{
+                    $vcdisc = 0;
+                }
+            }else{
+                $vcdisc = 0;
+            }
+           
 
             $transaksi = new KeranjangProduk;
             $transaksi->username = $user->email;
@@ -152,11 +173,18 @@ class CheckoutController extends Controller
             $transaksi->harga_kelas = $request->harga_asli;
             $transaksi->id_instansi = $request->instansi;
             $transaksi->status = 1;
+            $transaksi->voucher_text_id = $vcdisc;
+            $transaksi->harga_kelas_after_disc = $request->harga_kelas_after_disc;
             $transaksi->data = 'New';
             $transaksi->save();
 
+            $disc_voucher = Diskon::where('id', $transaksi->voucher_text_id)->first();
+            if(!$disc_voucher){
+                $disc_voucher = "";
+            }
+
             if($request->jenis == 'Otomatis'){
-                $this->getSnapRedirect($transaksi, $request);
+                $this->getSnapRedirect($transaksi, $request, $disc_voucher);
             }else{
                 $produk = Produk::where('slug', $transaksi->slug)->first();
                 $nama_produk = str_replace('-', " ", strtoupper($produk->nama_produk));
@@ -200,13 +228,13 @@ class CheckoutController extends Controller
             }
 
         } catch (\Throwable $th) {
-            return $th;
+            dd($th);
             Alert::warning('Warning', 'Internal Server Error, Data Not Found');
             return redirect()->back();
         }
     }
 
-    public function getSnapRedirect(KeranjangProduk $transaksi, $request)
+    public function getSnapRedirect(KeranjangProduk $transaksi, $request, $disc_voucher)
     {
         $orderId = $transaksi->id. '-' .Str::random(5);
         $transaksi->midtrans_booking_code = $orderId;
@@ -232,16 +260,33 @@ class CheckoutController extends Controller
 
         if($transaksi->diskon != 0 || $transaksi->diskon != null){
             $discountPrice = 0;
+            $type = "";
             if($request->type_diskon == 'Angka'){
                 $discountPrice = $transaksi->diskon;
+                $item_details[] = [
+                    'id' => $request->instansi,
+                    'price' => -$discountPrice,
+                    'quantity' => 1,
+                    'name' => "Diskon Instansi",
+                ];
             }else{
                 $discountPrice = $price * $transaksi->diskon / 100;
+                $item_details[] = [
+                    'id' => $request->instansi,
+                    'price' => -$discountPrice,
+                    'quantity' => 1,
+                    'name' => "Diskon Instansi (" . $transaksi->diskon . "%)" ,
+                ];
             }
+          
+        }
+
+        if($disc_voucher){
             $item_details[] = [
-                'id' => $request->instansi,
-                'price' => -$discountPrice,
+                'id' => 1,
+                'price' => -$disc_voucher->nilai,
                 'quantity' => 1,
-                'name' => "Diskon Instansi",
+                'name' => "Diskon Voucher (" . $disc_voucher->kode . " )",
             ];
         }
 
@@ -351,7 +396,7 @@ class CheckoutController extends Controller
             // return $paymentUrl;
 
         }catch (Exception $e){
-            dd($e);
+            return $e;
         }
     }
 
@@ -471,6 +516,20 @@ class CheckoutController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function check_voucher(Request $request){
+        try {
+            $check = Diskon::where('kode', $request->voucher)->where('is_active', 1)->first();
+            if($check){
+                return $check;
+            }else{
+                return 'Data Voucher Not Found';
+            }
+        } catch (\Throwable $th) {
+            Alert::warning('Warning', 'Internal Server Error, Data Voucher Not Found');
+            return redirect()->back();
+        }
     }
 
     public function profile_update(Request $request){

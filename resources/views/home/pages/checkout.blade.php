@@ -23,9 +23,20 @@ Checkout Kelas |
         text-decoration: underline;
         font-size: 14px;
         margin: 0;
-
     }
 
+    .custom-list {
+        list-style: none;
+        padding: 0;
+        padding-left: 15px !important;
+        list-style-type: decimal;
+    }
+
+    .custom-list li {
+        padding-left: 15px !important;
+        margin-bottom: 5px;
+        text-align: justify;
+    }
 </style>
 @section('content')
 <div style="background-color: #f3f3f3!important">
@@ -35,6 +46,7 @@ Checkout Kelas |
             <h5 class="sub-title">Checkout Kelas</h5>
             <h1 class="judulfix mt-0" style="font-size: 30px">Checkout {{ $item->nama_produk }}, {{ $item->kelas }}</h1>
             <a href="{{ route('home-beranda') }}" class="btn btn-sm btn-light mt-3">Kembali</a>
+            {{-- <button type="button" id="btnSyarat"></button> --}}
 
         </div>
     </div>
@@ -72,14 +84,14 @@ Checkout Kelas |
                                     {{ date('H:i', strtotime($item->jam_selesai))}}
                                     WIB</p>
                             </div>
-                          
+
                             <div class="col-12 text-center" style="padding: 20px 50px 0 50px">
                                 <div class="time text-center">
                                     <p class="me-4 italic fw-bold text-danger">
                                         Rp. {{ convert_to_rupiah($item->harga) ?? 0 }}
                                     </p>
                                     <del class="text-muted small">{{ $item->note ?? 0 }}</del>
-    
+
                                 </div>
                                 <p class="text-muted small">Lanjut ke pembayaran untuk terdaftar sebagai peserta</p>
                             </div>
@@ -93,8 +105,7 @@ Checkout Kelas |
                         <div class="product-detail pt-3">
                             <section class="mt-3">
                                 <div class="d-flex justify-content-between">
-                                    <p class="small fw-semibold">Informasi User, Lengkapi Data Anda</p>
-                                    <p class="text-danger small" style="font-size: 12px">(*) Wajib Diisi</p>
+                                    <p class="small fw-semibold">Informasi</p>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-6">
@@ -114,17 +125,9 @@ Checkout Kelas |
                                         <div class="time">
                                             <div class="col-5 col-sm-4">
                                                 <p class="fw-semi-bold mb-1">Email
-                                                    @if(!$user->email)
-                                                    <span class="mr-4 mb-3" style="color: red">*</span>
-                                                    @endif
                                                 </p>
                                             </div>
                                             <div class="col">
-                                                @if(!$user->email)
-                                                <input name="email" type="text" id="email_edit"
-                                                    class="form-control form-control-sm" placeholder="Input Email Anda!"
-                                                    value="{{ old('email') }}">
-                                                @endif
                                                 <p class="mb-1 italic" id="email">: {{ $user->email ?? '-' }}</p>
                                                 <input name="email" type="text" id="email_edit" style="display: none"
                                                     class="form-control form-control-sm"
@@ -138,18 +141,9 @@ Checkout Kelas |
                                         <div class="time">
                                             <div class="col-5 col-sm-4">
                                                 <p class="fw-semi-bold mb-1">No Telephone
-                                                    @if(!$user->no_hp)
-                                                    <span class="mr-4 mb-3" style="color: red">*</span>
-                                                    @endif
                                                 </p>
                                             </div>
                                             <div class="col">
-                                                @if(!$user->no_hp)
-                                                <input name="no_hp" type="text" id="no_hp_edit"
-                                                    class="form-control form-control-sm"
-                                                    placeholder="Input No Telephone Anda!" value="{{ old('no_hp') }}"
-                                                    required>
-                                                @endif
                                                 <p class="mb-1 italic" id="no_hp">: {{ $user->no_hp ?? '-' }}</p>
                                                 <input name="no_hp" type="text" id="no_hp_edit" style="display: none"
                                                     class="form-control form-control-sm"
@@ -160,56 +154,15 @@ Checkout Kelas |
                                     <div class="col-6">
                                         <div class="time">
                                             <div class="col-5 col-sm-4">
-                                                <p class="fw-semi-bold mb-1">Pekerjaan
-                                                    @if(!$user->pekerjaan)
-                                                    <span class="mr-4 mb-3" style="color: red">*</span>
-                                                    @endif
-                                                </p>
-                                            </div>
-                                            <div class="col">
-                                                @if(!$user->pekerjaan)
-                                                <input name="pekerjaan" type="text" id="pekerjaan_edit"
-                                                    class="form-control form-control-sm"
-                                                    placeholder="Input Pekerjaan Anda!" value="{{ old('pekerjaan') }}"
-                                                    required>
-                                                @else
-                                                <p class="mb-1 italic" id="pekerjaan">: {{ $user->pekerjaan ?? '-' }}
-                                                </p>
-                                                <input name="pekerjaan" type="text" id="pekerjaan_edit"
-                                                    style="display: none" class="form-control form-control-sm"
-                                                    value="{{ $user->pekerjaan ?? '' }}">
-                                                @endif
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-8">
-                                        <div class="time">
-                                            <div class="col-3">
                                                 <p class="fw-semi-bold mb-1">Asal Instansi
-                                                    @if(!$user->kerjasama)
-                                                    <span class="mr-4 mb-3" style="color: red">*</span>
-                                                    @endif
                                                 </p>
                                             </div>
                                             <div class="col">
-                                                <input type="hidden" id="_token" value="{{ csrf_token() }}">
-                                                @if(!$user->kerjasama)
-                                                <select name="instansi" type="text" id="instansi_edit"
-                                                    class="form-control form-select-sm" value="" required>
-                                                    <option value="">Pilih Instansi</option>
-                                                    @foreach ($instansi as $ins)
-                                                    <option value="{{ $ins->id }}">{{ $ins->nama }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @else
                                                 <p class="mb-1 italic" id="instansi">:
                                                     {{ $user->kerjasama->nama ?? '-' }}
                                                 </p>
-                                                <input type="hidden" name="instansi" value="{{ $user->kerjasama->id ?? '' }}">
-                                                @endif
+                                                <input type="hidden" name="instansi"
+                                                    value="{{ $user->kerjasama->id ?? '' }}">
                                             </div>
                                         </div>
                                     </div>
@@ -223,7 +176,7 @@ Checkout Kelas |
                                     <p class="text-danger small" style="font-size: 12px"> (*) Wajib Diisi</p>
                                 </div>
                                 <div class="time mt-3">
-                                    <div class="col-5 col-sm-4">
+                                    <div class="col-3 col-sm-3">
                                         <p class="fw-semi-bold mb-1">Jenis Pembayaran
                                             <span class="mr-4 mb-3" style="color: red">*</span>
                                         </p>
@@ -237,7 +190,7 @@ Checkout Kelas |
                                     </div>
                                 </div>
                                 <div class="time mt-3">
-                                    <div class="col-5 col-sm-4">
+                                    <div class="col-3 col-sm-3">
                                         <p class="fw-semi-bold mb-1">Tenor
                                             <span class="mr-4 mb-3" style="color: red">*</span>
                                         </p>
@@ -253,8 +206,8 @@ Checkout Kelas |
                                     </div>
                                 </div>
                                 <div class="time mt-4">
-                                    <div class="col-5 col-sm-4">
-                                        <p class="fw-semi-bold mb-1">Harga Produk Berdasar Tenor
+                                    <div class="col-3 col-sm-3">
+                                        <p class="fw-semi-bold mb-1">Harga Berdasar Tenor
                                         </p>
                                     </div>
                                     <input type="hidden" name="slug" value="{{ $item->slug }}">
@@ -266,13 +219,15 @@ Checkout Kelas |
                                         <h6 class="me-4 italic fw-bold text-danger" id="harga_produk">
                                             : Rp. {{ convert_to_rupiah($item->harga) ?? 0 }}
                                         </h6>
-                                        <input type="hidden" name="harga_asli" id="harga_asli" value="{{ $item->harga }}">
-                                        <input type="hidden" name="harga_tenor" id="harga_tenor" value="{{ $item->harga }}">
+                                        <input type="hidden" name="harga_asli" id="harga_asli"
+                                            value="{{ $item->harga }}">
+                                        <input type="hidden" name="harga_tenor" id="harga_tenor"
+                                            value="{{ $item->harga }}">
 
                                     </div>
                                 </div>
                                 <div class="time mt-4">
-                                    <div class="col-5 col-sm-4">
+                                    <div class="col-3 col-sm-3">
                                         <p class="fw-semi-bold mb-1">Diskon Instansi</p>
                                     </div>
                                     <div class="col">
@@ -282,24 +237,63 @@ Checkout Kelas |
                                         <div class="d-flex justify-content-start">
                                             <p class="me-4 mb-1 italic fw-bold text-danger" id="diskon_final">:
                                                 @if($user->kerjasama->status == 'Angka')
-                                                (-) Rp. {{ convert_to_rupiah($user->kerjasama->diskon_angka) ?? 0 }}
+                                                - Rp. {{ convert_to_rupiah($user->kerjasama->diskon_angka) ?? 0 }}
                                                 <input type="hidden" id="diskon_hidden" name="diskon_hidden"
                                                     value="{{ $user->kerjasama->diskon_angka ?? 0 }}">
                                                 <input type="hidden" name="type_diskon" id="type_diskon" value="Angka">
                                                 @else
-                                                (-) {{ $user->kerjasama->diskon_online ?? 0 }} %</p>
-                                                <input type="hidden" id="diskon_hidden" name="diskon_hidden"
-                                                    value="{{ $user->kerjasama->diskon_online ?? 0 }}">
-                                                <input type="hidden" name="type_diskon" id="type_diskon"  value="Persen">
+                                                - {{ $user->kerjasama->diskon_online ?? 0 }} %
+                                            </p>
+                                            <input type="hidden" id="diskon_hidden" name="diskon_hidden"
+                                                value="{{ $user->kerjasama->diskon_online ?? 0 }}">
+                                            <input type="hidden" name="type_diskon" id="type_diskon" value="Persen">
                                             @endif
                                             </p>
-                                            <span class="badge badge-sm badge-primary">Voucher</span>
+                                            {{-- <span class="badge badge-sm badge-secondary"
+                                                style="font-size:10px">Voucher Instansi</span> --}}
                                         </div>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="time mt-4">
-                                    <div class="col-5 col-sm-4">
+                                    <div class="col-3 col-sm-3">
+                                        <p class="fw-semi-bold mb-1">Voucher Code</p>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <h6 class="mt-1 italic fw-bold text-danger small"
+                                                            id="jumlahVoucherDiskon">
+                                                            : - Rp. 0
+                                                        </h6>
+                                                        <input type="hidden" id="hidden_voucher">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <input name="voucher_code" id="voucher_code" type="text"
+                                                            class="form-control form-control-sm">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4" style="margin-top: 5px">
+                                                <div class="row">
+                                                    <div class="col-3" id="tempBtnApply">
+                                                        <button class="btn btn-sm btn-voucher" type="button"
+                                                            id="btnApplyVoucher">Apply</button>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <button class="btn btn-sm btn-reset" type="button"
+                                                            id="btnReset">Reset</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="time mt-4">
+                                    <div class="col-3 col-sm-3">
                                         <p class="fw-semi-bold mb-1">Total Pembayaran
                                         </p>
                                     </div>
@@ -307,12 +301,12 @@ Checkout Kelas |
                                         <h6 class="me-4 italic fw-bold text-primary" id="harga_final">
                                             : Rp. {{ convert_to_rupiah($harga_final) ?? 0 }}
                                         </h6>
-                                        <input type="hidden" id="harga_hidden" name="harga_hidden_final" value="{{ $harga_final }}">
-                                        {{-- <input type="hidden" id="harga_sebelum_final" name="harga_sebelum_final" value="{{ $harga_final }}"> --}}
-
+                                        <input type="hidden" id="harga_hidden" name="harga_hidden_final"
+                                            value="{{ $harga_final }}">
+                                        <input type="hidden" name="harga_kelas_after_disc" id="harga_kelas_after_disc"
+                                            value="{{ $harga_final }}">
                                     </div>
                                 </div>
-
                             </section>
                         </div>
                         <div class="text-center mt-4 pb-4">
@@ -323,40 +317,230 @@ Checkout Kelas |
             </div>
         </div>
     </form>
+    <div class="modal fade" id="modalSyarat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-scrollable modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Syarat dan Ketentuan</h5>
+                    
+                </div>
+                <div class="modal-body">
+                    <p class="small text-muted">Mohon dibaca dan scroll bawah untuk centang persetujuan syarat dan ketentuan </p>
+                    <hr>
+                    <div class="small text-justify">
+                        Hallo Sahabat Taxes <br> <br>
+                        Terimakasih telah mengunjungi dan belanja di website kami <i
+                            class="text-primary">www.iceducation.co.id</i>, dalam
+                        website kami tertulis Syarat dan Ketentuan Belanja produk kami online maupun offline. Di bawah
+                        ini akan di jelaskan peraturan dan persyaratan pembelian produk, dan diharapkan peserta dapat
+                        membaca secara teliti sebelum melakukan belanja. Jika ada yang belum jelas, silahkan
+                        menghubungi CS kami di nomor telepon <i>021-225-309-53/021-225-309-54</i> atau melalui
+                        WhatsApp kami di <i> 0811-1474-251.</i>
+                        <br><br>
+                        Dengan mengakses atau menggunakan situs <i class="text-primary"> www.iceducation.co.id</i>, maka
+                        setiap Pengguna
+                        dianggap telah menerima, memahami, menyetujui, serta sepakat untuk mematuhi semua isi dalam
+                        Syarat & Ketentuan Layanan.
+                        <br><br>
+                        <b>Syarat dan Ketentuan Belanja:</b>
+                        <br><br>
+                        <ul class="custom-list">
+                            <li><b>Website kami</b> adalah www.iceducation.co.id.</li>
+                            <li><b>Permintaan Invoice</b> dilakukan secara request manual.</li>
+                            <li><b>Penjual</b> adalah PT Indonesia Consultindo Global & Lembaga Kursus Pelatihan IC
+                                Education
+                                yang terdapat penjelasan didalam website www.iceducation.co.id, . Informasi lainnya bisa
+                                melalui Instagram kami @iceducation_id, @ic.consultant.</li>
+                            <li><b>Kelas</b> tersedia 4 produk dengan Harga dan manfaat yang berbeda. peserta memilih
+                                pembelian
+                                sesuai yang di inginkan. Sudah termasuk fasilitas sebagaimana disebutkan pada laman
+                                penjelasan produk masing-masing.</li>
+                            <li><b>Harga</b> yang tercantum dapat kami pastikan benar, Harga Online dan Offline berbeda,
+                                namun
+                                jika ada kesalahan nominal harga pada produk yang peserta order/beli, akan kami beritahukan
+                                secepatnya kepada Anda, dan kami berikan pilihan apakah tetap order atau batal</li>
+                            <li><b>Angsuran Pembayaran bisa di lakukan 2 kali</b>
+                                <ul>
+                                    <li>- Angsuran pertama 50% sebelum Kelas dimulai.</li>
+                                    <li>- Angsuran Kedua 50% sebelum Ujian pertama dimulai (pertemuan ke 6).</li>
+                                </ul>
+                                <i>Bagi peserta yang belum melakukan angsuran sesuai aturan di atas tidak diperbolehkan
+                                    ujian.</i>
+                            </li>
+                            <li><b>Salah Order kelas</b> atau ingin pindah ke kelas lain masih diperbolehkan selama mendapat
+                                persetujuan oleh manajemen.</li>
+                            <li><b>Pengembalian pembayaran</b> hanya dapat dilakukan jika kelas dinyatakan "batal" oleh
+                                manajemen IC Education berdasarkan email yang dikirim keseluruh calon peserta.
+                                Pengembalian akan dilakukan 14 hari kerja terhitung sejak diterimanya dengan lengkap data
+                                rekening bank calon peserta yang kelasnya dinyatakan "batal" tersebut melalui email.</li>
+                            <li><b>Pindah kelas</b> di saat kelas sedang berlangsung hanya diperkenankan dari kelas tatap
+                                muka ke
+                                kelas online, dan tidak diperkenankan pindah kelas sebaliknya,</li>
+                            <li><b>Pembayaran</b> hanya dengan transfer bank
+                                <ul>
+                                    <li>- Jika dalam 1x24 jam setelah Anda melakukan order tidak melakukan pembayaran atas
+                                        order tersebut, maka order Anda akan dibatalkan secara otomatis, dan jika tetap
+                                        menginginkan kelas yang sama, mohon untuk melakukan order kembali dengan syarat dan
+                                        ketentuan yang sama,</li>
+                                    <li>
+                                        - Setelah melakukan pembayaran diharuskan untuk mengirimkan bukti pembayaran melalui
+                                        admin kami untuk mempermudah proses verifikasi pembayaran,
+                                    </li>
+                                    <li>
+                                        - Jangan melakukan pembayaran sebelum Anda mendapatkan invoice dan email berupa
+                                        tagihan sesuai KODE VIRTUAL ACOOUNT BANK yang harus ditransfer,
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><b>Modul Peserta</b> bagi yang order BREVET PAJAK AB akan dikirim ke alamat masing-masing
+                                dan ongkos kirim dibayarkan oleh peserta. Setelah Peserta melakukan pembayaran dan sudah
+                                mendapatkan approval/verifikasi pembayaran dari Admin kami.</li>
+                            <li><b>Kelas di Mulai,</b> Peserta akan mendapatkan pemberitahuan kelas yang akan berjalan 1-2 hari
+                                menjelang hari pelaksanaan perihal kelengkapan dan jadwal serta lainnya,</li>
+                            <li> Peserta mengikuti <b>Pelaksanaan Ujian</b> jika sudah menjalankan aturan pembayaran yang di
+                                informasikan.
+                                <ul>
+                                    <li><b>Ujian susulan</b> dan <b>perbaikan dikenakan</b> biaya tambahan sebesar Rp. 50.000,-/ materi.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><b>Sertifikat </b>hilang baik atas kesengajaan maupun ketidaksengajaan Anda dapat diberikan
+                                sertifikat pengganti dengan syarat peserta masih memiliki softcopy sertifikat.</li>
+                        </ul>
+                        <br><br>
+                        Dengan demikian Anda telah setuju untuk mematuhi aturan sesuai syarat-syarat dan ketentuan
+                        sebagaimana penjelasan diatas.
+                        <br><br>
+                        Hormat Kami
+                        <br><br>
+                        <br><br>
+                        ADMIN IC EDUCATION
+                        <br><br>
+                    </div>
+                    <hr>
+                    <div class="pb-3 pt-3 text-center small">
+                        <input type="checkbox" id="checkSetuju" name="item1" value="Setuju">
+                        Saya Setuju dengan Syarat dan Ketentuan
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
 </div>
+
+
 
 @endsection
 @push('js')
+
 <script>
     $(document).ready(function () {
-        $('#instansi_edit').on('change', function () {
-            var selected = $(this).val()
-            var html = $(this).html()
+        $('#checkSetuju').on('change', function() {
+    if (this.checked) {
+        $('#modalSyarat').modal('hide');
+    }
+});
+
+        $('#modalSyarat').modal('show');
+        $('#btnReset').on('click', function(){
+            window.location.reload()
+        })
+
+        $('#btnApplyVoucher').on('click', function (){
+            var voucher = $('#voucher_code').val()
+            console.log(voucher)
             var token = $('#_token').val()
-
-            var data = {
-                kerjasama_id: selected,
-                _token: token
-            }
-
-            $.ajax({
-                method: 'post',
-                url: '/checkout/profile',
-                data: data,
-                success: function (response) {
-                    window.location.reload();
-                },
-                error: function (response) {
-                    console.log(response)
-                    swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        html: response
-                    });
+            if(voucher){
+                var data = {
+                    voucher: voucher,
+                    _token: token
                 }
-            });
+
+                $.ajax({
+                    method: 'get',
+                    url: '/checkout/voucher/code',
+                    data: data,
+                    success: function (response) {
+                        if(response == 'Data Not Found'){
+                            swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                html: 'Voucher Code Not Found',
+                                timer: 2000,
+                                timerProgressBar: true,
+                            });
+                        }else{
+                            var final = $('#harga_hidden').val()
+                            var nilai = response.nilai
+                            var afterVoucher = final - nilai
+
+                            var formatted_nilai = nilai.toLocaleString('id-ID', {
+                                style: 'currency',
+                                currency: 'IDR'
+                            });
+                            formatted_nilai = formatted_nilai.replace(/\,00$/, '');
+
+                            Swal.fire({
+                                title: 'Voucher Found',
+                                text: `Apakah Anda Ingin Menambahkan Voucher Potongan Seharga ${formatted_nilai}`,
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Ya, Pakai!'
+                                }).then((result) => {
+                                if (result.isConfirmed) {
+                                    if(afterVoucher < 0){
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Oops...',
+                                            text: 'Voucher tidak dapat digunakan!',
+                                        })
+                                        $('#tempBtnApply').show()
+                                    }else{
+                                        $('#jumlahVoucherDiskon').html(`: - ${formatted_nilai}`)
+                                        $('#tempBtnApply').hide()
+                                        var formatted_harga_final = afterVoucher.toLocaleString('id-ID', {
+                                            style: 'currency',
+                                            currency: 'IDR'
+                                        });
+                                        Swal.fire({
+                                            title: 'Good job!',
+                                            text: `Anda Mendapatkan Potongan ${formatted_nilai}, Lanjutkan Pembayaran`,
+                                            icon: 'success',
+                                            timer: 2000,
+                                            timerProgressBar: true
+                                        });
+
+                                        $('#tempBtnApply').hide()
+                                        $('#harga_hidden').val(afterVoucher)
+                                        $('#hidden_voucher').val(nilai)
+                                        $('#harga_final').html(": " + formatted_harga_final)
+                                    }
+
+                                   
+                                }
+                            })
+                          
+
+                            
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response)
+                        swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            html: response
+                        });
+                    }
+                });
+
+            }
         });
 
+    
         $('#tenor_edit').on('change', function () {
             var selected = $(this).val()
             var harga = $('#harga_asli').val()
@@ -382,12 +566,9 @@ Checkout Kelas |
             }else{
                 var harga_final = harga_semi - (harga_semi /100) * diskon;
             }
+            $('#harga_kelas_after_disc').val(harga_final)
 
-            var formatted_harga_final = harga_final.toLocaleString('id-ID', {
-                style: 'currency',
-                currency: 'IDR'
-            });
-            formatted_harga_final = formatted_harga_final.replace(/\,00$/, '');
+          
 
             var formated_harga_semi = harga_semi.toLocaleString('id-ID', {
                 style: 'currency',
@@ -395,14 +576,41 @@ Checkout Kelas |
             });
             formated_harga_semi = formated_harga_semi.replace(/\,00$/, '');
             
-            $('#harga_produk').html(": " + formated_harga_semi + tenor)
-            $('#harga_sebelum_final').html(harga_semi)
-            $('#harga_tenor').val(harga_semi)
-            $('#harga_hidden').val(harga_final)
-            $('#harga_final').html(": " + formatted_harga_final)
+            // VOUCHER VALIDATION
+            var _voucher = $('#hidden_voucher').val()
+            var _finalVoucher = 0
+            if(_voucher != 0){
+                var _tes = harga_final - _voucher
+                _finalVoucher = _finalVoucher + _tes
+            }else{
+                _finalVoucher = _finalVoucher + harga_final
+            }
 
+            var formatted_harga_final = _finalVoucher.toLocaleString('id-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            });
+            formatted_harga_final = formatted_harga_final.replace(/\,00$/, '');
 
-
+            // FINAL < 0
+            if(_finalVoucher < 0){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Voucher dan tenor tidak dapat digunakan!',
+                }).then(() => {
+                    // Add a delay of 3 seconds (3000 milliseconds) before reloading the window
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                });
+            }else{
+                $('#harga_produk').html(": " + formated_harga_semi + tenor)
+                $('#harga_sebelum_final').html(harga_semi)
+                $('#harga_tenor').val(harga_semi)
+                $('#harga_hidden').val(_finalVoucher)
+                $('#harga_final').html(": " + formatted_harga_final)
+            }
         })
 
     })

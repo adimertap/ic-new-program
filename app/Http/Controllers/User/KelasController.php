@@ -17,12 +17,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Midtrans\Config;
+use Str;
+use Exception;
+use Midtrans;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+
 
 class KelasController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
+        Config::$serverKey = "SB-Mid-server-ThmSXotcqD9A6m7KSd-SIaEG";
+        Config::$isProduction = false;
+        Config::$isSanitized = false;
+        Config::$is3ds = false;
     }
 
     public function index(Request $request)
@@ -101,8 +112,7 @@ class KelasController extends Controller
         } else {
             $passing = [];
         }
-
-        // return $materi;
+        // return $transaksi;
 
         return view('user.pages.list_materi', [
             'materi' => $passing,
@@ -176,7 +186,6 @@ class KelasController extends Controller
         $page = request()->query('page', 1);
 
         if (!count($hasil)) { // ini buat materi yg belum pernah di ambil
-
             if ($idMateri == '11') {
                 $tes = BankSoalUjian::leftjoin('jawaban_temp', 'jawaban_temp.soal_id', 'soal_ujian.id')
                     ->where('soal_ujian.materi_id', $idMateri)
@@ -277,7 +286,6 @@ class KelasController extends Controller
 
     public function simpanJawaban(Request $request)
     {
-
         try {
             $jawaban_user = JawabanUser::join('soal_ujian', 'jawaban_temp.soal_id', 'soal_ujian.id')
                 ->where('jawaban_temp.materi_id', $request->materi_id)
@@ -299,7 +307,6 @@ class KelasController extends Controller
                         'benar' => $status
                     ]);
             }
-
 
             $skor = 0;
             foreach ($jawaban_user as $user) {
@@ -331,7 +338,6 @@ class KelasController extends Controller
             if (Session::has('countdown_value')) {
                 Session::forget('countdown_value');
             }
-
 
             JawabanUser::where('materi_id', $request->materi_id)->where('user_id', Auth::user()->id)->delete();
 
@@ -456,29 +462,29 @@ class KelasController extends Controller
         $data['hasil_ujian'] = $hasilUjian;
         $data['cek_hasil'] = $hasil;
 
-        if (count($hasilUjian) == '8') {
-            $data['cek_ujian'] = "1";
-            try {
-                Mail::send('mail-ujian', $data, function ($message) use ($data) {
-                    $message->to($data["email"], $data["nama"])
-                        ->subject($data["subject"]);
-                });
-            } catch (JWTException $exception) {
-                $serverstatuscode = "0";
-                $serverstatusdes = $exception->getMessage();
-            }
-        } else {
-            $data['cek_ujian'] = "0";
-            try {
-                Mail::send('mail-ujian', $data, function ($message) use ($data) {
-                    $message->to($data["email"], $data["nama"])
-                        ->subject($data["subject"]);
-                });
-            } catch (JWTException $exception) {
-                $serverstatuscode = "0";
-                $serverstatusdes = $exception->getMessage();
-            }
-        }
+        // if (count($hasilUjian) == '8') {
+        //     $data['cek_ujian'] = "1";
+        //     try {
+        //         Mail::send('mail-ujian', $data, function ($message) use ($data) {
+        //             $message->to($data["email"], $data["nama"])
+        //                 ->subject($data["subject"]);
+        //         });
+        //     } catch (JWTException $exception) {
+        //         $serverstatuscode = "0";
+        //         $serverstatusdes = $exception->getMessage();
+        //     }
+        // } else {
+        //     $data['cek_ujian'] = "0";
+        //     try {
+        //         Mail::send('mail-ujian', $data, function ($message) use ($data) {
+        //             $message->to($data["email"], $data["nama"])
+        //                 ->subject($data["subject"]);
+        //         });
+        //     } catch (JWTException $exception) {
+        //         $serverstatuscode = "0";
+        //         $serverstatusdes = $exception->getMessage();
+        //     }
+        // }
 
         return view('user.pages.pembahasan', [
             'bahas' => $ujian,
@@ -559,11 +565,23 @@ class KelasController extends Controller
             $user = User::with('kerjasama')
                 ->where('users.id', Auth::user()->id)->first();
 
-            $nourut = KeranjangProduk::selectRaw('MAX(SUBSTRING(no_invoice, 9, 3)) AS no_invoice')->first();
-            $invoice = sprintf('%03d', ($nourut['no_invoice'] + 1));
+            $lastData = KeranjangProduk::latest()->first();
+            if(!$lastData){
+                $nomor = 1;
+            }else{
+                $nomor = $lastData->id + 1;
+            }
+            if ($nomor <= 10) {
+                $formattedNomor = str_pad($nomor, 3, '0', STR_PAD_LEFT);
+            } elseif ($nomor <= 100) {
+                $formattedNomor = str_pad($nomor, 3, '0', STR_PAD_LEFT);
+            } else {
+                $formattedNomor = (string) $nomor;
+            }
+        
             $bulan = number2roman(date('m'));
             $tahun = date('Y');
-            $no_invoice = 'NO. INV-' . $invoice . '/ICEDU/' . $bulan . '/' . $tahun;
+            $no_invoice = 'NO. INV-' . $formattedNomor . '/ICEDU/' . $bulan . '/' . $tahun;
 
             $keranjang = new KeranjangProduk();
             $keranjang->id_instansi = $user->kerjasama_id;
@@ -574,14 +592,184 @@ class KelasController extends Controller
             $keranjang->no_invoice = $no_invoice;
             $keranjang->payment_status = 'Pending';
             $keranjang->total_price = 50000;
-            $keranjang->type_pembayaran = 'Manual';
+            $keranjang->type_pembayaran = $request->type;
             $keranjang->harga_kelas = 50000;
             $keranjang->tenor = 'Full';
             $keranjang->save();
 
+            // return $keranjang;
+            // return $user;
+
+            if($request->type == 'Otomatis'){
+                $this->getSnapRedirect($keranjang, $request, $user);
+            }else{
+                $produk = Produk::where('slug', $keranjang->slug)->first();
+                $nama_produk = str_replace('-', " ", strtoupper($produk->nama_produk));
+                $isOnline = $produk->online == '1' ? 'Online' : '';
+                $tanggal = date('Y-m-d');
+
+                $data = array();
+                $data['email'] = Auth::user()->email;
+                $data['subject'] = 'Invoice IC Education';
+                $data['nama'] = Auth::user()->name;
+                $data['deskripsi'] = 'Ujian Ulang ' . $nama_produk;
+                $data['nominal'] = '50.000';
+                $data['kelas'] = $produk->kelas;
+                $data['slug'] = $produk->slug;
+                $data['tanggal'] = date('Y-m-d');
+                $data['username'] = Auth::user()->email;
+                $data['password'] = Auth::user()->password_get_info;
+                $data['diskon'] = 0;
+                $data['sum_diskon'] = 0;
+                $data['total'] = '50.000';
+                $data['no_invoice'] = $keranjang->no_invoice;
+                $data['produk'] = $produk->nama_produk;
+                $data['diskon'] = $keranjang->diskon;
+                $data['isregonly'] = "0";
+                $pdf = PDF::loadview('invoice_download', ['transaksi' => $keranjang, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
+                $pdf->setPaper('A4', 'portrait');
+
+                try {
+                    Mail::send('mail', $data, function ($message) use ($data, $pdf) {
+                        $message->to($data["username"])
+                            ->subject("Invoice IC Education")
+                            ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
+                            // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
+                            ->attachData($pdf->output(), "invoice.pdf");
+                    });
+                } catch (JWTException $exception) {
+                    $serverstatuscode = "0";
+                    $serverstatusdes = $exception->getMessage();
+                }
+
+            }
+
             return redirect()->route('transaksi');
         } catch (\Throwable $th) {
             return $th;
+        }
+    }
+
+    public function getSnapRedirect(KeranjangProduk $keranjang, $request, $user)
+    {
+        $orderId = $keranjang->id. '-' .Str::random(5);
+        $keranjang->midtrans_booking_code = $orderId;
+        $price = 50000;
+
+        $item_details[] = [
+            'id' => $orderId,
+            'price' => $price,
+            'quantity' => 1,
+            'name' => "Pembayaran Ujian Ulang",
+        ];
+
+        $item_details[] = [
+            'id' => 1,
+            'price' =>  + 5000,
+            'quantity' => 1,
+            'name' => "Biaya Admin",
+        ];
+
+        $transaction_details = [
+            'order_id' => $orderId,
+            'gross_amount' => $price
+        ];
+
+        $seller_details = [
+            'id' => 1,
+            'name' => "IC Education",
+            'email' => "info@iceducation.co.id",
+            'url' => "https://iceducation.co.id/",
+            "address" => [
+                "first_name" => "IC",
+                "last_name" => "Education",
+                "phone" => "0811-1474-251",
+                "address" => "Jalan Gelora II No. 10, Gelora",
+                "city" => "Jakarta",
+                "postal_code" => "12190",
+                "country_code" => "IDN"
+            ]
+        ];
+
+        $userData = [
+            "first_name" => $user->name,
+            "last_name" => "",
+            "address" => "",
+            "city" => "",
+            "postal_code" => "",
+            "phone" => $user->no_hp,
+            "country_code" => "IDN"
+        ];
+
+        $customer_details = [
+            "first_name" => $user->name,
+            "last_name" => "",
+            "email" => $user->email,
+            "phone" => $user->no_hp,
+            "billing_address" => $userData,
+            "shipping_address" => $userData
+        ];
+
+        $midtrans_params = [
+            'transaction_details' => $transaction_details,
+            'customer_details' => $customer_details,
+            'item_details' => $item_details,
+            'seller_details' => $seller_details
+        ];
+
+        try{
+            $paymentUrl = \Midtrans\Snap::createTransaction($midtrans_params)->redirect_url;
+            $keranjang->midtrans_url = $paymentUrl;
+            $keranjang->total_price = 55000;
+            $keranjang->save();
+
+            $produk = Produk::where('slug', $keranjang->slug)->first();
+            $nama_produk = str_replace('-', " ", strtoupper($produk->nama_produk));
+            $isOnline = $produk->online == '1' ? 'Online' : '';
+            $tanggal = date('Y-m-d');
+
+            $data = array();
+            $data['email'] = Auth::user()->email;
+            $data['subject'] = 'Invoice IC Education';
+            $data['nama'] = Auth::user()->name;
+            $data['deskripsi'] = 'Pembayaran Ujian Ulang ' . $nama_produk;
+            $data['nominal'] = '55.000';
+            $data['kelas'] = $produk->kelas;
+            $data['slug'] = $produk->slug;
+            $data['tanggal'] = date('Y-m-d');
+            $data['username'] = Auth::user()->email;
+            $data['password'] = Auth::user()->password_get_info;
+            $data['diskon'] = 0;
+            $data['sum_diskon'] = 0;
+            $data['total'] = '55.000';
+            $data['no_invoice'] = $keranjang->no_invoice;
+            $data['produk'] = $produk->nama_produk;
+            $data['diskon'] = 0;
+            $data['isregonly'] = "0";
+            $data['link'] =  $paymentUrl;
+            $pdf = PDF::loadview('invoice_download', ['transaksi' => $keranjang, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
+            $pdf->setPaper('A4', 'portrait');
+
+            try {
+                Mail::send('mail-midtrans', $data, function ($message) use ($data, $pdf) {
+                    $message->to($data["username"])
+                        ->subject("Invoice IC Education")
+                        ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
+                        // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
+                        ->attachData($pdf->output(), "invoice.pdf");
+                });
+            } catch (JWTException $exception) {
+                $serverstatuscode = "0";
+                $serverstatusdes = $exception->getMessage();
+            }
+
+
+            return redirect()->to($paymentUrl)->send();
+            // header('Location: '.$paymentUrl);
+            // return $paymentUrl;
+
+        }catch (Exception $e){
+            return $e;
         }
     }
 }

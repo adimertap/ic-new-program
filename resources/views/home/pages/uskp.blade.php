@@ -88,9 +88,8 @@ USKP |
                                 <p class="animate-pulse">Rp. {{ convert_to_rupiah($item->harga)}}</p>
                             </div>
                             <div class="beli">
-                                <a href="{{ route('checkout.edit', $item->slug) }}" type="button" class="btn btn-primary" style="border-radius: 10px!important" value="{{ $item->id }}"
+                                <a href="{{ route('register-data', $item->slug) }}" type="button" class="btns btn-icon" style="border-radius: 10px!important" value="{{ $item->id }}"
                                     id="button-beli" data-slug="{{ $item->slug }}">
-                                    Beli Sekarang
                                 </a>
                             </div>
 

@@ -89,6 +89,7 @@
                         Rp. {{convert_to_rupiah($transaksi->total_price)}}
                     </td>
                 </tr>
+
                 <tr>
                   <td colspan="2" style="padding-top: 7px;text-align: right;">
                       + Biaya Admin

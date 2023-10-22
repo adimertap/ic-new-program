@@ -31,29 +31,7 @@ Galeri |
     </div>
 </section>
 
-{{-- <div class="w-full h-full bg-pink pt-2" id="banner">
-    <div class="mt-16 container mx-auto p-10">
-        <div class="flex flex-col-reverse justify-center md:flex-row md:space-x-3">
-            <div class="w-full md:w-1/2 pt-10 pb-10">
-                <h1 class="text-red block text-6xl font-semibold mt-2 uppercase">galeri</h1>
-                <p>
-                    <span class="text-lg block mt-6 text-justify">Beberapa dokumentasi kami ketika pelaksanaan Kelas
-                        Brevet AB, USKP Review maupun Seminar Perpajakan Dan Juga kami melakuka MoU ke beberapa
-                        Universitas</span>
-                </p>
-                <div class="mt-8">
-                    <a href="#galeri" class="button">Lihat Yuk</a>
-                </div>
-            </div>
-            <div class="w-full md:w-1/2 flex justify-center">
-                <img src="{{ asset('images/banner-galeri.png')}}" alt="" />
-</div>
-</div>
-</div>
-</div> --}}
-<!-- banner selesai -->
 
-<!-- gallery start -->
 <div class="pt-10" id="galeri-page">
     <div class="container mx-auto p-10">
         <div class="text ms-3">

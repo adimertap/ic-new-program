@@ -38,7 +38,9 @@ class KeranjangProduk extends Model
 		'cicilan_temp_idr',
 		'data',
 		'created_at',
-		'updated_at'
+		'updated_at',
+		'voucher_text_id',
+		'harga_kelas_after_disc'
     ];
 
 
@@ -60,6 +62,11 @@ class KeranjangProduk extends Model
 	public function Instansi(): BelongsTo
 	{
 		return $this->belongsTo(Kerjasama::class, 'id_instansi', 'id');
+	}
+
+	public function Voucher(): BelongsTo
+	{
+		return $this->belongsTo(Diskon::class, 'voucher_text_id', 'id');
 	}
 
 	/**

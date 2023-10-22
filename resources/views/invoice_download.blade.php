@@ -86,9 +86,20 @@
                         @endif
                     </td>
                     <td style="padding-top: 7px;padding-right: 15px;text-align: right;font-size: 1.2em;">
-                        Rp. {{convert_to_rupiah($transaksi->total_price)}}
+                        Rp. {{convert_to_rupiah($transaksi->harga_kelas_after_disc)}}
                     </td>
                 </tr>
+                @if($transaksi->Voucher)
+                <tr>
+                    <td colspan="2" style="padding-top: 7px;text-align: right;">
+                        Voucher ({{ $transaksi->Voucher->kode }})
+                    </td>
+                    <td style="padding-top: 7px;padding-right: 15px;text-align: right;font-size: 1.2em;">
+                        - Rp. {{convert_to_rupiah($transaksi->Voucher->nilai)}}
+                    </td>
+                </tr>
+                    
+                @endif
                 @if($transaksi->type_pembayaran == 'Otomatis')
                 <tr>
                     <td colspan="2" style="padding-top: 7px;text-align: right;">
@@ -122,9 +133,17 @@
                               $afterDiskon = $transaksi->harga_kelas - $afterDiskon1;
                           }
 
-                          $hitung = $afterDiskon - $transaksi->total_price;
+                          if($transaksi->Voucher){
+                            $hitung = $afterDiskon - $transaksi->total_price - $transaksi->Voucher->nilai;
+                          }else{
+                            $hitung = $afterDiskon - $transaksi->total_price;
+                          }
                         ?>
+                        @if($transaksi->tenor == 'Full')
+                          0
+                        @else
                         Rp. {{convert_to_rupiah($hitung)}}
+                        @endif
                     </td>
                 </tr>
             </tbody>

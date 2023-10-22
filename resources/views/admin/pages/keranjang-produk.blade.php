@@ -64,9 +64,10 @@
                                         <th class="text-center">Pekerjaan</th>
                                         <th class="text-center">Produk</th>
                                         <th class="text-center">Kelas</th>
+                                        <th class="text-center">Slug Produk</th>
                                         <th class="text-center">Harga Kelas</th>
                                         <th class="text-center">Diskon Instansi</th>
-                                        <th class="text-center">Slug Produk</th>
+                                        <th class="text-center">Diskon Voucher</th>
                                         <th class="text-center">Pembayaran (Setelah Diskon)</th>
                                         <th class="text-center">Belum Terbayar</th>
                                         <th class="text-center">Status Pembayaran</th>
@@ -84,6 +85,7 @@
                                         <td>{{ $item->user->pekerjaan }}</td>
                                         <td>{{ $item->produk->nama_produk ?? 'product deleted' }}</td>
                                         <td>{{ $item->produk->kelas ?? 'product deleted' }}</td>
+                                        <td>{{ $item->slug }}</td>
                                         <td>Rp. {{ convert_to_rupiah($item->harga_kelas) ?? 'product deleted' }}</td>
                                         <td class="text-center">
                                             @if($item->type_diskon == 'Persen')
@@ -92,7 +94,13 @@
                                             Rp. {{ convert_to_rupiah($item->diskon) }}
                                             @endif
                                         </td>
-                                        <td>{{ $item->slug }}</td>
+                                        <td class="text-center">
+                                            @if($item->Voucher)
+                                                ({{ $item->Voucher->kode }}), - {{ convert_to_rupiah($item->Voucher->nilai) }}                                            
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                         <td class="text-center">Rp. {{ convert_to_rupiah($item->total_price) }}
                                             @if($item->tenor == 25)
                                             (Tenor 25%)
@@ -111,6 +119,10 @@
                                                 $angka_diskon = $item->harga_kelas - $disc;
                                               }else {
                                                   $angka_diskon = $item->harga_kelas - $item->diskon;
+                                              }
+
+                                              if($item->Voucher){
+                                                $angka_diskon = $angka_diskon - $item->Voucher->nilai;
                                               }
                                             ?>
                                             @if($item->status == 3 && $item->payment_status == 'Cicilan')

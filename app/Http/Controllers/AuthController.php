@@ -8,9 +8,11 @@ use App\Models\Kerjasama;
 use PDF;
 use Illuminate\Http\Request;
 use App\Models\KeranjangProduk;
+use App\Models\MasterJenisInstansi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 class AuthController extends Controller
 {
@@ -147,10 +149,10 @@ class AuthController extends Controller
 
         User::create([
             'name' => $request->input('nama'),
-            'no_hp' => $request->input('no_hp'),
+            // 'no_hp' => $request->input('no_hp'),
             'email' => $request->input('email'),
-            'pekerjaan' => $request->input('pekerjaan'),
-            'kerjasama_id' => $request->input('kerjasama'),
+            // 'pekerjaan' => $request->input('pekerjaan'),
+            // 'kerjasama_id' => $request->input('kerjasama'),
             'username' => $request->input('email'),
             'active' => '1',
             'role' => '2',
@@ -196,6 +198,66 @@ class AuthController extends Controller
             }
         } else {
             return redirect()->route('login')->with('status', 'Username atau Password salah');
+        }
+    }
+
+    public function authRegisterDataUser(Request $request, $slug){
+
+        $item = Produk::where('slug', $slug)->first();
+        $instansi = Kerjasama::get();
+        $jenis = MasterJenisInstansi::get();
+
+        return view('auth.registerKelengkapan', compact('item','instansi','jenis'));
+    }
+
+
+    public function UpdateDataUser(Request $request){
+        try {
+            if($request->id_instansi == 'Lainnya'){
+                Alert::warning('Warning', 'Anda Belum Memilih Asal Instansi');
+                return redirect()->back();
+            }else{
+                $item = User::where('id', Auth::user()->id)->first();
+                if($item){
+                    $item->no_hp = $request->phone;
+                    $item->pekerjaan = $request->pekerjaan;
+                    $item->kerjasama_id = $request->id_instansi;
+                    $item->update();
+    
+                    return redirect()->route('checkout.edit', $request->id_kelas);
+                }else{
+                    Alert::warning('Warning', 'Internal Server Error, Data Not Found');
+                    return redirect()->back();
+                }
+            }
+        } catch (\Throwable $th) {
+            Alert::warning('Warning', 'Internal Server Error, Data Not Found');
+            return redirect()->back();
+        }
+    }
+
+    public function simpanInstansi(Request $request){
+        try {
+          
+                $check = Kerjasama::where('nama', $request->nama)->first();
+                if($check){
+                    Alert::warning('Error','Data Instansi Sudah Ada');
+                    return redirect()->back();
+                }else{
+                    $item = new Kerjasama();
+                    $item->id_jenis = $request->id_jenis;
+                    $item->nama = strtoupper($request->nama);
+                    $item->save();
+    
+                    Alert::success('Success Title', 'Data Instansi Berhasil Ditambahkan, Lanjut Pendaftaran');
+                    return redirect()->back();
+                }
+
+            
+
+        } catch (\Throwable $th) {
+            Alert::warning('Warning', 'Internal Server Error, Data Not Found');
+            return redirect()->back();
         }
     }
 

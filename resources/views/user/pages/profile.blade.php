@@ -29,7 +29,7 @@
       <div class="row">
         <div class="col-md-2 text-center">
           <img class=""
-            src="{{ ($data->image_name) ? asset('storage/userImage/'.$data->image_name) : asset('userAdmin/img/profil.png') }}"
+            src="{{ ($data->image_name) ? asset('profile/'.$data->image_name) : asset('userAdmin/img/profil.png') }}"
             alt="" width="80%">
         </div>
         <div class="col-md-8 my-auto">
@@ -42,7 +42,7 @@
             </div>
             <form action="{{ route('upload-photo')}}" method="POST" enctype="multipart/form-data">
               @csrf
-              <input type="file" name="image">
+              <input type="file" name="image"  accept=".png,.jpg">
               <input type="submit" value="Upload">
             </form>
           </div>

@@ -27,6 +27,7 @@ class KeranjangProdukController extends Controller
     ->groupBy('nama','jenis','id','type_pembayaran')
     ->get();
 
+
     return view('admin.pages.keranjang-instansi',compact('instansi'));
 
   }
@@ -34,7 +35,7 @@ class KeranjangProdukController extends Controller
   public function detail(Request $request, $id)
   {
         $products = KeranjangProduk::
-        with(['produk', 'Instansi'])
+        with(['produk', 'Instansi','Voucher'])
         ->where('type_pembayaran', 'Manual')
         ->where('id_instansi', $id);
         if($request->filterKelas){
@@ -173,13 +174,21 @@ class KeranjangProdukController extends Controller
         $angka_diskon = $transaksi->harga_kelas - $transaksi->diskon;
       }
 
+      $total = $transaksi->total_price;
       if($request->tenor != "Full"){
         $afterDiskon =  $angka_diskon - $transaksi->total_price;
         $afterTenor = $angka_diskon * $request->tenor/100;
 
-        $transaksi->total_price = $afterTenor;
+        $total = $afterTenor;
       }else{
-        $transaksi->total_price = $angka_diskon;
+        $total = $angka_diskon;
+      }
+
+      if($transaksi->voucher_text_id){
+        $discvoucher = Diskon::where('id',$transaksi->voucher_text_id)->first();
+        if($discvoucher){
+            $total = $total - $discvoucher->nilai;
+        }
       }
 
       $transaksi->tenor = $request->tenor;
@@ -322,7 +331,7 @@ class KeranjangProdukController extends Controller
   public function invoiceBaru(Request $request, $id)
   {
       try {
-          $transaksi = KeranjangProduk::with('user')->where('id', $id)->first();
+          $transaksi = KeranjangProduk::with('user','Voucher')->where('id', $id)->first();
           $produk = Produk::where('slug', $transaksi->slug)->first();
           $nama_produk = str_replace('-', " ", strtoupper($produk->nama_produk));
           $isOnline = $produk->online == '1' ? 'Online' : '';

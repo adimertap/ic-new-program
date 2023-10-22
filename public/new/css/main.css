@@ -415,7 +415,7 @@ body {
 }
 
 .register-user .form-register {
-    margin-top: 40px;
+    margin-top: 55px;
 }
 
 .register-user .header-third {
@@ -1221,6 +1221,66 @@ iframe{
     -ms-border-radius: 100px ;
     -o-border-radius: 100px ;
 }
+
+.btns{
+    margin-top: 25px;
+    border-radius: 400px !important;
+    padding: 20px 100px 20px 40px !important;
+    -webkit-border-radius: 400px !important;
+    -moz-border-radius: 400px !important;
+    -ms-border-radius: 400px !important;
+    -o-border-radius: 400px !important;
+}
+
+.btn-icon {
+    position: relative;
+    background-color: #407BFF!important; /* Set the background color to blue for the btn-icon class */
+    color: white !important; 
+    width: 100px;
+    text-align: center;
+}
+
+.btn-icon:before {
+    content: "";
+    background-image: url('../../images/new/cart1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: 40%;
+    top: 50%;
+    transform: translateY(-50%);
+    filter: invert(1);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.btn-voucher{
+    padding: 0 !important;
+    border-radius: 20px !important;
+    border: 0 ;
+    font-weight: 300 ;
+    -webkit-border-radius: 20px !important;
+    -moz-border-radius: 20px !important;
+    -ms-border-radius: 20px !important;
+    -o-border-radius: 20px !important;
+}
+
+.btn-reset{
+    padding: 0 !important;
+    border-radius: 20px !important;
+    border: 0 ;
+    font-weight: 300 ;
+    color: red!important;
+    -webkit-border-radius: 20px !important;
+    -moz-border-radius: 20px !important;
+    -ms-border-radius: 20px !important;
+    -o-border-radius: 20px !important;
+}
+
 
 .btn-thirdty {
     background: #FE721C;

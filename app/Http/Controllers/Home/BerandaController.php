@@ -16,6 +16,7 @@ class BerandaController extends Controller
     {
         $gallery = Gallery::latest()->take(4)->get();
         $home_header = MasterHeader::where('pages','Home')->where('section','Header')->where('section_3', null)->first();
+        $home_title = MasterHeader::where('pages','Home')->where('section','Header')->where('section_3', 'Judul')->first();
         $home_about = MasterHeader::where('pages','Home')->where('section','About')->where('section_3', null)->first();
         $home_brevet = MasterHeader::where('pages','Home')->where('section','Kelas')->where('section_2','Brevet')->where('section_3', null)->first();
         $home_seminar =  MasterHeader::where('pages','Home')->where('section','Kelas')->where('section_2','Seminar')->where('section_3', null)->first();
@@ -33,7 +34,8 @@ class BerandaController extends Controller
             'home_house' => $home_house,
             'home_uskp' => $home_uskp,
             'home_sertif' => $home_sertif,
-            'home_judul' => $home_judul
+            'home_judul' => $home_judul,
+            'home_title' => $home_title
         ]);
     }
 
@@ -52,11 +54,12 @@ class BerandaController extends Controller
     }
 
     public function dashboard_check(){
+
         try {
             if(Auth::user()->role == '2'){
                 return redirect()->route('user-dashboard');
             }else{
-                return redirec()->route('admin-dashboard');
+                return redirect()->route('admin-dashboard');
             }
         } catch (\Throwable $th) {
             Alert::warning('Warning', 'Internal Server Error, Data Not Found');

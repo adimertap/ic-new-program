@@ -14,23 +14,15 @@ class Diskon extends Model
     protected $table = "master_diskon";
     protected $guarded = ['id'];
 
-    /**
-     * Get the user that owns the Diskon
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+    protected $fillable = [
+	    'id', 
+		'kode', 
+		'tgl_mulai', 
+		'tgl_selesai', 
+		'nilai', 
+		'is_active',  
+		'created_at',
+		'updated_at',
+    ];
 
-    /**
-     * Get the user associated with the Diskon
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function kerjasama(): HasOne
-    {
-        return $this->hasOne(Kerjasama::class, 'id', 'kerjasama_id');
-    }
 }

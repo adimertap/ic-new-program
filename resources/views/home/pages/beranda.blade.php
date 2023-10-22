@@ -12,7 +12,8 @@ Beranda |
                 <div class="row">
                     <div class="col-lg-6 col-12 copywriting">
                         <h1 class="header">
-                            <span class="text-cyan">IC-Education </span>Is <br> Part Of You
+                            <span>{{ $home_title->description }}</span>
+                            {{-- <span class="text-cyan">IC-Education </span>Is <br> Part Of You --}}
                         </h1>
                         <p class="support" style="font-color:white!important">
                             {{ $home_header->description }}
