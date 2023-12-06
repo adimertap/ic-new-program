@@ -1,7 +1,7 @@
 @extends('home.app')
 
 @section('title')
-Galeri |
+{{ $meta->title ?? '' }}
 @endsection
 
 @section('content')
@@ -9,11 +9,10 @@ Galeri |
     <div class="container">
         <div class="d-flex justify-content-center">
             <div class="text-center copywriting">
-                <h1 class="header">
+                <h1 class="header-galeri">
                     <span class="text-cyan">GALLERY </span>IC EDUCATION
                 </h1>
-                <div class="row justify-content-center">
-                    <div class="col-6">
+                    <div class="galeri-col-6">
                         <p class="support text-center">
                             Beberapa dokumentasi kami ketika pelaksanaan Kelas Brevet AB dan C, USKP Review maupun Seminar Perpajakan
                             Dan Juga kami melakuka MoU ke beberapa Universitas
@@ -25,7 +24,6 @@ Galeri |
                             Lihat Yuk!
                         </a>
                     </p>
-                </div>
             </div>
         </div>
     </div>
@@ -42,7 +40,7 @@ Galeri |
        
         <div class="flex flex-wrap">
             @foreach ($gallery as $item)
-            <div class="p-3 w-1/2 lg:w-1/4">
+            <div class="galeri-page-list">
                 <div class="overflow-hidden rounded-md shadow-md">
                     <img src="{{ asset('storage/gallery/'.$item->image)}}" alt="image-1" class="mx-auto w-full" />
                 </div>

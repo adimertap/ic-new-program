@@ -9,6 +9,7 @@ use PDF;
 use Illuminate\Http\Request;
 use App\Models\KeranjangProduk;
 use App\Models\MasterJenisInstansi;
+use App\Models\MetaDescription;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -45,8 +46,8 @@ class AuthController extends Controller
 
             return redirect()->route('home-beranda');
         }
-
-        return view('auth.login');
+        $meta = MetaDescription::where('pages','Login')->first();
+        return view('auth.login', compact('meta'));
     }
 
     public function authLogin(Request $request)
@@ -121,10 +122,12 @@ class AuthController extends Controller
             ->get();
 
         $instansi = Kerjasama::all();
+        $meta = MetaDescription::where('pages','Register')->first();
 
         return view('auth.register', [
             'produk' => $products,
             'instansi' => $instansi,
+            'meta' => $meta
         ]);
     }
 
@@ -206,8 +209,9 @@ class AuthController extends Controller
         $item = Produk::where('slug', $slug)->first();
         $instansi = Kerjasama::get();
         $jenis = MasterJenisInstansi::get();
+        $meta = MetaDescription::where('pages', 'LengkapiData')->first();
 
-        return view('auth.registerKelengkapan', compact('item','instansi','jenis'));
+        return view('auth.registerKelengkapan', compact('item','instansi','jenis','meta'));
     }
 
 
@@ -268,22 +272,48 @@ class AuthController extends Controller
 
     public function authForgotPassword(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'new_password' => 'required|confirmed',
-        ]);
+        $check = User::where('email', $request->email)->first();
+        if($check){
+            $data['email'] = $request->email;
+            try {
+                Mail::send('mail-reset', $data, function ($message) use ($data) {
+                    $message->to($data["email"])
+                        ->subject("Reset Password - IC Education");
+                });
+            } catch (JWTException $exception) {
+                $serverstatuscode = "0";
+                $serverstatusdes = $exception->getMessage();
+            }
 
-        if (auth()->user()) {
-            auth()->logout();
+            Alert::success('Success', 'Email Reset Password Berhasil dikirim check inbox Anda');
+            return redirect()->back();
+        }else{
+            Alert::warning('Error', 'Email tidak ditemukan, Daftar terlebih dahulu');
+            return redirect()->back();
         }
-
-        User::where('email', $request->email)->update([
-            'password' => Hash::make($request->new_password)
-        ]);
-        Alert::warning('Success', 'Password Anda Telah Dirubah');
-        return redirect()->route('login');
-        // return redirect()->route('login')->with('success', 'Password change successfully!');
-
+    }
+    public function changePasswordUI(Request $request){
+        $email = $request->email;
+        return view('auth.change-password', compact('email'));
     }
     
+    
+    public function changePassword(Request $request){
+        try {
+            if ($request->new_password != $request->new_password_confirmation){
+                Alert::warning('Error', 'Password Confirmation Anda salah dan tidak sama dengan Password');
+                return redirect()->back();
+            }else{
+                User::where('email', $request->email)->update([
+                    'password' => Hash::make($request->new_password)
+                ]);
+                Alert::success('Success', 'Password Anda Telah Dirubah');
+                return redirect()->route('login');
+            }
+        } catch (\Throwable $th) {
+            Alert::warning('Error', 'Internal Server Error');
+            return redirect()->back();
+        }
+        
+    }
 }

@@ -1,20 +1,20 @@
 <!-- kontak start -->
 <div class="bg-gray kontak">
-    <div class="container  p-10">
+    <div class="kontak-temp container">
         <p class="sub-title text-center mb-0">
            Contact Us
         </p>
         <h1 class="judulfix text-center mb-0">Kunjungi Kami</h1>
         <p class="sub-judul">Kunjungi IC Education pada alamat berikut atau kontak kami via WA/Email</p>
-        <div class="flex justify-content-between mt-5">
-            <div class="w-full flex justify-center md:w-1/2">
+        <div class="kontak-grids">
+            <div class="kontak-item">
                 <iframe class="rounded-sm"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.460445192442!2d106.79729661419327!3d-6.202829462488947!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f734c91a6bdf%3A0xa2be4d44a4a539f8!2sIC%20Education!5e0!3m2!1sid!2sid!4v1652345281434!5m2!1sid!2sid"
                     width="400" height="300" style="border: 0" allowfullscreen="" loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
             </div>
-            <div class="w-full flex flex-col justify-center md:w-1/2">
+            <div class="kontak-item">
                 <div class="card card-contact">
                     <div class="d-flex justify-content-start">
                         <div class="left">
@@ -68,8 +68,8 @@
 <section class="section-row lets-talk lets-talk-2019">
     <div class="container">
         <div class="content">
-            <div class="row">
-                <div class="col-3">
+            <div class="grids">
+                <div class="col-12">
                     <div class="cons">
                         <p class="menu_judul"><u>Menus</u></p>
                         <ul class="ps-0">
@@ -81,7 +81,7 @@
                     </div>
                     
                 </div>
-                <div class="col-3">
+                <div class="col-12">
                     <p class="menu_judul"><u>Product</u></p>
                     <ul class="ps-0">
                         <li><a href="">Brevet AB dan C</a></li>
@@ -90,7 +90,7 @@
                         <li><a href="">USKP Review</a></li>
                     </ul>
                 </div>
-                <div class="col-3">
+                <div class="col-12">
                     <p class="menu_judul"><u>Contact Us</u></p>
                     <ul class="ps-0">
                         <li><a href="">Facebook</a></li>
@@ -99,9 +99,9 @@
                         <li><a href="">Youtube</a></li>
                     </ul>
                 </div>
-                <div class="col-3 d-flex justify-content-end">
+                <div class="col-12 d-flex justify-content-end">
                     <div class="con">
-                        <img src="{{ asset('images/ic-edu-logo.png')}}" alt="iceducation-logo" class="" width="230" />
+                        <img src="{{ asset('images/ic-edu-logo.png')}}" alt="iceducation-logo" id="logoFooter" class="" />
                         <p class="m-0 mt-5 email">Email Us:</p>
                         <a href="mailto:info@iceducation.co.id" target="_blank" class="text-white hover:font-medium hover:text-lg hover:text-blue">info@iceducation.co.id</a>
                     </div>

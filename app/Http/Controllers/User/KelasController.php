@@ -601,7 +601,7 @@ class KelasController extends Controller
             // return $user;
 
             if($request->type == 'Otomatis'){
-                $this->getSnapRedirect($keranjang, $request, $user);
+                $this->getSnapRedirectKelas($keranjang, $request, $user);
             }else{
                 $produk = Produk::where('slug', $keranjang->slug)->first();
                 $nama_produk = str_replace('-', " ", strtoupper($produk->nama_produk));
@@ -650,7 +650,7 @@ class KelasController extends Controller
         }
     }
 
-    public function getSnapRedirect(KeranjangProduk $keranjang, $request, $user)
+    public function getSnapRedirectKelas(KeranjangProduk $keranjang, $request, $user)
     {
         $orderId = $keranjang->id. '-' .Str::random(5);
         $keranjang->midtrans_booking_code = $orderId;

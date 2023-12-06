@@ -1,7 +1,7 @@
 @extends('home.app')
 
 @section('title')
-Checkout Kelas |
+{{ $meta->title ?? '' }}
 @endsection
 
 <style>
@@ -53,12 +53,13 @@ Checkout Kelas |
     <form action="{{ route('checkout.update', $item->slug) }}" method="POST">
         @method('PUT')
         @csrf
-        <div style="padding: 40px 80px 100px 80px">
-            <div class="row">
-                <div class="col-4 d-flex justify-content-center">
+        <div class="checkout-padding">
+            <div class="checkout-grids">
+                <div class="checkout-item">
                     <div class="product-card">
                         <div class="product-detail">
-                            <img src="{{ asset('images/produk/katalog.png') }}" alt="cover" width="400" height="400">
+                            <img src="{{ asset('images/produk/katalog.png') }}" alt="cover" width="400" height="400"
+                                id="imageCheckout">
                             <div class="text-center">
                                 @if ($item->online == 1)
                                 <span class="badge badge-online mr-2">Kelas Online</span>
@@ -66,24 +67,26 @@ Checkout Kelas |
                                 <span class="badge badge-danger mr-2">Kelas Offline</span>
                                 @endif
                             </div>
+                            <div class="checkout-left">
+                                <h5 class="mt-3">Kelas {{ $item->nama_produk }}</h5>
 
-                            <h5 class="mt-3">Kelas {{ $item->nama_produk }}</h5>
+                                <div class="time mt-4">
+                                    <i class="fa-regular fa-calendar-check"></i>
+                                    <p class="uppercase">Hari {{ $item->kelas }}
+                                </div>
+                                <div class="time">
+                                    <i class="fa-regular fa-calendar-check"></i>
+                                    <p class="uppercase">{{ tgl_indo2($item->tgl_mulai) }} -
+                                        {{ tgl_indo2($item->tgl_selesai) }}</p>
+                                </div>
+                                <div class="time">
+                                    <i class="fa-solid fa-clock" style="color: gray"></i>
+                                    <p>{{date('H:i',strtotime($item->jam_mulai))}} -
+                                        {{ date('H:i', strtotime($item->jam_selesai))}}
+                                        WIB</p>
+                                </div>
+                            </div>
 
-                            <div class="time mt-4">
-                                <i class="fa-regular fa-calendar-check"></i>
-                                <p class="uppercase">Hari {{ $item->kelas }}
-                            </div>
-                            <div class="time">
-                                <i class="fa-regular fa-calendar-check"></i>
-                                <p class="uppercase">{{ tgl_indo2($item->tgl_mulai) }} -
-                                    {{ tgl_indo2($item->tgl_selesai) }}</p>
-                            </div>
-                            <div class="time">
-                                <i class="fa-solid fa-clock" style="color: gray"></i>
-                                <p>{{date('H:i',strtotime($item->jam_mulai))}} -
-                                    {{ date('H:i', strtotime($item->jam_selesai))}}
-                                    WIB</p>
-                            </div>
 
                             <div class="col-12 text-center" style="padding: 20px 50px 0 50px">
                                 <div class="time text-center">
@@ -99,35 +102,28 @@ Checkout Kelas |
 
                     </div>
                 </div>
-                <div class="col-8">
-                    <div class="product-card"
-                        style="max-width: 1000px !important; padding-left:60px; padding-right:60px">
+                <div class="checkout-item">
+                    <div class="product-card-checkout">
                         <div class="product-detail pt-3">
-                            <section class="mt-3">
-                                <div class="d-flex justify-content-between">
-                                    <p class="small fw-semibold">Informasi</p>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-6">
-                                        <div class="time">
-                                            <div class="col-5 col-sm-4">
+                            <div class="data-diri">
+                                <section class="mt-3">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="small fw-semibold">Informasi</p>
+                                    </div>
+                                    <div class="grids">
+                                        <div class="grids-item">
+                                            <div class="grids-item2">
                                                 <p class="fw-semi-bold mb-1">Nama Lengkap</p>
-                                            </div>
-                                            <div class="col">
                                                 <p class="mb-1 italic" id="nama">: {{ $user->name }}</p>
                                                 <input name="nama_lengkap" type="text" id="nama_edit"
                                                     style="display: none" class="form-control form-control-sm"
                                                     value="{{ $user->name }}">
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="time">
-                                            <div class="col-5 col-sm-4">
+                                        <div class="grids-item">
+                                            <div class="grids-item2">
                                                 <p class="fw-semi-bold mb-1">Email
                                                 </p>
-                                            </div>
-                                            <div class="col">
                                                 <p class="mb-1 italic" id="email">: {{ $user->email ?? '-' }}</p>
                                                 <input name="email" type="text" id="email_edit" style="display: none"
                                                     class="form-control form-control-sm"
@@ -135,29 +131,20 @@ Checkout Kelas |
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row mt-2">
-                                    <div class="col-6">
-                                        <div class="time">
-                                            <div class="col-5 col-sm-4">
-                                                <p class="fw-semi-bold mb-1">No Telephone
-                                                </p>
-                                            </div>
-                                            <div class="col">
+                                    <div class="grids">
+                                        <div class="grids-item">
+                                            <div class="grids-item2">
+                                                <p class="fw-semi-bold mb-1">No Telephone</p>
                                                 <p class="mb-1 italic" id="no_hp">: {{ $user->no_hp ?? '-' }}</p>
                                                 <input name="no_hp" type="text" id="no_hp_edit" style="display: none"
                                                     class="form-control form-control-sm"
                                                     value="{{ $user->no_hp ?? '' }}">
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="time">
-                                            <div class="col-5 col-sm-4">
+                                        <div class="grids-item">
+                                            <div class="grids-item2">
                                                 <p class="fw-semi-bold mb-1">Asal Instansi
                                                 </p>
-                                            </div>
-                                            <div class="col">
                                                 <p class="mb-1 italic" id="instansi">:
                                                     {{ $user->kerjasama->nama ?? '-' }}
                                                 </p>
@@ -165,71 +152,57 @@ Checkout Kelas |
                                                     value="{{ $user->kerjasama->id ?? '' }}">
                                             </div>
                                         </div>
+
                                     </div>
-                                </div>
-                            </section>
-                            <hr class="mt-4">
+                                </section>
+                            </div>
+                            <hr class="mt-4" id="hr-data-diri">
                             <section class="mt-4">
                                 <div class="d-flex justify-content-between">
                                     <p class="small fw-semibold">Informasi Pembayaran </p>
                                     </p>
-                                    <p class="text-danger small" style="font-size: 12px"> (*) Wajib Diisi</p>
+                                    <p class="text-danger small" style="font-size: 12px" id="wajibdiisi"> (*) Wajib
+                                        Diisi</p>
                                 </div>
-                                <div class="time mt-3">
-                                    <div class="col-3 col-sm-3">
-                                        <p class="fw-semi-bold mb-1">Jenis Pembayaran
-                                            <span class="mr-4 mb-3" style="color: red">*</span>
-                                        </p>
-                                    </div>
-                                    <div class="col">
-                                        <select name="jenis" type="text" id="jenis_edit"
-                                            class="form-control form-control-sm" value="">
-                                            <option value="Manual">Manual Confirm</option>
-                                            <option value="Otomatis">Otomatis Midtrans</option>
-                                        </select>
-                                    </div>
+                                <hr class="mt-1" id="hr-data-bayar">
+                                <input type="hidden" name="slug" value="{{ $item->slug }}">
+                                <input type="hidden" name="id_kelas" value="{{ $item->id }}">
+                                <input type="hidden" name="kelas" value="{{ $item->kelas }}">
+                                <input type="hidden" name="diskon_kelas" value="{{ $item->diskon }}">
+                                <input type="hidden" name="nama_produk" value="{{ $item->nama_produk }}">
+                                <input type="hidden" name="harga_asli" id="harga_asli" value="{{ $item->harga }}">
+                                <input type="hidden" name="harga_tenor" id="harga_tenor" value="{{ $item->harga }}">
+                                <div class="grids-item3 mt-3">
+                                    <p class="fw-semi-bold mb-1">Jenis Pembayaran
+                                        <span class="mr-4 mb-3" style="color: red">*</span>
+                                    </p>
+                                    <select name="jenis" type="text" id="jenis_edit"
+                                        class="form-control form-control-sm" value="">
+                                        <option value="Manual">Manual Confirm</option>
+                                        <option value="Otomatis">Otomatis Midtrans</option>
+                                    </select>
                                 </div>
-                                <div class="time mt-3">
-                                    <div class="col-3 col-sm-3">
-                                        <p class="fw-semi-bold mb-1">Tenor
-                                            <span class="mr-4 mb-3" style="color: red">*</span>
-                                        </p>
-                                    </div>
-                                    <div class="col">
-                                        <select name="tenor" type="text" id="tenor_edit"
-                                            class="form-control form-control-sm" value="">
-                                            <option value="Full">Lunas (Full Payment)</option>
-                                            <option value="75">Tenor 75%</option>
-                                            <option value="50">Tenor 50%</option>
-                                            <option value="25">Tenor 25%</option>
-                                        </select>
-                                    </div>
+                                <div class="grids-item3 mt-3">
+                                    <p class="fw-semi-bold mb-1">Tenor
+                                        <span class="mr-4 mb-3" style="color: red">*</span>
+                                    </p>
+                                    <select name="tenor" type="text" id="tenor_edit"
+                                        class="form-control form-control-sm" value="">
+                                        <option value="Full">Lunas (Full Payment)</option>
+                                        <option value="75">Tenor 75%</option>
+                                        <option value="50">Tenor 50%</option>
+                                        {{-- <option value="25">Tenor 25%</option> --}}
+                                    </select>
                                 </div>
-                                <div class="time mt-4">
-                                    <div class="col-3 col-sm-3">
-                                        <p class="fw-semi-bold mb-1">Harga Berdasar Tenor
-                                        </p>
-                                    </div>
-                                    <input type="hidden" name="slug" value="{{ $item->slug }}">
-                                    <input type="hidden" name="id_kelas" value="{{ $item->id }}">
-                                    <input type="hidden" name="kelas" value="{{ $item->kelas }}">
-                                    <input type="hidden" name="diskon_kelas" value="{{ $item->diskon }}">
-                                    <input type="hidden" name="nama_produk" value="{{ $item->nama_produk }}">
-                                    <div class="col flex">
-                                        <h6 class="me-4 italic fw-bold text-danger" id="harga_produk">
-                                            : Rp. {{ convert_to_rupiah($item->harga) ?? 0 }}
-                                        </h6>
-                                        <input type="hidden" name="harga_asli" id="harga_asli"
-                                            value="{{ $item->harga }}">
-                                        <input type="hidden" name="harga_tenor" id="harga_tenor"
-                                            value="{{ $item->harga }}">
-
-                                    </div>
+                                <div class="grids-item3">
+                                    <p class="fw-semi-bold mb-1">Harga Berdasar Tenor
+                                    </p>
+                                    <h6 class="me-4 italic fw-bold text-danger" id="harga_produk">
+                                        : Rp. {{ convert_to_rupiah($item->harga) ?? 0 }}
+                                    </h6>
                                 </div>
-                                <div class="time mt-4">
-                                    <div class="col-3 col-sm-3">
-                                        <p class="fw-semi-bold mb-1">Diskon Instansi</p>
-                                    </div>
+                                <div class="grids-item3">
+                                    <p class="fw-semi-bold mb-1">Diskon Instansi</p>
                                     <div class="col">
                                         @if(!$user->kerjasama)
                                         <p class="mb-1 italic" id="diskon_final">: Tidak Ada Diskon</p>
@@ -255,10 +228,8 @@ Checkout Kelas |
                                         @endif
                                     </div>
                                 </div>
-                                <div class="time mt-4">
-                                    <div class="col-3 col-sm-3">
-                                        <p class="fw-semi-bold mb-1">Voucher Code</p>
-                                    </div>
+                                <div class="grids-item3">
+                                    <p class="fw-semi-bold mb-1">Voucher Code</p>
                                     <div class="col">
                                         <div class="row">
                                             <div class="col-8">
@@ -292,11 +263,10 @@ Checkout Kelas |
                                         </div>
                                     </div>
                                 </div>
-                                <div class="time mt-4">
-                                    <div class="col-3 col-sm-3">
+                                <hr id="hr-total">
+                                <div class="grids-item3">
                                         <p class="fw-semi-bold mb-1">Total Pembayaran
                                         </p>
-                                    </div>
                                     <div class="col flex">
                                         <h6 class="me-4 italic fw-bold text-primary" id="harga_final">
                                             : Rp. {{ convert_to_rupiah($harga_final) ?? 0 }}
@@ -317,17 +287,19 @@ Checkout Kelas |
             </div>
         </div>
     </form>
-    <div class="modal fade" id="modalSyarat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modalSyarat" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-scrollable modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Syarat dan Ketentuan</h5>
-                    
+
                 </div>
                 <div class="modal-body">
-                    <p class="small text-muted">Mohon dibaca dan scroll bawah untuk centang persetujuan syarat dan ketentuan </p>
+                    <p class="small text-muted">Mohon dibaca dan scroll bawah untuk centang persetujuan syarat dan
+                        ketentuan </p>
                     <hr>
-                    <div class="small text-justify">
+                    <div class="text-justify" style="font-size: .745em">
                         Hallo Sahabat Taxes <br> <br>
                         Terimakasih telah mengunjungi dan belanja di website kami <i
                             class="text-primary">www.iceducation.co.id</i>, dalam
@@ -357,7 +329,8 @@ Checkout Kelas |
                                 penjelasan produk masing-masing.</li>
                             <li><b>Harga</b> yang tercantum dapat kami pastikan benar, Harga Online dan Offline berbeda,
                                 namun
-                                jika ada kesalahan nominal harga pada produk yang peserta order/beli, akan kami beritahukan
+                                jika ada kesalahan nominal harga pada produk yang peserta order/beli, akan kami
+                                beritahukan
                                 secepatnya kepada Anda, dan kami berikan pilihan apakah tetap order atau batal</li>
                             <li><b>Angsuran Pembayaran bisa di lakukan 2 kali</b>
                                 <ul>
@@ -367,23 +340,30 @@ Checkout Kelas |
                                 <i>Bagi peserta yang belum melakukan angsuran sesuai aturan di atas tidak diperbolehkan
                                     ujian.</i>
                             </li>
-                            <li><b>Salah Order kelas</b> atau ingin pindah ke kelas lain masih diperbolehkan selama mendapat
+                            <li><b>Salah Order kelas</b> atau ingin pindah ke kelas lain masih diperbolehkan selama
+                                mendapat
                                 persetujuan oleh manajemen.</li>
                             <li><b>Pengembalian pembayaran</b> hanya dapat dilakukan jika kelas dinyatakan "batal" oleh
                                 manajemen IC Education berdasarkan email yang dikirim keseluruh calon peserta.
-                                Pengembalian akan dilakukan 14 hari kerja terhitung sejak diterimanya dengan lengkap data
-                                rekening bank calon peserta yang kelasnya dinyatakan "batal" tersebut melalui email.</li>
-                            <li><b>Pindah kelas</b> di saat kelas sedang berlangsung hanya diperkenankan dari kelas tatap
+                                Pengembalian akan dilakukan 14 hari kerja terhitung sejak diterimanya dengan lengkap
+                                data
+                                rekening bank calon peserta yang kelasnya dinyatakan "batal" tersebut melalui email.
+                            </li>
+                            <li><b>Pindah kelas</b> di saat kelas sedang berlangsung hanya diperkenankan dari kelas
+                                tatap
                                 muka ke
                                 kelas online, dan tidak diperkenankan pindah kelas sebaliknya,</li>
                             <li><b>Pembayaran</b> hanya dengan transfer bank
                                 <ul>
-                                    <li>- Jika dalam 1x24 jam setelah Anda melakukan order tidak melakukan pembayaran atas
+                                    <li>- Jika dalam 1x24 jam setelah Anda melakukan order tidak melakukan pembayaran
+                                        atas
                                         order tersebut, maka order Anda akan dibatalkan secara otomatis, dan jika tetap
-                                        menginginkan kelas yang sama, mohon untuk melakukan order kembali dengan syarat dan
+                                        menginginkan kelas yang sama, mohon untuk melakukan order kembali dengan syarat
+                                        dan
                                         ketentuan yang sama,</li>
                                     <li>
-                                        - Setelah melakukan pembayaran diharuskan untuk mengirimkan bukti pembayaran melalui
+                                        - Setelah melakukan pembayaran diharuskan untuk mengirimkan bukti pembayaran
+                                        melalui
                                         admin kami untuk mempermudah proses verifikasi pembayaran,
                                     </li>
                                     <li>
@@ -392,19 +372,24 @@ Checkout Kelas |
                                     </li>
                                 </ul>
                             </li>
-                            <li><b>Modul Peserta</b> bagi yang order BREVET PAJAK AB akan dikirim ke alamat masing-masing
+                            <li><b>Modul Peserta</b> bagi yang order BREVET PAJAK AB akan dikirim ke alamat
+                                masing-masing
                                 dan ongkos kirim dibayarkan oleh peserta. Setelah Peserta melakukan pembayaran dan sudah
                                 mendapatkan approval/verifikasi pembayaran dari Admin kami.</li>
-                            <li><b>Kelas di Mulai,</b> Peserta akan mendapatkan pemberitahuan kelas yang akan berjalan 1-2 hari
+                            <li><b>Kelas di Mulai,</b> Peserta akan mendapatkan pemberitahuan kelas yang akan berjalan
+                                1-2 hari
                                 menjelang hari pelaksanaan perihal kelengkapan dan jadwal serta lainnya,</li>
-                            <li> Peserta mengikuti <b>Pelaksanaan Ujian</b> jika sudah menjalankan aturan pembayaran yang di
+                            <li> Peserta mengikuti <b>Pelaksanaan Ujian</b> jika sudah menjalankan aturan pembayaran
+                                yang di
                                 informasikan.
                                 <ul>
-                                    <li><b>Ujian susulan</b> dan <b>perbaikan dikenakan</b> biaya tambahan sebesar Rp. 50.000,-/ materi.
+                                    <li><b>Ujian susulan</b> dan <b>perbaikan dikenakan</b> biaya tambahan sebesar Rp.
+                                        50.000,-/ materi.
                                     </li>
                                 </ul>
                             </li>
-                            <li><b>Sertifikat </b>hilang baik atas kesengajaan maupun ketidaksengajaan Anda dapat diberikan
+                            <li><b>Sertifikat </b>hilang baik atas kesengajaan maupun ketidaksengajaan Anda dapat
+                                diberikan
                                 sertifikat pengganti dengan syarat peserta masih memiliki softcopy sertifikat.</li>
                         </ul>
                         <br><br>
@@ -423,7 +408,7 @@ Checkout Kelas |
                         Saya Setuju dengan Syarat dan Ketentuan
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -547,10 +532,12 @@ Checkout Kelas |
             var diskon = $('#diskon_hidden').val()
             var type = $('#type_diskon').val()
 
-            if (selected == '25') {
-                var harga_semi = (harga / 100) * 25
-                var tenor = ' (Tenor 25%)'
-            } else if (selected == '50') {
+            // if (selected == '25') {
+            //     var harga_semi = (harga / 100) * 25
+            //     var tenor = ' (Tenor 25%)'
+            // } else
+
+            if (selected == '50') {
                 var harga_semi = (harga / 100) * 50
                 var tenor = ' (Tenor 50%)'
             } else if (selected == '75') {

@@ -3,20 +3,20 @@
 
 @extends('auth.head')
 @section('name')
-Register - ICEDUCATION
+{{ $meta->title ?? '' }}
 @endsection
 
 <body style="height: 100vh">
     @include('sweetalert::alert')
     <section class="register-user">
-        <div class="left" style="width:40%!important">
+        <div class="left">
             <img src="{{ asset('images/new/register-law.png') }}" alt="">
             <p class="judul">Jasa Konsultasi Hukum</p>
             <p class="text">Hukum adalah hukum/ peraturan atau adat yang secara resmi
                 dianggap mengikat, yang dikukuhkan oleh penguasa atau
                 pemerintah.</p>
         </div>
-        <div class="right" style="width:60%!important;margin-top:50px">
+        <div class="right">
             <form action="{{ route('register-auth') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 {{-- <input id="website" name="website" type="text" value="" /> --}}
@@ -29,8 +29,8 @@ Register - ICEDUCATION
                     Fill the form Below and Registration to continue to Dashboard
                 </p>
                 <div class="form-register">
-                    <div class="row mb-3">
-                        <div class="col-6">
+                    <div class="grids">
+                        <div class="nama">
                             <label for="nama" class="form-label">Nama Lengkap</label>
                             <input name="nama" type="text"
                                 class="form-control form-control-sm @error('nama') is-invalid @enderror"
@@ -38,7 +38,7 @@ Register - ICEDUCATION
                             @error('nama')<div class="text-danger error-valid mb-1">{{ $message }}
                             </div> @enderror
                         </div>
-                        <div class="col-6">
+                        <div class="email">
                             <label for="email" class="form-label">Email</label>
                             <input name="email" type="email"
                                 class="form-control form-control-sm @error('email') is-invalid @enderror"
@@ -48,9 +48,9 @@ Register - ICEDUCATION
                         </div>
                     </div>
                 
-                    <div class="row mb-3">
+                    <div class="grids">
                        
-                        <div class="col-6">
+                        <div class="pass">
                             <label for="password" class="form-label">Password</label>
                             <input name="password" type="password"
                                 class="form-control form-control-sm @error('password') is-invalid @enderror"
@@ -59,7 +59,7 @@ Register - ICEDUCATION
                             @error('password')<div class="text-danger error-valid mb-1">{{ $message }}
                             </div> @enderror
                         </div>
-                        <div class="col-6">
+                        <div class="conpass">
                             <label for="password" class="form-label">Confirm Password</label>
                             <input name="confirm_password" type="password"
                                 class="form-control form-control-sm @error('confirm_password') is-invalid @enderror"
@@ -69,9 +69,7 @@ Register - ICEDUCATION
                         </div>
 
                     </div>
-                    <div class="row">
-                        
-                    </div>
+                    
                     <div class="form-check mt-3">
                         <input type="checkbox" class="form-check-input" id="exampleCheck1">
                         <label class="form-label" for="exampleCheck1">Data yang diinputkan sudah benar</label>

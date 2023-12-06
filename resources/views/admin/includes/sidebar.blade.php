@@ -53,12 +53,16 @@
               class="{{ request()->segment(2) == 'diskon' ? 'active' : ''}}">Diskon</a>
           </li>
           <li>
+            <a href="{{ route('admin-master-pendidik.index')}}"
+              class="{{ request()->segment(2) == 'master-pendidik' ? 'active' : ''}}">Tenaga Pendidik</a>
+          </li>
+          <li>
             <a href="{{ route('admin-master-header.index')}}"
               class="{{ request()->segment(2) == 'master-header' ? 'active' : ''}}">Header</a>
           </li>
           <li>
-            <a href="{{ route('admin-master-pendidik.index')}}"
-              class="{{ request()->segment(2) == 'master-pendidik' ? 'active' : ''}}">Tenaga Pendidik</a>
+            <a href="{{ route('admin-meta.index')}}"
+              class="{{ request()->segment(2) == 'meta' ? 'active' : ''}}">Meta Title</a>
           </li>
         </ul>
       </li>

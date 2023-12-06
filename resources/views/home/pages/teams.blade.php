@@ -1,7 +1,7 @@
 @extends('home.app')
 
 @section('title')
-Teams |
+{{ $meta->title ?? '' }}
 @endsection
 
 @section('content')
@@ -13,8 +13,7 @@ Teams |
                 <h1 class="header">
                     <span class="text-cyan">TEAMS </span>IC EDUCATION
                 </h1>
-                <div class="row justify-content-center">
-                    <div class="col-6">
+                    <div class="galeri-col-6">
                         <p class="support text-center">
                             Berkenalan Dengan Beberepa Tenaga Pendidik Professional Yang Telah Bekerjasama Dengan IC
                             Education
@@ -26,7 +25,6 @@ Teams |
                             Kenalan Yuk!
                         </a>
                     </p>
-                </div>
             </div>
         </div>
     </div>
@@ -53,7 +51,7 @@ Teams |
                     </div>
                 </div>
                 <p></p>
-                <div class="mt-5">
+                <div class="teams-tes">
                     <h3 class="nama">{{ $teams->nama_pendidik ?? '' }}</h3>
                     <h4 class="pendidikan">Riwayat Pendidikan</h1>
                         <ul class="ml-0">

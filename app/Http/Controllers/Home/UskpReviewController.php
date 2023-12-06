@@ -6,6 +6,7 @@ use App\Models\Produk;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\MasterHeaderKelas;
+use App\Models\MetaDescription;
 
 class UskpReviewController extends Controller
 {
@@ -25,11 +26,14 @@ class UskpReviewController extends Controller
 
         $header = MasterHeaderKelas::where('kelas', 'USKP')->where('section', null)->first();
         $judul = MasterHeaderKelas::where('kelas', 'USKP')->where('section', 'Judul')->first();
+        $meta = MetaDescription::where('pages', 'USKP')->first();
 
         return view('home.pages.uskp', [
             'produk' => $produk,
             'header' => $header,
-            'judul' => $judul
+            'judul' => $judul,
+            'meta' => $meta
+
         ]);
     }
 }

@@ -9,6 +9,7 @@ use App\Models\MasterTenagaPendidik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Alert;
+use App\Models\MetaDescription;
 
 class BerandaController extends Controller
 {
@@ -24,6 +25,7 @@ class BerandaController extends Controller
         $home_uskp =  MasterHeader::where('pages','Home')->where('section','Kelas')->where('section_2','USKP')->where('section_3', null)->first();
         $home_sertif =  MasterHeader::where('pages','Home')->where('section','Sertifikat')->where('section_3', null)->first();
         $home_judul =  MasterHeader::where('pages','Home')->where('section','Header')->where('section_3', 'Judul')->first();
+        $meta = MetaDescription::where('pages', 'Beranda')->first();
 
         return view('home.pages.beranda', [
             'gallery' => $gallery,
@@ -35,22 +37,28 @@ class BerandaController extends Controller
             'home_uskp' => $home_uskp,
             'home_sertif' => $home_sertif,
             'home_judul' => $home_judul,
-            'home_title' => $home_title
+            'home_title' => $home_title,
+            'meta' => $meta
         ]);
     }
 
     public function galeri()
     {
         $gallery = Gallery::latest()->get();
+        $meta = MetaDescription::where('pages', 'Gallery')->first();
+
         return view('home.pages.galeri', [
             'gallery' => $gallery,
+            'meta' => $meta
         ]);
     }
 
     public function teams()
     {
         $team = MasterTenagaPendidik::where('status', '1')->get();
-        return view('home.pages.teams',compact('team'));
+        $meta = MetaDescription::where('pages', 'Teams')->first();
+
+        return view('home.pages.teams',compact('team', 'meta'));
     }
 
     public function dashboard_check(){

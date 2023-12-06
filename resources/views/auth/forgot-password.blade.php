@@ -60,7 +60,6 @@
                     <input type="email" class="form-control m-b-md" id="signInEmail" name="email"
                         value="{{ old('email')}}" aria-describedby="signInEmail"
                         placeholder="example@iceducation.com">
-
                     <label for="newPassword" class="form-label">New Password</label>
                     <input type="password" class="form-control m-b-md" id="newPassword" name="new_password"
                         value="" aria-describedby="newPassword"

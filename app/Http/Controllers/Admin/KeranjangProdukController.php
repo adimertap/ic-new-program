@@ -12,9 +12,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Kerjasama;
 use App\Models\Materi;
 use App\Models\TrashKeranjangProduk;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade\Pdf;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class KeranjangProdukController extends Controller
 {
@@ -337,16 +339,19 @@ class KeranjangProdukController extends Controller
           $isOnline = $produk->online == '1' ? 'Online' : '';
           $tanggal = date('Y-m-d');
 
+          $userLogin = User::where('email', $transaksi->username)->first();
+          $instansiCheck = Kerjasama::where('id', $userLogin->kerjasama_id)->first();
           if(!$transaksi){
             Alert::warning('Warning', 'Internal Server Error, Data Not Found');
             return redirect()->back();
           }else{
-              $pdf = Pdf::loadview('invoice_download',['transaksi'=>$transaksi, 'nama_produk'=>$nama_produk, 'tanggal'=>$tanggal, 'isOnline'=>$isOnline, 'produk'=> $produk]);
+              $pdf = Pdf::loadview('invoice_download',['instansi' => $instansiCheck, 'transaksi'=>$transaksi, 'nama_produk'=>$nama_produk, 'tanggal'=>$tanggal, 'isOnline'=>$isOnline, 'produk'=> $produk]);
               return $pdf->download($transaksi->no_invoice.'.pdf');
               Alert::success('Berhasil', 'Invoice Anda Berhasil Didownload');
           }
 
       } catch (\Throwable $th) {
+          return $th;
           Alert::warning('Warning', 'Internal Server Error, Chat Our Administrator');
           return redirect()->back();
       }

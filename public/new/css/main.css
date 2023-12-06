@@ -457,8 +457,33 @@ body {
 .register-user .right {
     width: 60%;
     float: right;
-    padding: 100px 100px 100px 40px;
+    padding: 100px 140px 100px 40px;
     padding-bottom: 10px !important;
+    margin-top: 50px;
+}
+
+.register-user .right-kelengkapan {
+    width: 60%;
+    float: right;
+    padding: 100px 140px 100px 40px;
+    padding-bottom: 10px !important;
+    margin-top: 50px;
+}
+
+.register-user .right .form-register .grids{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1rem;
+    row-gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.register-user .right-kelengkapan .form-kelengkapan .grids-form{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1rem;
+    row-gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .register-user .right .people {
@@ -477,10 +502,6 @@ body {
     padding: 12px 80px 12px 80px;
     border-radius: 15px !important;
     width: 100% !important;
-    -webkit-border-radius: 15px !important;
-    -moz-border-radius: 15px !important;
-    -ms-border-radius: 15px !important;
-    -o-border-radius: 15px !important;
 }
 
 .register-user .right .btn-register {
@@ -498,14 +519,33 @@ body {
     -o-border-radius: 15px !important;
 }
 
+.register-user .right-kelengkapan .btn-register {
+    /* border: 1px solid #E7E5F4; */
+    background-color: #407BFF !important;
+    color: white;
+    border-radius: 50px;
+    padding: 8px 80px 12px 80px;
+    border-radius: 15px !important;
+    height: 40px;
+    margin-top: 50px;
+    margin-bottom: 5px;
+    width: 250px;
+    -webkit-border-radius: 15px !important;
+    -moz-border-radius: 15px !important;
+    -ms-border-radius: 15px !important;
+    -o-border-radius: 15px !important;
+}
+
 .register-user .right .btn-margin-top {
     margin-top: 50px;
     margin-bottom: 5px;
 }
 
-.register-user .left {
+
+
+.register-user .left-kelengkapan {
     background-color: #f6f8fd;
-    width: 100%;
+    width: 35%;
     min-height: 830px;
     text-align: center;
     float: left;
@@ -515,6 +555,36 @@ body {
     background-size: cover !important;
     background-size: 100%
 }
+
+.register-user .left {
+    background-color: #f6f8fd;
+    width: 40%;
+    min-height: 830px;
+    text-align: center;
+    float: left;
+    background-image: url('../../images/new/register.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover !important;
+    background-size: 100%
+}
+
+.register-user .left-kelengkapan img {
+    margin-top: 140px;
+    height: 60%;
+    width: 60%;
+}
+
+.register-user .left-kelengkapan .judul {
+    margin-top: 20px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 134.5%;
+    color: white;
+    text-align: center;
+}
+
 
 
 .register-user .left img {
@@ -631,7 +701,7 @@ body {
     width: 50%;
     float: left;
     padding: 130px;
-    padding-top: 100px!important;
+    padding-top: 100px;
 }
 
 .login-user .right .people {
@@ -709,10 +779,14 @@ body {
     .register-user .left {
         min-height: 1010px;
     }
+
+    .register-user .left-kelengkapan {
+        min-height: 1010px;
+    }
     .register-user .right {
         width: 60%;
         float: right;
-        padding: 200px 100px 100px 40px;
+        padding: 200px 150px 100px 40px;
         padding-bottom: 10px !important;
     }
   }
@@ -983,6 +1057,15 @@ body {
     text-transform: uppercase;
 }
 
+.brevet-judul
+{
+    font-size: 30px;
+    font-weight: 550;
+    line-height: 1.4;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
 .judulfixfaq
 {
     font-size: 30px;
@@ -990,6 +1073,7 @@ body {
     line-height: 1.4;
     letter-spacing: 1px;
     text-transform: uppercase;
+    text-align: left;
 }
 
 .about-text{
@@ -999,11 +1083,20 @@ body {
     padding-right: 0px;
     letter-spacing: 0.6px;
     text-align: justify;
+    margin-top: 30px;
 }
 
 .sertif
 {
     margin-top: 200px;
+}
+
+.sertif-temp{
+    width: 66%;
+}
+
+.sertif .sertif-image{
+    width: 50%;
 }
 
 
@@ -1021,6 +1114,10 @@ body {
     padding: 50px 50px 50px 70px;
 }
 
+.kontak .temp{
+    padding: 2.5rem;
+}
+
 .kontak .sub-judul{
     font-size: 15px;
     font-weight: 300;
@@ -1029,7 +1126,22 @@ body {
     color: #5B5575;
 }
 
-iframe{
+.kontak .kontak-grids {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    column-gap: 2rem;
+    margin-top: 3rem;
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.kontak .kontak-item{
+    justify-content: center;
+}
+
+.kontak .kontak-item iframe{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     border-radius: 20px !important;
     -webkit-border-radius: 20px !important;
@@ -1038,7 +1150,7 @@ iframe{
     -o-border-radius: 20px !important;
 }
 
-.card-contact
+.kontak .kontak-item .card-contact
 {
     width: 85%;
     padding: 40px 30px 30px 30px;
@@ -1110,6 +1222,16 @@ iframe{
 .galeri
 {
     margin-top: 250px;
+    padding-top: 2.5rem;
+}
+
+.galeri .galeri-judul
+{
+    font-size: 26px;
+    font-weight: 550;
+    line-height: 1.4;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .galeri h1{
@@ -1125,6 +1247,10 @@ iframe{
     text-align: center;
     line-height: 30px;
     color: #5B5575;
+}
+
+.galeri .galeri-list{
+    padding: 1.5rem;
 }
 
 #galeri-page h4
@@ -1146,6 +1272,14 @@ iframe{
     padding: 0px 180px 0px 150px;
 }
 
+.steps .steps-judul{
+    margin-top: 10px;
+    text-align: center;
+    font-size: 23px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 
 .steps .sub-judul
 {
@@ -1158,7 +1292,7 @@ iframe{
 
 .steps .item-step {
     display: flex;
-    margin-top: 150px;
+    margin-top: 50px;
 }
 
 .steps .item-step .judul {
@@ -1191,6 +1325,7 @@ iframe{
 
 .steps .item-step .copywriting {
     padding-top: 15px;
+    margin-top: 100px;
 }
 
 .steps .item-step .support {
@@ -1428,8 +1563,24 @@ iframe{
     margin-top: 120px;
 }
 
-.container-agenda{
+.agenda .container{
     padding: 100px 150px 100px 150px;
+}
+
+.agenda .agenda-grids {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    column-gap: 2rem;
+}
+
+.agenda .agenda-grids2 {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    column-gap: 2rem;
+}
+
+.agenda .agenda-mt5{
+    margin-top: 3rem;
 }
 
 .sub-title{
@@ -1437,6 +1588,14 @@ iframe{
     font-weight:500;
     font-size: 14px;
     letter-spacing: 0.9px;
+}
+
+.agenda .agenda-titile{
+    font-size: 26px;
+    font-weight: 550;
+    line-height: 1.4;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .agenda .header{
@@ -1457,6 +1616,14 @@ iframe{
 {
     font-size: 16px;
     font-weight: 500;
+}
+
+.agenda .agenda-item{
+    margin-top: 0rem;
+}
+
+.agenda-padding{
+    padding: 0px 0px 0px 0px;
 }
 
 .agenda .agenda-item .sub-judul
@@ -1485,6 +1652,18 @@ iframe{
 {
     font-size: 16px;
     font-weight: 500;
+}
+
+.agenda .agenda-item-faq .judul-seminar-item
+{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.agenda .agenda-item-faq .sub-judul-seminar-item
+{
+    font-size: 16px;
+    line-height: 30px;
 }
 
 .agenda .agenda-item-faq .sub-judul
@@ -1586,6 +1765,14 @@ iframe{
 }
 
 .banner .header {
+    margin: 18px 0 40px 0;
+    font-size: 44px;
+    color: #ffffff;
+    font-weight: 500;
+    /* line-height: 50px; */
+}
+
+.banner .header-galeri {
     margin: 18px 0 40px 0;
     font-size: 44px;
     color: #ffffff;
@@ -3367,6 +3554,20 @@ button.bg-danger-soft:focus {
     height: 1.5rem;
 }
 
+.faq-padding{
+    padding: 70px 150px 70px 200px
+}
+
+.faq-grids{
+    display: grid;
+    grid-template-columns: 30% 70%;
+    column-gap: 2rem;
+    align-items: center; /* Center items vertically */
+    justify-content: center;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
 .avatar-lg {
     height: 2.5rem;
     width: 2.5rem;
@@ -3464,6 +3665,18 @@ p.form_text1>span {
     position: relative;
 }
 
+.lets-talk .grids{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 1rem;
+    row-gap: 0rem;
+    /* align-items: center; */
+}
+
+#logoFooter{
+    width: 230px;
+}
+
 .lets-talk h4 {
     font-size: 40px;
     line-height: 40px;
@@ -3521,6 +3734,14 @@ p.form_text1>span {
     line-height: 1.67;
     color: white;
     text-decoration: none;
+}
+
+.galeri-col-6{
+    flex: 0 0 auto;
+    display: flex;
+    width: 100%;
+    padding: 0px 100px 0px 100px;
+    text-align: center;
 }
 
 .lets-talk-2019 .con
@@ -3581,5 +3802,753 @@ p.form_text1>span {
     color: #fff;
 }
 
+.cont-pad{
+    padding: 50px 50px 100px 50px;
+}
+
+.mt-form-5{
+    margin-top: 3rem;
+    margin-bottom: 4rem;
+}
+
+.pad-about{
+    padding: 2.5rem;
+}
+
+.seminar-container{
+    padding: 70px 40px 70px 40px;
+}
+
+.seminar-judul{
+    line-height: 35px;
+    font-size: 26px;
+    font-weight: 550;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* .semiar-item-judul{
+    font-size: 12px !important;
+    font-weight: 300;
+    line-height: 1;
+} */
+
+.seminar-grids {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    column-gap: 2rem; /* Center items vertically */
+    padding: 0px 150px 0px 150px; /* Center items horizontally */
+}
+
+.seminar-grids .seminar-kiri{
+    margin-top: 50px;
+}
+
+.galeri-page-list{
+    width: 25%;
+    padding: 1rem;
+}
+
+.teams-tes{
+    margin-top: 50px;
+    margin-left: 0px;
+}
+
+.checkout-padding{
+    padding: 40px 80px 100px 80px;
+}
+
+.checkout-item{
+    width: 100%;
+}
+
+.checkout-item .grids{
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1rem;
+    row-gap: 1rem;
+}
+
+.checkout-left{
+    text-align: start;
+}
+
+.checkout-grids {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    column-gap: 2rem;
+    row-gap: 2rem;
+    margin-top: 3rem;/* Center items horizontally */
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.checkout-grids .grids-item2 {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    column-gap: 2rem;
+    color: grey;
+    font-size: 14px;
+}
+
+.checkout-grids .grids-item3 {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    column-gap: 2rem;
+    color: grey;
+    font-size: 14px;
+    margin-top: 1.5rem;
+}
+
+#hr-data-bayar{
+    display: none;
+}
+
+#hr-total{
+    display: none;
+    margin-top: 2rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .banner {
+        padding: 70px 0 100px 0;
+        background-image: url('../../images/new/bg-landing.png');
+        background-repeat: repeat;
+        background-position: center center;
+        background-size: cover;
+    }
+
+    .banner .copywriting {
+        padding-top: 50px;
+    }
+
+    .banner .header {
+        padding: 0 30px 0 30px;
+        font-size: 30px;
+        color: #ffffff;
+        text-align: center;
+        line-height: 43px;
+        margin: 18px 0 50px 0;
+
+    }
+
+    .banner .support {
+        font-size: 14px;
+        font-weight: 200;
+        line-height: 30px;
+        padding-right: 5px;
+        padding-left: 5px;
+        margin-top: 40px;
+        text-align: center;
+        /* margin-bottom: 60px; */
+    }
+    .banner .cta {
+        margin-top: 70px;
+        text-align: center;
+    }
+
+    .img-fluid {
+        width: 490px;
+        margin-top: 70px;
+        margin-left: 0px;
+    }
+
+    /* ABOUT US */
+    
+    #imageLeft{
+        display: none;
+    }
+
+    .cont-pad{
+        padding: 20px 0px 50px 0px;
+    }
+
+    .sub-title{
+       text-align: center;
+    }
+
+    .judulfix
+    {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 22px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .about-text{
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 30px;
+        padding-right: 0px;
+        letter-spacing: 0px;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+    .pad-about{
+        padding: 1.7rem;
+    }
+
+    .agenda .container{
+        padding: 20px 0px 70px 0px;
+    }
+
+    .agenda .agenda-grids {
+        grid-template-columns: 1fr;
+        column-gap: 1rem;
+    }
+
+    .agenda .agenda-grids2 {
+        grid-template-columns: 1fr;
+        column-gap: 1rem;
+    }
+
+    .agenda .agenda-titile{
+        margin-bottom: 50px;
+        text-align: center;
+        font-size: 22px;
+    }
+
+    .agenda .agenda-padding{
+        padding: 0px 40px 0px 40px;
+    }
+
+    .agenda .agenda-mt5{
+        margin-top: 1rem;
+    }
+
+    .agenda .agenda-item{
+        margin-top: 1rem;
+    }
+
+    .steps
+    {
+        padding: 0px 40px 0px 40px;
+    }
+
+    .steps .container{
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    .steps .sub-judul
+    {
+        font-size: 14px;
+        line-height: 28px;
+        margin-top: 20px;
+        color: black;
+    }
+
+    #image1Class{
+        display: none;
+    }
+
+    #image2Class{
+        display: none;
+    }
+
+    #image3Class{
+        display: none;
+    }
+
+    #image4Class{
+        display: none;
+    }
+
+    .steps .item-step {
+        margin-top: 60px;
+        border: 0.5px solid #ddd;
+        /*Addaborderforseparation*/border-radius: 30px;
+        /*Addroundedcorners*/padding: 20px;
+        /*Adjustpaddingasneeded*/box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+    }
+
+    .steps .steps-judul{
+        font-size: 25px;
+    }
+    .steps .item-step .judul {
+        font-weight: 500;
+        text-align: center;
+        font-size: 20px;
+        letter-spacing: 0.3px;
+    }
+
+    .steps .item-step .support {
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 28px;
+        margin-top: 30px;
+        color: black;
+    }
+
+    .steps .item-step .cta{
+        text-align: center;
+    }
+
+    .steps .item-step .copywriting {
+        padding-top: 0px;
+        margin-top: 0px;
+    }
+
+    #btnClass1{
+        background-color: #0042a6 !important;
+        padding: 8px 17px 8px 17px !important;
+        font-size: 13px!important;
+    }
+
+    #btnClass2{
+        background-color: #0042a6 !important;
+        padding: 8px 17px 8px 17px !important;
+        font-size: 13px!important;
+    }
+
+    #btnClass3{
+        background-color: #0042a6 !important;
+        padding: 8px 17px 8px 17px !important;
+        font-size: 13px!important;
+    }
+
+    #btnClass4{
+        background-color: #0042a6 !important;
+        padding: 8px 17px 8px 17px !important;
+        font-size: 13px!important;
+    }
+
+    .galeri
+    {
+        margin-top: 150px;
+        padding-top: 0rem;
+    }
+
+    .galeri .galeri-judul
+    {
+        font-weight: 500;
+        text-align: center;
+        font-size: 23px;
+        letter-spacing: 0.3px;
+    }
+
+    .galeri p{
+        font-size: 14px;
+        text-align: center;
+        line-height: 28px;
+        color: black;
+    }
+
+    .galeri .galeri-list{
+        width: 100%;
+    }
+
+    .sertif
+    {
+        margin-top: 100px;
+    }
+
+    .sertif .sertif-temp{
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .sertif .sertif-image{
+        width: 100%;
+    }
+
+    .sertif .sub-judul
+    {
+        margin-top: 20px;
+        font-size: 14px;
+        line-height: 28px;
+        color: black;
+    }
+
+    .kontak{
+        padding: 40px 40px 40px 40px;
+    }
+
+    .kontak .temp{
+        padding: 0rem;
+    }
+
+    .kontak .sub-judul
+    {
+        margin-top: 20px;
+        font-size: 14px;
+        line-height: 28px;
+        color: black;
+    }
+
+    .kontak .kontak-grids {
+        grid-template-columns: 1fr;
+        column-gap: 1rem;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    
+    .kontak .kontak-item{
+        justify-content: center;
+        
+    }
+
+    .kontak .kontak-item .card-contact
+    {
+        width: 100%;
+        margin-top: 50px;
+    }
+
+
+    .lets-talk-2019 .cons {
+        margin-left: 0px;
+    }
+
+    .lets-talk-2019 .con
+{
+    margin-right:0px
+}
+
+    .lets-talk .grids{
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 4rem;
+        row-gap: 4rem;
+        align-items: center;
+    }
+
+    #logoFooter{
+        width: 150px;
+    }
+
+    .lets-talk-2019 li a{
+        font-size: 14px;
+        line-height: 1;
+    }
+
+    .lets-talk-2019 .con .email
+    {
+        font-size: 15px;
+    }
+
+    .lets-talk-2019 .con .email a
+    {
+        font-size: 14px;
+    }
+
+    .lets-talk-2019 .copyrights
+    {
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+
+
+    /* LOGIN PAGE ---------------------- LOGIN PAGE */
+    .login-user .left {
+        display: none;
+    }
+
+    .login-user .right {
+        width: 100%;
+        padding: 50px;
+        padding-top: 50px;
+
+    }
+
+    .login-user .right .footer-account-2 {
+        display: none;
+      }
+
+    .register-user .left {
+       display: none;
+    }
+
+    .register-user .right {
+        width: 100%;
+        padding: 40px;
+        margin-top: 10px;
+        /* padding-bottom: 10px !important; */
+    }
+
+    .register-user .right-kelengkapan {
+        width: 100%;
+        padding: 40px;
+        margin-top: 10px;
+        /* padding-bottom: 10px !important; */
+    }
+
+    .register-user .form-register {
+        margin-top: 35px;
+    }
+
+    .register-user .right .form-register .grids{
+        grid-template-columns: 1fr;
+        column-gap: 1rem;
+        row-gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .register-user .right-kelengkapan .form-kelengkapan .grids-form{
+        grid-template-columns: 1fr;
+        column-gap: 1rem;
+        row-gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .banner .header-kelas {
+        margin: 20px;
+        font-size: 28px;
+        color: #ffffff;
+        margin-top: 30px;
+        text-align: center;
+        line-height: 35px;
+    }
+
+    .img-fluid-kelas {
+        width: 350px;
+        height: 400px;
+        margin-top: 90px;
+        margin-left: 0px;
+    }
+
+    .brevet-judul
+    {
+        font-size: 24px;
+        font-weight: 550;
+        line-height: 1;
+        letter-spacing: 1px;
+    }
+
+    .faq-padding{
+        padding: 30px 50px 70px 50px
+    }
+
+    .faq-grids{
+        grid-template-columns:1fr;
+        column-gap: 1rem;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .judulfixfaq
+    {
+        text-align: center;
+    }
+
+    .agenda .agenda-item-faq .judul
+    {
+        font-size: 14px;
+        font-weight: 400;
+    }
+
+    .seminar-grids{
+        grid-template-columns:1fr;
+        column-gap: 1rem;
+        padding: 20px;
+    }
+
+    .seminar-judul{
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .agenda .agenda-item-faq .judul-seminar-item
+    {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.5;
+    }
+
+    .agenda .agenda-item-faq .sub-judul-seminar-item
+    {
+        font-size: 14px;
+        line-height: 27px;
+    }
+
+    .galeri-col-6{
+        padding: 0px 0px 0px 0px;
+    }
+
+    .banner .header-galeri {
+        margin: 18px 0 10px 0;
+        font-size: 30px;
+        /* line-height: 50px; */
+    }
+
+    .galeri-page-list{
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .register-user .left-kelengkapan {
+        display: none;
+    }
+
+    .register-user .right-kelengkapan .btn-register {
+        width: 150px;
+    }
+
+    .mt-form-5{
+        margin-top: 1rem;
+        margin-bottom: 4rem;
+    }
+
+    .checkout-grids {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        row-gap: 2rem;
+    }
+
+    .checkout-padding{
+        padding: 10px 20px 100px 20px;
+    }
+
+    #imageCheckout{
+        display: none;
+    }
+    
+    .checkout-item{
+        width: 100%;
+    }
+
+    .checkout-left{
+        text-align: center;
+    }
+
+    .checkout-item .grids{
+        grid-template-columns: 1fr;
+    }
+    .checkout-grids .grids-item2 {
+        grid-template-columns: 1fr;
+    }
+    .checkout-grids .grids-item3 {
+        grid-template-columns: 1fr;
+        margin-top: 1rem;
+    }
+    .data-diri{
+        display: none;
+    }
+
+    #hr-data-diri{
+        display: none;
+    }
+
+    #hr-data-bayar{
+        display:block;
+    }
+
+    #wajibdiisi{
+        display: none;
+    }
+
+    #btnReset{
+        display: none;
+    }
+
+    #hr-total{
+        display: block;
+    margin-top: 2rem;
+    }
+
+    .head-nav-padding{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    
+}
+#mobileMenuButton {
+    display: none; /* Push the button to the right */
+}
+
+.head-nav-padding{
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+#imageNav{
+    width: 190px;
+}
+
+.btn-mobile-nav{
+    font-size:.875rem;
+    color:black;
+    font-weight:400;
+}
+
+#mobileMenuCard {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%; /* Set a fixed width for the card */
+    max-width: 500px; /* Set a maximum width for responsiveness */
+    background-color: #fff;
+    z-index: 999;
+    overflow-y: auto; /* Add scroll if the content exceeds the height */
+    padding: 20px; /* Adjust padding as needed */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a box shadow for a better look */
+}
+
+@media (max-width: 767px) {
+    #nav-menu {
+        display: none; /* Hide the menu by default on small screens */
+        position: absolute;
+        top: 64px; /* Adjust this value based on your design */
+        right: 0; /* Position on the right side */
+        width: 100%;
+        background-color: #fff; /* Adjust the background color as needed */
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a box shadow for a better look */
+        z-index: 999; /* Ensure it's on top of other elements */
+    }
+
+    #nav-menu.show {
+        display: block; /* Show the menu when the "show" class is added */
+    }
+
+    #mobileMenuButton {
+        margin-left: auto;
+        display: block; /* Push the button to the right */
+    }
+
+    .head-nav-padding{
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    #imageNav{
+        width: 130px;
+    }
+
+    #mobileMenuCard {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%; /* Set a fixed width for the card */
+        max-width: 500px; /* Set a maximum width for responsiveness */
+        background-color: #fff;
+        z-index: 999;
+        overflow-y: auto; /* Add scroll if the content exceeds the height */
+        padding: 50px 20px 20px 20px; /* Adjust padding as needed */
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a box shadow for a better look */
+    }
+    
+    #mobileMenuCard.show {
+        display: block;
+    }
+
+
+}
+
+@media (min-width: 1024px){
+    .galeri .galeri-list{
+        width: 25%;
+    }
+}
 
 /*# sourceMappingURL=main.css.map */

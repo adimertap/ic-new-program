@@ -1,7 +1,7 @@
 @extends('home.app')
 
 @section('title')
-Seminar |
+{{ $meta->title ?? '' }}
 @endsection
 
 @section('content')
@@ -38,16 +38,14 @@ Seminar |
 
     <section class="agenda">
         <div class="bg-gray">
-            <div class="container-agenda" style="padding: 70px 150px 70px 200px" id="agenda">
-                <div class="row">
-                    <div class="col-3" style="margin-top: 150px">
+            <div class="seminar-container" id="agenda">
+                <div class="seminar-grids">
+                    <div class="seminar-kiri">
                         <h5 class="sub-title" style="line-height: 25px">Kelas</h5>
 
-                        <div class="flex justify-left">
-                            <h1 class="judulfix" style="line-height: 35px">Seminar<br>
+                            <h1 class="seminar-judul">Seminar<br>
                                 Perpajakan<br>
                                 Berkala</h1>
-                        </div>
                         <div class="flex justify-start  mt-5 ">
                             <i class="fa-solid fa-arrow-down me-4 mt-1 text-muted"></i>
                             <p class="text-muted small">Scroll bawah untuk <br> melihat kelas</p>
@@ -55,14 +53,13 @@ Seminar |
                         </div>
 
                     </div>
-                    <div class="col-9">
+                    <div class="seminar-kanan">
                         <div class="agenda-item-faq">
                             <div class="d-flex justify-content-start">
                                 <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
                                 <div class="item">
-                                    <h5 class="judul">Bagaimana Seminar Perpajakan pada IC Education?</h5>
-                                    <p class="sub-judul text-justify"
-                                        style="line-height: 30px; font-size:16px !important">
+                                    <h5 class="judul-seminar-item">Bagaimana Seminar Perpajakan pada IC Education?</h5>
+                                    <p class="sub-judul-seminar-item text-justify">
                                       {{ $header->description_2 ?? '' }}
                                     </p>
                                 </div>
@@ -147,37 +144,23 @@ Seminar |
 
     <section class="agenda">
         <div class="bg-gray">
-            <div class="container-agenda" style="padding: 70px 150px 70px 200px" id="agenda">
-                <div class="row">
-                    <div class="col-3 mt-5">
-                        <div class="flex justify-left">
+            <div class="faq-padding" id="agenda">
+                <div class="faq-grids">
+                    <div class="faq-item">
                             <h1 class="judulfixfaq mt-3">FAQ</h1>
-                        </div>
                         <h5 class="sub-title" style="line-height: 25px">Pertanyaan yang <br>sering diajukan</h5>
 
                     </div>
-                    <div class="col-9">
+                    <div class="faq-item">
                         <div class="agenda-item-faq">
                             <div class="d-flex justify-content-start">
                                 <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
                                 <div class="item">
-                                    <h5 class="judul">Topik Apa Saja Yang Biasanya Dibahas Dalam Seminar Perpajakan?
-                                    </h5>
-                                    <p class="sub-judul-faq text-justify">Seminar Pajak diselenggarakan sesuai dengan
-                                        kebutuhan terkini dengan topik yang hangat sesuai permintaan pasar dibulan dan
-                                        tahun bersangkutan. Adapun topik-topik umum yang dibuat untuk seminar sebagai
-                                        berikut
-                                        <br><br>
-                                        - FAKTUR PAJAK DAN PERMASALAHANNYA <br>
-                                        - PERENCANAAN PAJAK KHUSUS PPN <br>
-                                        - PPN ATAS EKSPOR DAN IMPOR BARANG DAN JASA DI LUAR DAERAH PABEAN <br>
-                                        - AKUNTANSI PERPAJAKAN DAN JURNAL-JURNALNYA <br>
-                                        - AKUNTANSI PERPAJAKAN DAN PSAK 46 <br>
-                                        - PAJAK PENGHASILAN FINAL <br>
-                                        - PAJAK PENGHASILAN BONUS THR DAN PESANGON CHAPTER 1 DAN CHAPTER 2 <br>
-                                        - PAJAK PENGHASILAN KARYAWAN BEKERJA ATAU BERHENTI DI TENGAH TAHUN <br>
-                                        - PAJAK PENGHASILAN PEGAWAI TIDAK TETAP, HARIAN, MINGGUAN, DAN BULANAN <br>
-                                    </p>
+                                    <h5 class="judul">Apa saja Fasilitas Brevet Pajak Tatap Muka?</h5>
+                                    <p class="sub-judul-faq text-justify">Modul Brevet A-B, Sertifikat Pelatihan, Snack,
+                                        Air Mineral, Coffee Break, Free Training E-SPT PPN dan E-SPT PPH, Fotocopy
+                                        Formulir SPT dan Latihan Soal, Training Kit, Sertifikat Brevet AB dan Sertifikat
+                                        E-SPT</p>
                                 </div>
                             </div>
                         </div>
@@ -185,11 +168,13 @@ Seminar |
                             <div class="d-flex justify-content-start">
                                 <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
                                 <div class="item">
-                                    <h5 class="judul">Siapa Peserta Yang Dapat Mengikuti Seminar Perpajakan?</h5>
-                                    <p class="sub-judul-faq text-justify">Peserta yang menjadi target dalam seminar
-                                        perpajakan ini adalah masyarakat umum, karyawan bagian akuntansi dan perpajakan
-                                        serta mahasiswa yang menginginkan update dan pemahaman perpajakan yang lebih
-                                        dalam dan detail disertai dengan praktek dan konsultasi dengan pembicara.</p>
+                                    <h5 class="judul">Apa saja Fasilitas Brevet Pajak Online di Masa Pandemi?</h5>
+                                    <p class="sub-judul-faq text-justify">Modul Brevet A-B Akan Dikirim Ke Alamat Masing
+                                        - Masing Peserta
+                                        Formuli Spt Dan Latihan Soal Via Email ( Softcopy )
+                                        Free Training E-Spt Ppn Dan E-Spt Pph
+                                        Slide Pemateri Via Email ( Softcopy )
+                                        Sertifikat Brever AB</p>
                                 </div>
                             </div>
                         </div>
@@ -197,16 +182,14 @@ Seminar |
                             <div class="d-flex justify-content-start">
                                 <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
                                 <div class="item">
-                                    <h5 class="judul">Siapa Pembicara atau Fasilitatornya?</h5>
+                                    <h5 class="judul">Siapa Saja Peserta yang dapat Mengikuti Kelas Brevet?</h5>
                                     <p class="sub-judul-faq text-justify">
-                                        Pembicara di seminar IC Education diisi oleh ahli-ahli perpajakan dari berbagai
-                                        kalangan, antara lain
-                                        <br>
-                                        - PRAKTISI DARI DJP (DIREKTORAT JENDERAL PAJAK) SEBAGAI REGULATOR PERPAJAKAN DI
-                                        INDONESIA<br>
-                                        - PRAKTISI PERPAJAKAN DARI KAMPUS - KAMPUS TERNAMA<br>
-                                        - KONSULTAN PAJAK YANG MEMEGANG IZIN/LISENSI RESMI SEBAGAI ANGGOTA IKPI ( IKATAN
-                                        KONSULTAN PAJAK INDONEISA )<br>
+                                        Staf Perpajakan / Keuangan,
+                                        Praktisi Akuntansi / Auditor,
+                                        Mahasiswa, Dosen,
+                                        Fresh Graduate,
+                                        Pengusahan Investor,
+                                        Masyarakat Umum
                                     </p>
                                 </div>
                             </div>
@@ -215,33 +198,57 @@ Seminar |
                             <div class="d-flex justify-content-start">
                                 <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
                                 <div class="item">
-                                    <h5 class="judul">Apa Saja Fasilitas Yang Didapatkan Peserta?
-                                    </h5>
-                                    <p class="sub-judul-faq text-justify">
-                                        Seminar berkala dalam perencanaan programnya akan diselenggarakan dengan dua
-                                        pilihan, yaitu di hotel dan di premis lokasi mandiri di Jakarta, sehingga
-                                        fasilitasnya disesuaikan dengan lokasi kegiatan. Saat ini Masyarakat banyak
-                                        melakukan kegiatan dengan sistem ONLINE, belajar atau mengikuti seminar pun
-                                        dilakukan dengan ONLINE yang hanya dengan perangkat Laptop dan koneksi internet
-                                        yang cukup peserta seminar sudah bisa mengikuti. Seminar Pajak Online dilakukan
-                                        secara live menggunakan aplikasi ZOOM. Setelah mengikuti Seminar Pajak Online
-                                        peserta akan mendapatkan E-SERTIFIKAT jika sudah mengikuti syarat yang
-                                        ditentukan.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="agenda-item-faq">
-                            <div class="d-flex justify-content-start">
-                                <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
-                                <div class="item">
-                                    <h5 class="judul">Apa Keunggulan Seminar Perpajakan Yang Diselenggarakan Oleh
+                                    <h5 class="judul">Siapa saja Pemateri di Seminar Perpajakan yang diadakan
                                         IC-Education?</h5>
                                     <p class="sub-judul-faq text-justify">
-                                        Pelatihan/seminar perpajakan di IC Education lebih mengutamakan solusi
-                                        permasalahan yang dihadapi oleh wajib pajak di lapangan, tidak sekedar
-                                        menyampaikan materi yang bersifat teori semata tapi lebih mengedepankan praktek
-                                        di lapangan.
+                                        Praktisi Dari DJP (Direktorat Jenderal Pajak) Sebagai Regulator Perpajakan Di
+                                        Indonesia
+                                        Praktisi Perpajakan Dari Kampus - Kampus Ternama
+                                        Konsultan Pajak Yang Memegang Izin/Lisensi Resmi Sebagai Anggota IKPI ( Ikatan
+                                        Konsultan Pajak Indoneisa )
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="agenda-item-faq">
+                            <div class="d-flex justify-content-start">
+                                <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
+                                <div class="item">
+                                    <h5 class="judul">Apa saja Materi yang diajarkan pada Kelas Brevet Pajak di
+                                        IC-Education?</h5>
+                                    <p class="sub-judul-faq text-justify">
+                                        - KUP A<br>
+                                        - PPH ORANG PRIBADI<br>
+                                        - SPT PPH ORANG PRIBADI 1770 SS, 1770 S, 1770<br>
+                                        - PBB, BPHTB, BEA MATERAI<br>
+                                        - PPH PASAL 21<br>
+                                        - SPT MASA PPH PASAL 21 DAN 1721 A1<br>
+                                        - PPH PEMOTONGAN PEMUNGUTAN PASAL 22, 23, 4(2), 15, 26<br>
+                                        - PPN DAN PPNBM<br>
+                                        - SPT MASA PPN DAN PPNBM 1111<br>
+                                        - AKUNTANSI PERPAJAKAN<br>
+                                        - PPH BADAN<br>
+                                        - SPT PPH BADAN 1771<br>
+                                        - KUP B<br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="agenda-item-faq">
+                            <div class="d-flex justify-content-start">
+                                <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
+                                <div class="item">
+                                    <h5 class="judul">Apa Keunggulan Kelas Brevet Pajak di IC-Education dengan Tempat
+                                        Lain?</h5>
+                                    <p class="sub-judul-faq text-justify">
+                                        Modul Pelatihan Selalu Up-To-Date,
+                                        Tim Instruktur Dari Prkatisi Yang Terpilih,
+                                        Pendekatan Materi Lebih Praktis,
+                                        Biaya Include Ujian Dan Sertifikat,
+                                        Biaya Include Pelatihan E-Spt,
+                                        Sertifikat Brevet Dan E-Spt Terpisah,
+                                        Free Wifi,
+                                        Open Untuk Internship Untuk Peserta Fresh Graduate
                                     </p>
                                 </div>
                             </div>

@@ -206,7 +206,7 @@ class KeranjangProdukOtomatisController extends Controller
             // $transaksi->payment_status = 'Paid';
             $transaksi->update();
             $user = User::where('email', $transaksi->username)->first();
-            $paymentUrl = $this->getSnapRedirect($transaksi, $request, $user);
+            $paymentUrl = $this->getSnapRedirectKeranjang($transaksi, $request, $user);
 
             if($request->radio == 'Email'){
                 $produk = Produk::where('slug', $transaksi->slug)->first();
@@ -253,7 +253,7 @@ class KeranjangProdukOtomatisController extends Controller
         }
     }
 
-    public function getSnapRedirect(KeranjangProduk $transaksi, $request, $user)
+    public function getSnapRedirectKeranjang(KeranjangProduk $transaksi, $request, $user)
     {
 
         $orderId = $transaksi->id. '-' .Str::random(5);

@@ -1,7 +1,7 @@
 @extends('home.app')
 
 @section('title')
-Brevet |
+{{ $meta->title ?? '' }}
 @endsection
 
 @section('content')
@@ -38,7 +38,7 @@ Brevet |
     <div class="container" style="margin-top: 120px">
         <div class="judul-atas text-center">
             <h5 class="sub-title">Product Kelas Kami</h5>
-            <h1 class="judulfix mt-0" style="font-size: 30px">KELAS BREVET AB dan C</h1>
+            <h1 class="brevet-judul">KELAS BREVET AB dan C</h1>
         </div>
         <div class="filter">
             <div class="wadah text-center">
@@ -87,7 +87,6 @@ Brevet |
                         <div class="beli">
                             <a href="{{ route('register-data', $item->slug) }}" type="button" class="btns btn-icon" style="border-radius: 10px!important" value="{{ $item->id }}"
                                 id="button-beli" data-slug="{{ $item->slug }}">
-                             
                             </a>
                         </div>
 
@@ -104,16 +103,14 @@ Brevet |
 
     <section class="agenda">
         <div class="bg-gray">
-            <div class="container-agenda" style="padding: 70px 150px 70px 200px" id="agenda">
-                <div class="row">
-                    <div class="col-3 mt-5">
-                        <div class="flex justify-left">
+            <div class="faq-padding" id="agenda">
+                <div class="faq-grids">
+                    <div class="faq-item">
                             <h1 class="judulfixfaq mt-3">FAQ</h1>
-                        </div>
                         <h5 class="sub-title" style="line-height: 25px">Pertanyaan yang <br>sering diajukan</h5>
 
                     </div>
-                    <div class="col-9">
+                    <div class="faq-item">
                         <div class="agenda-item-faq">
                             <div class="d-flex justify-content-start">
                                 <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>

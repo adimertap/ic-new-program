@@ -85,8 +85,28 @@ Dashboard
         </div>
 
         <div class="col-lg-6 mb-4">
+            {{-- <div class="row">
+                <div class="col-6">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">
+                                Pilihan Kelas
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <p>Klik Pilihan Kelas dibawah untuk pembelian kelas</p>
+                            <div class="text-center">
+                               <a href="{{ route('home-brevet') }}" class="btn btn-primary w-100"><i class="fa-solid fa-cart-shopping"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+            </div> --}}
+           
+            
             <div class="alert alert-info shadow mb-4">
-                Klik <a href="{{ route('home-brevet')}}"><strong>Pilihan Kelas</strong></a> untuk pembelian kelas
+                Klik <a href="{{ route('home-brevet')}}"><i class="fa-solid fa-cart-shopping"></i></a> untuk pembelian kelas
             </div>
             @if (!$dapodik)
             <div class="alert alert-danger shadow mb-4">

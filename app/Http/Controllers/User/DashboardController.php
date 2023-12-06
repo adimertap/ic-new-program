@@ -6,6 +6,7 @@ use Alert;
 use App\Http\Controllers\Controller;
 use App\Models\Dapodik;
 use App\Models\KeranjangProduk;
+use App\Models\Kerjasama;
 use App\Models\MasterTandaTangan;
 use App\Models\Materi;
 use App\Models\PesertaUjian;
@@ -176,7 +177,7 @@ class DashboardController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        $otomatis = KeranjangProduk::with('produk')
+        $otomatis = KeranjangProduk::with('produk','Voucher')
             ->where('username', Auth::user()->username)
             ->where('type_pembayaran', 'Otomatis')
             ->orderBy('id', 'DESC')
@@ -208,6 +209,7 @@ class DashboardController extends Controller
         $sql->orderBy('a.id', 'desc');
         $res = $sql->get();
 
+        // return $otomatis;
         return view('user.pages.transaksi', [
             'manual' => $manual,
             'otomatis' => $otomatis,
@@ -323,45 +325,27 @@ class DashboardController extends Controller
     {
         try {
             $transaksi = KeranjangProduk::where('id', $request->transaksi_id)->first();
-            $tenor_temp = 100 - $transaksi->tenor;
-            $tenorTransaksi = intval($transaksi->tenor);
-
-            if (intval($request->cicilan) == $tenor_temp) {
-                $harga_user = $request->sisaBayarHidden;
-                $status_tenor = 'FULL';
-                $status = 2;
-            } else {
-                if ($request->cicilan == '25') {
-                    $harga_user = $request->sisaBayarHidden * 25 / 100;
-                    $status_tenor = 25 + $tenorTransaksi;
-                    $status = 2;
-                } else if ($request->cicilan == '75') {
-                    $harga_user = $request->sisaBayarHidden * 75 / 100;
-                    $status_tenor = 75 + $tenorTransaksi;
-                    $status = 4;
-                } else if ($request->cicilan == '50') {
-                    $harga_user = $request->sisaBayarHidden * 50 / 100;
-                    $status_tenor = 50 + $tenorTransaksi;
-                    $status = 3;
+            $transaksi->cicilan_temp_idr = $request->sisaBayar;
+            if($transaksi->tenor == '50'){
+                if($request->cicilan == '25'){
+                    $sisa = "75";
+                }else{
+                    $sisa = "Full";
                 }
+            }else{
+               $sisa = "Full";
             }
 
-            $transaksi->tenor = trim($status_tenor);
-            $transaksi->status = $status;
-            $transaksi->cicilan_temp_idr = $harga_user;
-            // $transaksi->payment_status = $payment_status;
-            // $transaksi->payment_status = 'Paid';
+            $transaksi->sisaTenor = $sisa;
             $transaksi->update();
-
             $user = User::where('email', $transaksi->username)->first();
-
-            $this->getSnapRedirect($transaksi, $request, $user);
+            $this->getSnapRedirectDashboard($transaksi, $request, $user);
         } catch (\Throwable $th) {
             return $th;
         }
     }
 
-    public function getSnapRedirect(KeranjangProduk $transaksi, $request, $user)
+    public function getSnapRedirectDashboard(KeranjangProduk $transaksi, $request, $user)
     {
         $orderId = $transaksi->id . '-' . Str::random(5);
         $transaksi->midtrans_booking_code = $orderId;
@@ -434,7 +418,7 @@ class DashboardController extends Controller
         try {
             $paymentUrl = \Midtrans\Snap::createTransaction($midtrans_params)->redirect_url;
             $transaksi->midtrans_url = $paymentUrl;
-            $transaksi->total_price = $transaksi->total_price + $transaksi->cicilan_temp_idr;
+            // $transaksi->total_price = $transaksi->total_price + $transaksi->cicilan_temp_idr;
             $transaksi->update();
             return redirect()->to($paymentUrl)->send();
         } catch (Exception $e) {
@@ -451,17 +435,51 @@ class DashboardController extends Controller
             $isOnline = $produk->online == '1' ? 'Online' : '';
             $tanggal = date('Y-m-d');
 
+            $user_test = User::where('email', Auth::user()->email)->first();
+            $instansi_pdf = Kerjasama::where('id', $user_test->kerjasama_id)->first();
+            if(!$instansi_pdf){
+                $instansi_pdf = "";
+            }
+
             if (!$transaksi) {
                 Alert::warning('Warning', 'Internal Server Error, Data Not Found');
                 return redirect()->back();
             } else {
-                $pdf = Pdf::loadview('invoice_download', ['transaksi' => $transaksi, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
+                $pdf = Pdf::loadview('invoice_download', ['transaksi' => $transaksi, 'instansi' => $instansi_pdf, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
                 return $pdf->download($transaksi->no_invoice . '.pdf');
                 Alert::success('Berhasil', 'Invoice Anda Berhasil Didownload');
             }
         } catch (\Throwable $th) {
             Alert::warning('Warning', 'Internal Server Error, Chat Our Administrator');
             return redirect()->back();
+        }
+    }
+
+    public function transaksiHitung(Request $request, $id){
+        try {
+            $nilaiVoucher = 0;
+            $transaksi = KeranjangProduk::with('Voucher')->where('id', $id)->first();
+            
+            if($transaksi->Voucher){
+                $nilaiVoucher = $transaksi->Voucher->nilai;
+            }
+
+            if($transaksi->type_diskon == 'Persen'){
+                $disc = ($transaksi->harga_kelas/100) * $transaksi->diskon;
+                $angka_diskon = $transaksi->harga_kelas - ($disc + $nilaiVoucher);
+            }else{
+                $angka_diskon = $transaksi->harga_kelas - ($transaksi->diskon + $nilaiVoucher);
+            }
+
+            $fix = $angka_diskon - $transaksi->total_price;
+
+            return [
+                'fix' => $fix,
+                'transaksi' => $transaksi,
+            ];
+        } catch (\Throwable $th) {
+            return $th;
+
         }
     }
 }

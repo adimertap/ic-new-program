@@ -1,7 +1,7 @@
 @extends('home.app')
 
 @section('title')
-USKP |
+{{ $meta->title ?? '' }}
 @endsection
 
 @section('content')
@@ -108,25 +108,52 @@ USKP |
 
     <section class="agenda">
         <div class="bg-gray">
-            <div class="container-agenda" style="padding: 70px 150px 70px 200px" id="agenda">
-                <div class="row">
-                    <div class="col-3 mt-5">
-                        <div class="flex justify-left">
+            <div class="faq-padding" id="agenda">
+                <div class="faq-grids">
+                    <div class="faq-item">
                             <h1 class="judulfixfaq mt-3">FAQ</h1>
-                        </div>
                         <h5 class="sub-title" style="line-height: 25px">Pertanyaan yang <br>sering diajukan</h5>
 
                     </div>
-                    <div class="col-9">
+                    <div class="faq-item">
                         <div class="agenda-item-faq">
                             <div class="d-flex justify-content-start">
                                 <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
                                 <div class="item">
-                                    <h5 class="judul">Apa Itu USKP?
-                                    </h5>
-                                    <p class="sub-judul-faq text-justify">SUjian Sertifikasi Konsultan Pajak (USKP)
-                                        adalah ujian sertifikasi untuk jenjang profesi konsultan pajak. Sertifikat USKP
-                                        menjadi prasyarat untuk mendapat ijin praktek sebagai konsultan pajak.
+                                    <h5 class="judul">Apa saja Fasilitas Brevet Pajak Tatap Muka?</h5>
+                                    <p class="sub-judul-faq text-justify">Modul Brevet A-B, Sertifikat Pelatihan, Snack,
+                                        Air Mineral, Coffee Break, Free Training E-SPT PPN dan E-SPT PPH, Fotocopy
+                                        Formulir SPT dan Latihan Soal, Training Kit, Sertifikat Brevet AB dan Sertifikat
+                                        E-SPT</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="agenda-item-faq">
+                            <div class="d-flex justify-content-start">
+                                <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
+                                <div class="item">
+                                    <h5 class="judul">Apa saja Fasilitas Brevet Pajak Online di Masa Pandemi?</h5>
+                                    <p class="sub-judul-faq text-justify">Modul Brevet A-B Akan Dikirim Ke Alamat Masing
+                                        - Masing Peserta
+                                        Formuli Spt Dan Latihan Soal Via Email ( Softcopy )
+                                        Free Training E-Spt Ppn Dan E-Spt Pph
+                                        Slide Pemateri Via Email ( Softcopy )
+                                        Sertifikat Brever AB</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="agenda-item-faq">
+                            <div class="d-flex justify-content-start">
+                                <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
+                                <div class="item">
+                                    <h5 class="judul">Siapa Saja Peserta yang dapat Mengikuti Kelas Brevet?</h5>
+                                    <p class="sub-judul-faq text-justify">
+                                        Staf Perpajakan / Keuangan,
+                                        Praktisi Akuntansi / Auditor,
+                                        Mahasiswa, Dosen,
+                                        Fresh Graduate,
+                                        Pengusahan Investor,
+                                        Masyarakat Umum
                                     </p>
                                 </div>
                             </div>
@@ -135,12 +162,14 @@ USKP |
                             <div class="d-flex justify-content-start">
                                 <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
                                 <div class="item">
-                                    <h5 class="judul">Siapa Saja Yang Cocok Untuk Mengikuti USKP?</h5>
+                                    <h5 class="judul">Siapa saja Pemateri di Seminar Perpajakan yang diadakan
+                                        IC-Education?</h5>
                                     <p class="sub-judul-faq text-justify">
-                                        - LULUSAN S1 <br>
-                                        - S2 FRESH GRADUATE SEMUA JURUSAN <br>
-                                        - KARYAWAN YANG MENGHENDAKI IJIN PRAKTEK <br>
-                                        - PRAKTISI PAJAK YANG MENGHENDAKI JADI KONSULTAN PAJAK <br>
+                                        Praktisi Dari DJP (Direktorat Jenderal Pajak) Sebagai Regulator Perpajakan Di
+                                        Indonesia
+                                        Praktisi Perpajakan Dari Kampus - Kampus Ternama
+                                        Konsultan Pajak Yang Memegang Izin/Lisensi Resmi Sebagai Anggota IKPI ( Ikatan
+                                        Konsultan Pajak Indoneisa )
                                     </p>
                                 </div>
                             </div>
@@ -149,27 +178,22 @@ USKP |
                             <div class="d-flex justify-content-start">
                                 <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
                                 <div class="item">
-                                    <h5 class="judul">Siapa Saja Yang Boleh Mengikuti USKP</h5>
+                                    <h5 class="judul">Apa saja Materi yang diajarkan pada Kelas Brevet Pajak di
+                                        IC-Education?</h5>
                                     <p class="sub-judul-faq text-justify">
-                                        Dengan menunjuk pada Surat Keputusan Menteri Keuangan RI Nomor: 485/KMK.03/2003
-                                        tanggal 30 Oktober 2003 tentang Konsultan Pajak Indonesia, maka yang berhak
-                                        mendaftar sebagai peserta Ujian Sertifikasi Konsultan Pajak adalah <br> <br>
-                                        <b>- Sertifikat A</b><br>
-                                        Warga Negara Indonesia <br>
-                                        Telah Memiliki Serendah-Serendahnya Ijazah S1 Dari Perguruan Tinggi Negeri Atau
-                                        Swasta Yang Terakreditasi<br>
-                                        Bagi Peserta Yang Menyerahkan Ijazah S2 / S3 Wajib Menyerahkan Fotokopi Ijazah
-                                        S1<br><br>
-                                        <b>- Sertifikat B</b><br>
-                                        Warga Negara Indonesia <br>
-                                        Telah Memiliki Sertifikat Konsultan Pajak Tingkat A Atau Piagam Penghargaan Yang
-                                        Setara Yang Diberikan Kepada Pensiunan<br>
-                                        Pegawai Direktorat Jenderal Pajak.<br><br>
-                                        <b>- Sertifikat C</b><br>
-                                        Warga Negara Indonesia <br>
-                                        Telah Memiliki Sertifikat Konsultan Pajak Tingkat B Atau Piagam Penghargaan Yang
-                                        Setara Yang Diberikan Kepada Pensiunan<br>
-                                        Pegawai Direktorat Jenderal Pajak.<br>
+                                        - KUP A<br>
+                                        - PPH ORANG PRIBADI<br>
+                                        - SPT PPH ORANG PRIBADI 1770 SS, 1770 S, 1770<br>
+                                        - PBB, BPHTB, BEA MATERAI<br>
+                                        - PPH PASAL 21<br>
+                                        - SPT MASA PPH PASAL 21 DAN 1721 A1<br>
+                                        - PPH PEMOTONGAN PEMUNGUTAN PASAL 22, 23, 4(2), 15, 26<br>
+                                        - PPN DAN PPNBM<br>
+                                        - SPT MASA PPN DAN PPNBM 1111<br>
+                                        - AKUNTANSI PERPAJAKAN<br>
+                                        - PPH BADAN<br>
+                                        - SPT PPH BADAN 1771<br>
+                                        - KUP B<br>
                                     </p>
                                 </div>
                             </div>
@@ -178,55 +202,17 @@ USKP |
                             <div class="d-flex justify-content-start">
                                 <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
                                 <div class="item">
-                                    <h5 class="judul">Apa Saja Fasilitas Yang Didapatkan Peserta?
-                                    </h5>
+                                    <h5 class="judul">Apa Keunggulan Kelas Brevet Pajak di IC-Education dengan Tempat
+                                        Lain?</h5>
                                     <p class="sub-judul-faq text-justify">
-                                        - Soal Latihan Dari Soal-Soal USKP Terdahulu <br>
-                                        - Latihan Menjawab Soal Bersama <br>
-                                        - Tips Dan Trik Menjawab Soal-Soal USKP Berdasarkan Pengalaman Dari Tutor
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="agenda-item-faq">
-                            <div class="d-flex justify-content-start">
-                                <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
-                                <div class="item">
-                                    <h5 class="judul">Siapa Saja Pemateri USKP?</h5>
-                                    <p class="sub-judul-faq text-justify">
-                                        Praktisi Pajak Dari Direktorat Jenderal Pajak <br>
-                                        Tutor Yang Sudah Luls USKP Di Ikatan Konsultan Pajak Indonesia
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="agenda-item-faq">
-                            <div class="d-flex justify-content-start">
-                                <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
-                                <div class="item">
-                                    <h5 class="judul">Apa Saja Materi Yang Diajarkan pada Kelas USKP A?</h5>
-                                    <p class="sub-judul-faq text-justify">
-                                        - KUP, PP, PPSP <br>
-                                        - PPH ORANG PRIBADI <br>
-                                        - PPH POTPUT <br>
-                                        - PPN DAN PPN BM <br>
-                                        - PBB-P3, BPHTB, BM <br>
-                                        - KODE ETIK <br>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="agenda-item-faq">
-                            <div class="d-flex justify-content-start">
-                                <i class="fa-solid fa-chevron-right chevron-icon me-4"></i>
-                                <div class="item">
-                                    <h5 class="judul">Apa Saja Materi Yang Diajarkan pada Kelas USKP B?</h5>
-                                    <p class="sub-judul-faq text-justify">
-                                        - KUP, PP, PPSP <br>
-                                        - PPH POTPUT <br>
-                                        - PPN DAN PPN BM <br>
-                                        - AKUNTANSI PAJAK <br>
-                                        - PPH BADAN <br>
+                                        Modul Pelatihan Selalu Up-To-Date,
+                                        Tim Instruktur Dari Prkatisi Yang Terpilih,
+                                        Pendekatan Materi Lebih Praktis,
+                                        Biaya Include Ujian Dan Sertifikat,
+                                        Biaya Include Pelatihan E-Spt,
+                                        Sertifikat Brevet Dan E-Spt Terpisah,
+                                        Free Wifi,
+                                        Open Untuk Internship Untuk Peserta Fresh Graduate
                                     </p>
                                 </div>
                             </div>

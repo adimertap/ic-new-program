@@ -6,6 +6,7 @@ use App\Models\Produk;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\MasterHeaderKelas;
+use App\Models\MetaDescription;
 
 class SeminarController extends Controller
 {
@@ -22,6 +23,7 @@ class SeminarController extends Controller
             }
         }
         $produk = $produk->get();
+        $meta = MetaDescription::where('pages', 'Seminar')->first();
 
         $header = MasterHeaderKelas::where('kelas', 'Seminar')->where('section', null)->first();
         $judul = MasterHeaderKelas::where('kelas', 'Seminar')->where('section', 'Judul')->first();
@@ -29,7 +31,8 @@ class SeminarController extends Controller
         return view('home.pages.seminar', [
             'produk' => $produk,
             'header' => $header,
-            'judul' => $judul
+            'judul' => $judul,
+            'meta' => $meta
         ]);
     }
 }

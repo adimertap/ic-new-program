@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\SertifikatController;
 use App\Http\Controllers\Admin\KeranjangProdukController;
 use App\Http\Controllers\Admin\KeranjangProdukLama;
 use App\Http\Controllers\Admin\KeranjangProdukOtomatisController;
+use App\Http\Controllers\Admin\MetaController;
 use App\Http\Controllers\Admin\TandaTanganController;
 use App\Http\Controllers\Admin\TenagaPendidikController;
 use App\Http\Controllers\CheckoutController;
@@ -77,6 +78,9 @@ Route::post('login', [AuthController::class, 'authLogin'])->name('login-auth');
 
 Route::get('forgot-password', [AuthController::class, 'forgotPassword'])->name('forgot-password');
 Route::post('forgot-password', [AuthController::class, 'authForgotPassword'])->name('forgot-password-auth');
+Route::get('change-password', [AuthController::class, 'changePasswordUI'])->name('forgot-password-ui');
+Route::post('change-password', [AuthController::class, 'changePassword'])->name('forgot-password-change');
+
 
 Route::get('register/{slug?}', [AuthController::class, 'register'])->name('register');
 Route::get('check-email', [AuthController::class, 'checkEmail'])->name('register-check-email');
@@ -101,6 +105,7 @@ Route::name('admin-')->middleware('admin')->group( function(){
     Route::prefix('master')->group(function () {
         Route::resource('ttd', TandaTanganController::class);
         Route::resource('master-header', HeaderController::class);
+        Route::resource('meta', MetaController::class);
         Route::resource('master-pendidik', TenagaPendidikController::class);
         Route::post('master-pendidik/aktif/{id}', [TenagaPendidikController::class, 'aktif'])->name('aktif-pendidik');
         Route::resource('master-jenis-instansi', JenisInstansiController::class);
@@ -223,6 +228,8 @@ Route::middleware('user')->group(function() {
         ->name('bayar');
     Route::get('/transaksi/cek/{id}', [UserDashboardController::class, 'cekTransaksi'])
         ->name('cek-midtrans');
+        Route::get('/transaksi/hitung/{id}', [UserDashboardController::class, 'transaksiHitung'])
+        ->name('transaksi-hitung');
     Route::get('/transaksi/invoice/{id}', [UserDashboardController::class, 'invoiceTransaksi'])
         ->name('transaksi-invoice');
 

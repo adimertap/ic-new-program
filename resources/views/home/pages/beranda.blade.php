@@ -1,7 +1,7 @@
 @extends('home.app')
 
 @section('title')
-Beranda |
+{{ $meta->title ?? '' }}
 @endsection
 
 @section('content')
@@ -35,17 +35,17 @@ Beranda |
 </section>
 
 <!-- section start -->
-<div class="container" style="padding: 50px 50px 100px 50px" id="about">
+<div class="container cont-pad" id="about">
     <div class="flex flex-wrap pt-20">
-        <div class="w-full lg:w-1/2 self-center opacity-0" id="imageLeft">
+        <div class="w-full lg:w-1/2 self-center" id="imageLeft">
             <img src="{{ asset('images/new/gambar2.png')}}" alt="about-us" />
         </div>
-        <div class="w-full lg:w-1/2 self-center p-10">
+        <div class="w-full lg:w-1/2 self-center pad-about">
             <h5 class="sub-title">About Us</h5>
             <div class="flex justify-left">
                 <h1 class="judulfix">Apa Itu ICEDUCATION ?</h1>
             </div>
-            <p class="about-text leading-8 mt-4 text-justify" style="font-weight:300">
+            <p class="about-text" style="font-weight:300">
                 {{ $home_about->description ?? '' }}
             </p>
         </div>
@@ -54,18 +54,16 @@ Beranda |
 
 <section class="agenda">
     <div class="bg-gray">
-        <div class="container p-10" style="padding: 100px 150px 100px 150px" id="agenda">
-            <div class="row">
-                <div class="col-4 mt-5">
+        <div class="container" id="agenda">
+            <div class="agenda-grids">
+                <div class="mt-5">
                     <h5 class="sub-title">Our Service</h5>
-                    <div class="flex justify-left">
-                        <h1 class="judulfix">Agenda <br> Rutin Kami</h1>
-                    </div>
+                    <h1 class="agenda-titile">Agenda <br> Rutin Kami</h1>
                 </div>
-                <div class="col-8">
+                <div class="agenda-padding">
                     <div class="agenda-item">
                         <div class="d-flex justify-content-start">
-                            <img src="{{ asset('images/new/agenda1.png')}}" alt="agenda-item" />
+                            <img src="{{ asset('images/new/agenda1.png')}}" id="agendaImage1" alt="agenda-item" />
                             <div class="item">
                                 <h5 class="judul">Kursus Brevet AB dan C</h5>
                                 <p class="sub-judul text-justify">Kelas Brevet Pajak AB dan Brevet C di IC Education
@@ -74,28 +72,24 @@ Beranda |
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-5">
-                        <div class="col-6">
-                            <div class="agenda-item">
-                                <div class="d-flex justify-content-start">
-                                    <img src="{{ asset('images/new/agenda2.png')}}" alt="agenda-item" />
-                                    <div class="item">
-                                        <h5 class="judul">Ih House Training</h5>
-                                        <p class="sub-judul">Inhouse Training perpajakan seperti di Bank Nagari, Padang
-                                        </p>
-                                    </div>
+                    <div class="agenda-grids2 agenda-mt5">
+                        <div class="agenda-item">
+                            <div class="d-flex justify-content-start">
+                                <img src="{{ asset('images/new/agenda2.png')}}" alt="agenda-item" />
+                                <div class="item">
+                                    <h5 class="judul">Ih House Training</h5>
+                                    <p class="sub-judul">Inhouse Training perpajakan seperti di Bank Nagari, Padang
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="agenda-item">
-                                <div class="d-flex justify-content-start">
-                                    <img src="{{ asset('images/new/agenda3.png')}}" alt="agenda-item" />
-                                    <div class="item">
-                                        <h5 class="judul">FGD</h5>
-                                        <p class="sub-judul">FGD terkait usulan peraturan perpajakan dan peraturan
-                                            lainnya.</p>
-                                    </div>
+                        <div class="agenda-item">
+                            <div class="d-flex justify-content-start">
+                                <img src="{{ asset('images/new/agenda3.png')}}" alt="agenda-item" />
+                                <div class="item">
+                                    <h5 class="judul">FGD</h5>
+                                    <p class="sub-judul">FGD terkait usulan peraturan perpajakan dan peraturan
+                                        lainnya.</p>
                                 </div>
                             </div>
                         </div>
@@ -110,12 +104,12 @@ Beranda |
 
 <section class="steps">
     <div class="container">
-        <h2 class="judulfix text-center">Kelas Tersedia</h2>
+        <h2 class="steps-judul text-center">Kelas Tersedia</h2>
         <p class="sub-judul">IC EDUCATION saat ini memiliki kelas yang telah tersedia dan <br> telah dijalankan di
             antaranya :</p>
-        <div class="row item-step" style="margin-top: 120px!important;">
+        <div class="row item-step">
             <div class="col-lg-6 col-12 step-left">
-                <img src="{{ asset('images/new/kelas1.png') }}" class="cover" alt="">
+                <img src="{{ asset('images/new/kelas1.png') }}" class="cover" alt="" id="image1Class">
             </div>
             <div class="col-lg-6 col-12 text-left copywriting">
                 <p class="sub-title">
@@ -126,18 +120,18 @@ Beranda |
                     </h5>
                     <hr>
                     <p class="support">
-                       {{ $home_brevet->description ?? '' }}
+                        {{ $home_brevet->description ?? '' }}
                     </p>
                     <p class="cta mt-5">
                         <a href="{{ route('home-brevet') }}" class="btn btn-master btn-primary"
-                            style="background-color: #FE721C!important; border:0">
+                            style="background-color: #FE721C; border:0" id="btnClass1">
                             Daftar Sekarang
                         </a>
                     </p>
             </div>
         </div>
         <div class="row item-step">
-            <div class="col-lg-6 col-12 text-left copywriting mt-8 pl-150">
+            <div class="col-lg-6 col-12 text-left copywriting pl-150">
                 <p class="sub-title">
                     Kelas Kedua
                 </p>
@@ -150,18 +144,18 @@ Beranda |
                 </p>
                 <p class="cta mt-5">
                     <a href="{{ route('home-seminar') }}" class="btn btn-master btn-primary"
-                        style="background-color: #FE721C!important; border:0">
+                        style="background-color: #FE721C; border:0" id="btnClass2">
                         Daftar Sekarang
                     </a>
                 </p>
             </div>
             <div class="col-lg-6 col-12 step-right">
-                <img src="{{ asset('images/new/kelas2.png') }}" class="cover" alt="">
+                <img src="{{ asset('images/new/kelas2.png') }}" class="cover" alt="" id="image2Class">
             </div>
         </div>
         <div class="row item-step">
             <div class="col-lg-6 col-12 step-left">
-                <img src="{{ asset('images/new/kelas3.png') }}" class="cover" alt="">
+                <img src="{{ asset('images/new/kelas3.png') }}" class="cover" alt="" id="image3Class">
             </div>
             <div class="col-lg-6 col-12 text-left copywriting">
                 <p class="sub-title">
@@ -172,11 +166,11 @@ Beranda |
                 </h5>
                 <hr>
                 <p class="support">
-                   {{ $home_house->description ?? '' }}
+                    {{ $home_house->description ?? '' }}
                 </p>
                 <p class="cta mt-5">
                     <a href="{{ route('home-inhouse') }}" class="btn btn-master btn-primary"
-                        style="background-color: #FE721C!important; border:0">
+                        style="background-color: #FE721C; border:0" id="btnClass3">
                         Daftar Sekarang
                     </a>
                 </p>
@@ -197,13 +191,13 @@ Beranda |
                 </p>
                 <p class="cta mt-5">
                     <a href="{{ route('home-uskp') }}" class="btn btn-master btn-primary"
-                        style="background-color: #FE721C!important; border:0">
+                        style="background-color: #FE721C; border:0" id="btnClass4">
                         Daftar Sekarang
                     </a>
                 </p>
             </div>
             <div class="col-lg-6 col-12 step-right">
-                <img src="{{ asset('images/new/kelas4.png') }}" class="cover" alt="">
+                <img src="{{ asset('images/new/kelas4.png') }}" class="cover" alt="" id="image4Class">
             </div>
         </div>
     </div>
@@ -212,12 +206,12 @@ Beranda |
 <!-- gallery start -->
 <div class=" bg-gray pt-10 galeri" id="galeri">
     <div class="container mx-auto p-10">
-        <h1 class="judulfix text-center">Galeri</h1>
+        <h1 class="galeri-judul text-center">Galeri</h1>
         <p class="text-center mt-1">Dokumentasi Kegiatan IC Education Dengan Beberapa Kampus dan
             Peserta</p>
         <div class="flex flex-wrap pt-2 pb-2">
             @foreach ($gallery as $item)
-            <div class="p-4 w-1/2 lg:w-1/4">
+            <div class="galeri-list" >
                 <div class="overflow-hidden rounded-md shadow-md">
                     <img src="{{ asset('storage/gallery/'.$item->image)}}" alt="image-1" class="mx-auto w-full" />
                 </div>
@@ -232,7 +226,7 @@ Beranda |
 <div class="container mx-auto p-10">
     <div class="sertif flex flex-col justify-center space-y-8">
         <div class="text-center">
-            <div class="w-2/3 inline-block">
+            <div class="sertif-temp inline-block">
                 <h1 class="sub-title">Nomor Pokok Sekolah Nasional</h1>
                 <h1 class="judulfix">sertifikat npsn ic education</h1>
                 <p class="sub-judul">{{ $home_sertif->description }}</span>
@@ -240,7 +234,7 @@ Beranda |
             </div>
         </div>
         <div class="text-center mt-5">
-            <img src="{{ asset('images/npsn-icedu.png')}}" alt="" class="w-2/4 inline-block" />
+            <img src="{{ asset('images/npsn-icedu.png')}}" alt="" class="sertif-image inline-block" />
         </div>
     </div>
 </div>

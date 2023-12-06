@@ -14,21 +14,21 @@ Forgot Password - ICEDUCATION
             <p class="text">Lembaga Pelatihan dan Pendidikan Non Formal dalam bidang keuangan dan bisnis.</p>
         </div>
         <div class="right">
-            <form action="{{ route('forgot-password')}}" method="post">
+            <form action="{{ route('forgot-password-auth')}}" method="post">
                 @csrf
                 <h1 class="header-third">
                     <img src="{{ asset('images/ic-edu-logo.png')}}" alt="" />
                 </h1>
-                <p class="subheader">
-                    <b>Forgot Password?</b> Please input your New Password
+                <p class="subheader mt-5">
+                    <b>Forgot Password?</b> Please input your Email
                 </p>
                 <div class="form-login">
-                    <div class="mb-4">
+                    <div class="mb-1">
                         <label for="name" class="form-label">Email</label>
                         <input name="email" type="email" class="form-control" placeholder="example@iceducation.com"
                             value="" required>
                     </div>
-                    <div class="mb-2">
+                    {{-- <div class="mb-2">
                         <label for="new_password" class="form-label">Password</label>
                         <input name="new_password" type="password" class="form-control" value="" id="new_password"
                             placeholder="Masukan Password Anda .." required>
@@ -37,10 +37,10 @@ Forgot Password - ICEDUCATION
                         <label for="new_password_confirmation" class="form-label">Confirm Password</label>
                         <input name="new_password_confirmation" type="password" class="form-control" value="" id="new_password_confirmation"
                             placeholder="Confirm Password" required>
-                    </div>
+                    </div> --}}
                 </div>
-                <p>
-                    <button type="submit" class="btn btn-login btn-margin-top">Submit New Password
+                <p class="mt-0">
+                    <button type="submit" class="btn btn-login btn-margin-top">Send Email
                     </button>
                 </p>
             </form>
@@ -50,11 +50,11 @@ Forgot Password - ICEDUCATION
                 </a><br>
                 atau Kembali ke  <a  href="{{ route('login') }}">Login</a>
             </p>
-            <p class="footer-account-2 mt-5">
+            {{-- <p class="footer-account-2 mt-5">
                 Powered By <a style="color: white" href="#">
                     IC Consultant
                 </a>
-            </p>
+            </p> --}}
         </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
