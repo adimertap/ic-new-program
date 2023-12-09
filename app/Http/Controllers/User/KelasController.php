@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BankSoalUjian;
 use App\Models\JawabanUser;
 use App\Models\KeranjangProduk;
+use App\Models\Kerjasama;
 use App\Models\Materi;
 use App\Models\PesertaUjian;
 use App\Models\Produk;
@@ -22,6 +23,7 @@ use Str;
 use Exception;
 use Midtrans;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -287,35 +289,33 @@ class KelasController extends Controller
     public function simpanJawaban(Request $request)
     {
         try {
+            DB::beginTransaction();
             $jawaban_user = JawabanUser::join('soal_ujian', 'jawaban_temp.soal_id', 'soal_ujian.id')
                 ->where('jawaban_temp.materi_id', $request->materi_id)
                 ->where('jawaban_temp.user_id', Auth::user()->id)
                 ->get();
 
-            foreach ($jawaban_user as $key) {
-                if ($key->jawaban == $key->jawaban_user) {
-                    $status = "1";
-                } else {
+            $skor = 0;
+            $count_jawaban = count($jawaban_user);
+
+            for($i = 0; $i < $count_jawaban; $i++){
+                $key = $jawaban_user[$i];
+
+                if($key->jawaban == $key->jawaban_user){
+                    $status = 1;
+                    $skor += 4;
+                }else{
                     $status = "2";
                 }
 
                 Ujian::where('user_id', Auth()->user()->id)
-                    ->where('soal_id', $key->no_soal)
-                    ->where('materi_id', $request->materi_id)
-                    ->update([
-                        'jawaban' => $key->jawaban_user,
-                        'benar' => $status
-                    ]);
-            }
+                ->where('soal_id', $key->no_soal)
+                ->where('materi_id', $request->materi_id)
+                ->update([
+                    'jawaban' => $key->jawaban_user,
+                    'benar' => $status
+                ]);
 
-            $skor = 0;
-            foreach ($jawaban_user as $user) {
-                if ($user->jawaban == $user->jawaban_user) {
-                    // $skor += 4;
-                    $skor += 20;
-                } else {
-                    $skor += 0;
-                }
             }
 
             if ($skor < 60) {
@@ -399,6 +399,7 @@ class KelasController extends Controller
                     'lulus' => $lulus,
                 ]);
             }
+            DB::commit();
 
             if ($request->type == 'waktu_habis') {
                 return $request;
@@ -407,6 +408,7 @@ class KelasController extends Controller
             }
         } catch (\Throwable $th) {
             return $th;
+            DB::rollBack();
         }
     }
 
@@ -561,6 +563,7 @@ class KelasController extends Controller
     public function ujianUlang(Request $request)
     {
         try {
+            DB::beginTransaction();
             $materi = Materi::where('id', $request->materi_id)->first();
             $user = User::with('kerjasama')
                 ->where('users.id', Auth::user()->id)->first();
@@ -626,7 +629,10 @@ class KelasController extends Controller
                 $data['produk'] = $produk->nama_produk;
                 $data['diskon'] = $keranjang->diskon;
                 $data['isregonly'] = "0";
-                $pdf = PDF::loadview('invoice_download', ['transaksi' => $keranjang, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
+                
+                $authUser = User::where('email', Auth::user()->email)->first();
+                $instansi = Kerjasama::where('id', $authUser->kerjasama_id)->first();
+                $pdf = PDF::loadview('invoice_download', ['transaksi' => $keranjang, 'instansi' => $instansi, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
                 $pdf->setPaper('A4', 'portrait');
 
                 try {
@@ -643,15 +649,17 @@ class KelasController extends Controller
                 }
 
             }
-
+            DB::commit();
             return redirect()->route('transaksi');
         } catch (\Throwable $th) {
+            DB::rollBack();
             return $th;
         }
     }
 
     public function getSnapRedirectKelas(KeranjangProduk $keranjang, $request, $user)
     {
+       
         $orderId = $keranjang->id. '-' .Str::random(5);
         $keranjang->midtrans_booking_code = $orderId;
         $price = 50000;
@@ -718,6 +726,7 @@ class KelasController extends Controller
         ];
 
         try{
+            DB::beginTransaction();
             $paymentUrl = \Midtrans\Snap::createTransaction($midtrans_params)->redirect_url;
             $keranjang->midtrans_url = $paymentUrl;
             $keranjang->total_price = 55000;
@@ -747,7 +756,11 @@ class KelasController extends Controller
             $data['diskon'] = 0;
             $data['isregonly'] = "0";
             $data['link'] =  $paymentUrl;
-            $pdf = PDF::loadview('invoice_download', ['transaksi' => $keranjang, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
+
+            $authUser = User::where('email', Auth::user()->email)->first();
+             $instansi = Kerjasama::where('id', $authUser->kerjasama_id)->first();
+
+            $pdf = PDF::loadview('invoice_download', ['transaksi' => $keranjang, 'instansi'=> $instansi, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
             $pdf->setPaper('A4', 'portrait');
 
             try {
@@ -763,12 +776,13 @@ class KelasController extends Controller
                 $serverstatusdes = $exception->getMessage();
             }
 
-
+            DB::commit();
             return redirect()->to($paymentUrl)->send();
             // header('Location: '.$paymentUrl);
             // return $paymentUrl;
 
         }catch (Exception $e){
+            DB::rollBack();
             return $e;
         }
     }

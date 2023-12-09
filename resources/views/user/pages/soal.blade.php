@@ -7,17 +7,16 @@
         <div class="container-fluid content">
             <div class="path_file">
                 <div class="row justify-content-between px-3">
-                    <h4 class="d-none d-md-block my-auto">Materi dan Soal Tentang {{ $materi->description }}</h4>
-                    <h4 class="d-sm-block d-md-none">Materi dan Soal <br>Tentang {{ $materi->description }}</h4>
-                    <div class="d-inline-block my-auto"><strong id="time"></strong></div>
-                    {{-- <button class="btn btn-outline-success d-none d-md-block btn-submit" style="width: 150px">
-                        <strong> Kumpulkan </strong>
-                    </button> --}}
-                    <p class="text-primary">Waktu: <span class="countdown"></span></p>
-                    <button
+                    <h4 class="soal-judul">Materi dan Soal Tentang {{ $materi->description }}</h4>
+                    <div class="soal-waktu">
+                        <div><strong id="time"></strong></div>
+                        <p class="text-primary">Waktu: <span class="countdown"></span></p>
+                    </div>
+                    
+                    {{-- <button
                         class="btn btn-outline-success float-right d-sm-block d-md-none align-self-center btn-submit">
                         <i class="bi bi-check2-square"></i>
-                    </button>
+                    </button> --}}
                 </div>
                 <p class="text-muted mt-1">Jenis Soal Pilihan Ganda: Anda harus memilih satu</p>
 
@@ -29,10 +28,8 @@
                     @csrf
                     <input type="hidden" name="materi_id" value="{{ $materi->id }}">
                     <input type="hidden" name="soal_id" value="{{ $item->id }}">
-                    <p class="mt-5" style="line-height: 30px; font-size:1.1rem"><b class="number mr-3">{{ $index + 1
-                            }}.</b>
-                        {{ $item->soal }}</p>
-                    <div class="ml-3 pt-1 mt-3">
+                    <p class="mt-5 soal-temp"><b class="number mr-3">{{ $index + 1 }}.</b> {{ $item->soal }}</p>
+                    <div class="jawaban_temp">
                         <div class="form-check">
                             <input class="form-check-input" id="flexRadioDefault1" type="radio" name="jawaban" value="a"
                                 {{ $item->jawaban_user === 'a' ? 'checked' : '' }} />

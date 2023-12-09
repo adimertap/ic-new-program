@@ -12670,3 +12670,131 @@ body.sidebar-toggled footer.sticky-footer {
     background-color: rgba(200, 25, 31, 0.65);
     color: #fff;
 }
+
+.materi-row{
+    display: grid;
+    grid-template-columns: 70% 30%;
+    column-gap: 10rem;
+    row-gap: 2rem;
+    /* margin-top: 3rem; */
+}
+
+.ketentuan-temp{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 5rem;
+    row-gap: 1rem;
+    margin-bottom: 2rem;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.ketentuan-judul{
+    margin-top: 0.5rem;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    font-size: 1.75rem;
+    text-align: left;
+}
+
+.materi-temp{
+    font-size: 1.25rem;
+    font-weight: 400;
+    text-align: left;
+}
+
+.jam-temp{
+    font-size: 1rem;
+    text-align: right;
+}
+
+.tata-tertib{
+    padding: 0px 40px 0px 0px;
+}
+
+.tata-tertib li{
+    font-size: 1rem;
+    line-height: 28px;
+    text-align:justify;
+}
+
+.soal-judul{
+    font-size: 1.5rem;
+    text-align: left;
+    margin-bottom: 0px;
+}
+
+.soal-waktu{
+    font-size: 1.10rem;
+    text-align: right;
+}
+
+.soal-temp{
+    line-height: 30px;
+    font-size: 1.1rem;
+    text-align: left;
+
+}
+
+.jawaban-temp{
+    padding-top: 0.25rem;
+    margin-left: 1rem;
+    margin-top: 2rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .materi-row {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        row-gap: 0;
+    }
+
+    .ketentuan-judul{
+        margin-top: 0.2rem;
+        font-size: 1.50rem;
+        text-align: center;
+    }
+
+    .ketentuan-temp{
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        row-gap: 2rem;
+    }
+
+    .materi-temp{
+        font-size: 1rem;
+        font-weight: 300;
+        text-align: center;
+    }
+
+    .jam-temp{
+        font-size: 0.85rem;
+        text-align: center;
+    }
+
+    .tata-tertib{
+        padding: 0px 0px 0px 0px;
+    }
+
+    .tata-tertib li{
+        font-size: 0.8rem;
+        line-height: 20px;
+    }
+
+    .soal-judul{
+        font-size: 1.25rem;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .soal-waktu{
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .soal-temp{
+        line-height: 25px;
+        font-size: 1rem;
+        text-align: justify;
+    }
+}

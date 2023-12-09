@@ -192,11 +192,10 @@
                                 <th class="sort text-center">Harga Produk</th>
                                 <th class="sort text-center">Diskon</th>
                                 <th class="sort text-center">Voucher</th>
-                                <th class="sort text-center">Pembayaran (+ Admin)</th>
+                                <th class="sort text-center">Pembayaran</th>
                                 <th class="sort text-center">Sisa</th>
                                 <th class="sort text-center">Status</th>
                                 <th class="sort text-center">Action</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -224,7 +223,7 @@
                                 </td>
                                 <td class="text-center text-primary">
                                     <?php
-                                        $hargaOtomatis = $item->total_price + 5000;
+                                        $hargaOtomatis = $item->total_price;
                                     ?>
                                     @if($item->status == 3 && $item->payment_status == 'Cicilan')
 

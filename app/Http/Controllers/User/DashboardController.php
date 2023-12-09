@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Alert;
 use App\Http\Controllers\Controller;
 use App\Models\Dapodik;
+use Illuminate\Support\Facades\DB;
 use App\Models\KeranjangProduk;
 use App\Models\Kerjasama;
 use App\Models\MasterTandaTangan;
@@ -324,6 +325,7 @@ class DashboardController extends Controller
     public function bayar(Request $request, $id)
     {
         try {
+            DB::beginTransaction();
             $transaksi = KeranjangProduk::where('id', $request->transaksi_id)->first();
             $transaksi->cicilan_temp_idr = $request->sisaBayar;
             if($transaksi->tenor == '50'){
@@ -335,12 +337,14 @@ class DashboardController extends Controller
             }else{
                $sisa = "Full";
             }
-
             $transaksi->sisaTenor = $sisa;
             $transaksi->update();
+
             $user = User::where('email', $transaksi->username)->first();
             $this->getSnapRedirectDashboard($transaksi, $request, $user);
+            DB::commit();
         } catch (\Throwable $th) {
+            DB::rollBack();
             return $th;
         }
     }
@@ -349,23 +353,37 @@ class DashboardController extends Controller
     {
         $orderId = $transaksi->id . '-' . Str::random(5);
         $transaksi->midtrans_booking_code = $orderId;
-        $produk = Produk::where('id', $transaksi->id_kelas)->first();
+        $produk = Produk::where('id', $transaksi->slug)->first();
+        if(!$produk){
+            $nama_produk = 'Ujian Ulang';
+        }
+
+        if($transaksi->payment_status == 'Pending'){
+            $judul = 'Pembayaran Kelas';
+        }else{
+            $judul = 'Pembayaran Tenor Sisa';
+        }
 
         $item_details[] = [
             'id' => $orderId,
             'price' => $transaksi->cicilan_temp_idr,
             'quantity' => 1,
-            'name' => "Pembayaran Tenor Sisa",
-            'brand' => $produk->nama_produk,
-            'category' => $produk->kelas,
+            'name' => $judul,
+            'brand' => $nama_produk,
+            'category' => $nama_produk,
         ];
 
-        $item_details[] = [
-            'id' => 1,
-            'price' => +5000,
-            'quantity' => 1,
-            'name' => "Biaya Admin",
-        ];
+        if($transaksi->total_price != 55000){
+            $item_details[] = [
+                'id' => 1,
+                'price' =>  +5000,
+                'quantity' => 1,
+                'name' => "Biaya Admin",
+            ];
+        }
+      
+
+
         // return $transaksi->cicilan_temp_idr;
 
         $transaction_details = [
@@ -415,15 +433,11 @@ class DashboardController extends Controller
             'seller_details' => $seller_details,
         ];
 
-        try {
-            $paymentUrl = \Midtrans\Snap::createTransaction($midtrans_params)->redirect_url;
-            $transaksi->midtrans_url = $paymentUrl;
-            // $transaksi->total_price = $transaksi->total_price + $transaksi->cicilan_temp_idr;
-            $transaksi->update();
-            return redirect()->to($paymentUrl)->send();
-        } catch (Exception $e) {
-            dd($e);
-        }
+        $paymentUrl = \Midtrans\Snap::createTransaction($midtrans_params)->redirect_url;
+        $transaksi->midtrans_url = $paymentUrl;
+        // $transaksi->total_price = $transaksi->total_price + $transaksi->cicilan_temp_idr;
+        $transaksi->update();
+        return redirect()->to($paymentUrl)->send();
     }
 
     public function invoiceTransaksi(Request $request, $id)
@@ -459,20 +473,23 @@ class DashboardController extends Controller
         try {
             $nilaiVoucher = 0;
             $transaksi = KeranjangProduk::with('Voucher')->where('id', $id)->first();
-            
-            if($transaksi->Voucher){
-                $nilaiVoucher = $transaksi->Voucher->nilai;
-            }
 
-            if($transaksi->type_diskon == 'Persen'){
-                $disc = ($transaksi->harga_kelas/100) * $transaksi->diskon;
-                $angka_diskon = $transaksi->harga_kelas - ($disc + $nilaiVoucher);
+            if(!$transaksi->id_kelas){
+                $fix = $transaksi->total_price;
+            }else if($transaksi->payment_status == 'Pending'){
+                $fix = $transaksi->total_price;
             }else{
-                $angka_diskon = $transaksi->harga_kelas - ($transaksi->diskon + $nilaiVoucher);
+                if($transaksi->Voucher){
+                    $nilaiVoucher = $transaksi->Voucher->nilai;
+                }
+                if($transaksi->type_diskon == 'Persen'){
+                    $disc = ($transaksi->harga_kelas/100) * $transaksi->diskon;
+                    $angka_diskon = $transaksi->harga_kelas - ($disc + $nilaiVoucher);
+                }else{
+                    $angka_diskon = $transaksi->harga_kelas - ($transaksi->diskon + $nilaiVoucher);
+                }
+                $fix = $angka_diskon - $transaksi->total_price;
             }
-
-            $fix = $angka_diskon - $transaksi->total_price;
-
             return [
                 'fix' => $fix,
                 'transaksi' => $transaksi,

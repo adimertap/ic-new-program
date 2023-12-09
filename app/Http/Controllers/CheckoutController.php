@@ -18,6 +18,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Midtrans\Config;
 use Illuminate\Support\Facades\Mail;
 use Throwable;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
@@ -124,6 +125,8 @@ class CheckoutController extends Controller
     {
         try {
             // return $request;
+            // DB::beginTransaction();
+
             $find_produk = Produk::where('slug', $slug)->first();
             $user = User::where('id', Auth::user()->id)->first();
 
@@ -199,11 +202,11 @@ class CheckoutController extends Controller
                 $isOnline = $produk->online == '1' ? 'Online' : '';
                 $tanggal = date('Y-m-d');
 
-                $userLogin = User::where('email', $transaksi->username)->get();
+                $userLogin = User::where('email', $transaksi->username)->first();
                 if ($userLogin) {
                     $instansiCheck = Kerjasama::where('id', $userLogin->kerjasama_id)->first();
                 } else {
-                    $instaniCheck = "";
+                    $instansiCheck = "";
                 }
 
                 $data = array();
@@ -225,6 +228,7 @@ class CheckoutController extends Controller
                 $data['produk'] = $produk->nama_produk;
                 $data['diskon'] = $transaksi->diskon;
                 $data['isregonly'] = "0";
+
                 $pdf = PDF::loadview('invoice_download', ['instansi' => $instansiCheck, 'transaksi' => $transaksi, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
                 $pdf->setPaper('A4', 'portrait');
 
@@ -240,11 +244,13 @@ class CheckoutController extends Controller
                     $serverstatuscode = "0";
                     $serverstatusdes = $exception->getMessage();
                 }
+                // DB::commit();
                 Alert::success('Success', 'Pesanan Anda Telah Masuk, Mohon Menunggu Konfirmasi dari Admin Kami! Check Dashboard');
                 return redirect()->route('home-beranda');
             }
         } catch (\Throwable $th) {
             return $th;
+            // DB::rollBack();
             Alert::warning('Warning', 'Internal Server Error, Data Not Found');
             return redirect()->back();
         }
