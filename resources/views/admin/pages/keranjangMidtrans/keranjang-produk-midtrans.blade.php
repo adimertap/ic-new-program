@@ -89,10 +89,18 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td><span id="{{ $item->id }}">{{ $item->no_invoice }}</span></td>
-                                        <td>{{ $item->user->name }}</td>
-                                        <td>{{ $item->user->email }}</td>
-                                        <td>{{ $item->user->no_hp }}</td>
-                                        <td>{{ $item->user->pekerjaan }}</td>
+                                        @if($item->user)
+                                        <td>{{ $item->user->name ?? 'user not found' }}</td>
+                                        <td>{{ $item->user->email ?? '' }}</td>
+                                        <td>{{ $item->user->no_hp ?? '' }}</td>
+                                        <td>{{ $item->user->pekerjaan ?? '' }}</td>
+                                        @else
+                                            <td>NULL</td>
+                                            <td>NULL</td>
+                                            <td>NULL</td>
+                                            <td>NULL</td>
+
+                                        @endif
                                         <td>{{ $item->produk->nama_produk ?? 'product deleted' }}</td>
                                         <td>{{ $item->produk->kelas ?? 'product deleted' }}</td>
                                         <td>Rp. {{ convert_to_rupiah($item->harga_kelas) ?? 'product deleted' }}</td>
