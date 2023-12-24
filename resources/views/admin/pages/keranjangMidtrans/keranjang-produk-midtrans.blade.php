@@ -95,10 +95,10 @@
                                         <td>{{ $item->user->no_hp ?? '' }}</td>
                                         <td>{{ $item->user->pekerjaan ?? '' }}</td>
                                         @else
-                                            <td>NULL</td>
-                                            <td>NULL</td>
-                                            <td>NULL</td>
-                                            <td>NULL</td>
+                                            <td>user not found</td>
+                                            <td>user not found</td>
+                                            <td>user not found</td>
+                                            <td>user not found</td>
 
                                         @endif
                                         <td>{{ $item->produk->nama_produk ?? 'product deleted' }}</td>
