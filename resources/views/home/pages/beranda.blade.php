@@ -26,7 +26,7 @@
                         </p>
                     </div>
                     <div class="col-lg-6 col-12 text-center">
-                        <img src="{{asset('images/new/learn_2.png')}}" class="img-fluid" alt="">
+                        <img src="{{asset('/public/images/new/learn_2.png')}}" class="img-fluid" alt="">
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
 <div class="container cont-pad" id="about">
     <div class="flex flex-wrap pt-20">
         <div class="w-full lg:w-1/2 self-center" id="imageLeft">
-            <img src="{{ asset('images/new/gambar2.png')}}" alt="about-us" />
+            <img src="{{ asset('/public/images/new/gambar2.png')}}" alt="about-us" />
         </div>
         <div class="w-full lg:w-1/2 self-center pad-about">
             <h5 class="sub-title">About Us</h5>
@@ -63,7 +63,7 @@
                 <div class="agenda-padding">
                     <div class="agenda-item">
                         <div class="d-flex justify-content-start">
-                            <img src="{{ asset('images/new/agenda1.png')}}" id="agendaImage1" alt="agenda-item" />
+                            <img src="{{ asset('/public/images/new/agenda1.png')}}" id="agendaImage1" alt="agenda-item" />
                             <div class="item">
                                 <h5 class="judul">Kursus Brevet AB dan C</h5>
                                 <p class="sub-judul text-justify">Kelas Brevet Pajak AB dan Brevet C di IC Education
@@ -75,7 +75,7 @@
                     <div class="agenda-grids2 agenda-mt5">
                         <div class="agenda-item">
                             <div class="d-flex justify-content-start">
-                                <img src="{{ asset('images/new/agenda2.png')}}" alt="agenda-item" />
+                                <img src="{{ asset('/public/images/new/agenda2.png')}}" alt="agenda-item" />
                                 <div class="item">
                                     <h5 class="judul">Ih House Training</h5>
                                     <p class="sub-judul">Inhouse Training perpajakan seperti di Bank Nagari, Padang
@@ -85,7 +85,7 @@
                         </div>
                         <div class="agenda-item">
                             <div class="d-flex justify-content-start">
-                                <img src="{{ asset('images/new/agenda3.png')}}" alt="agenda-item" />
+                                <img src="{{ asset('/public/images/new/agenda3.png')}}" alt="agenda-item" />
                                 <div class="item">
                                     <h5 class="judul">FGD</h5>
                                     <p class="sub-judul">FGD terkait usulan peraturan perpajakan dan peraturan
@@ -109,7 +109,7 @@
             antaranya :</p>
         <div class="row item-step">
             <div class="col-lg-6 col-12 step-left">
-                <img src="{{ asset('images/new/kelas1.png') }}" class="cover" alt="" id="image1Class">
+                <img src="{{ asset('/public/images/new/kelas1.png') }}" class="cover" alt="" id="image1Class">
             </div>
             <div class="col-lg-6 col-12 text-left copywriting">
                 <p class="sub-title">
@@ -150,12 +150,12 @@
                 </p>
             </div>
             <div class="col-lg-6 col-12 step-right">
-                <img src="{{ asset('images/new/kelas2.png') }}" class="cover" alt="" id="image2Class">
+                <img src="{{ asset('/public/images/new/kelas2.png') }}" class="cover" alt="" id="image2Class">
             </div>
         </div>
         <div class="row item-step">
             <div class="col-lg-6 col-12 step-left">
-                <img src="{{ asset('images/new/kelas3.png') }}" class="cover" alt="" id="image3Class">
+                <img src="{{ asset('/public/images/new/kelas3.png') }}" class="cover" alt="" id="image3Class">
             </div>
             <div class="col-lg-6 col-12 text-left copywriting">
                 <p class="sub-title">
@@ -197,7 +197,7 @@
                 </p>
             </div>
             <div class="col-lg-6 col-12 step-right">
-                <img src="{{ asset('images/new/kelas4.png') }}" class="cover" alt="" id="image4Class">
+                <img src="{{ asset('/public/images/new/kelas4.png') }}" class="cover" alt="" id="image4Class">
             </div>
         </div>
     </div>
@@ -234,7 +234,7 @@
             </div>
         </div>
         <div class="text-center mt-5">
-            <img src="{{ asset('images/npsn-icedu.png')}}" alt="" class="sertif-image inline-block" />
+            <img src="{{ asset('/public/images/npsn-icedu.png')}}" alt="" class="sertif-image inline-block" />
         </div>
     </div>
 </div>

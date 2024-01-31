@@ -10,7 +10,7 @@ Register - ICEDUCATION
     @include('sweetalert::alert')
     <section class="register-user">
         <div class="left" style="width:40%!important">
-            <img src="{{ asset('images/new/register-law.png') }}" alt="">
+            <img src="{{ asset('/public/images/new/register-law.png') }}" alt="">
             <p class="judul">Jasa Konsultasi Hukum</p>
             <p class="text">Hukum adalah hukum/ peraturan atau adat yang secara resmi
                 dianggap mengikat, yang dikukuhkan oleh penguasa atau

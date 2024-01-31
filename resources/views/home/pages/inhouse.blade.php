@@ -27,7 +27,7 @@
                             </p>
                         </div>
                         <div class="col-lg-6 col-12 text-center">
-                            <img src="{{asset('images/new/inhouse.png')}}" class="img-fluid-kelas" alt="">
+                            <img src="{{asset('/public/images/new/inhouse.png')}}" class="img-fluid-kelas" alt="">
                         </div>
                     </div>
                 </div>

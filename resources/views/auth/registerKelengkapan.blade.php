@@ -10,7 +10,7 @@
     @include('sweetalert::alert')
     <section class="register-user">
         <div class="left-kelengkapan">
-            <img src="{{ asset('images/produk/Crop.png') }}"
+            <img src="{{ asset('/public/images/produk/Crop.png') }}"
                 style="margin-top:250px!important; margin-right:50px!important" alt="cover" width="20" height="20">
             <div class="text-center mt-4">
                 @if ($item->online == 1)

@@ -45,7 +45,7 @@
                 <div class="flex flex-col items-center">
                     <div class="overflow-hidden rounded-md w-72">
                         @if($teams->photo_profile)
-                        <img src="{{ asset('/pendidik/'.$teams->photo_profile)}}" alt="image-1"
+                        <img src="{{ asset('/public/pendidik/'.$teams->photo_profile)}}" alt="image-1"
                             class="mx-auto w-full" />
                         @endif
                     </div>

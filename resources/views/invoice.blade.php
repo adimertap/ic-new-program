@@ -9,7 +9,7 @@
 <body
     style="position:relative;margin:0 auto;color:#001028;background:#FFF;font-family:Arial, sans-serif;font-size:12px;font-family:Arial;">
     <header style="padding: 10px 0;">
-        <img style="height: 70px;" src="{{ asset('images/ic-edu-logo.png') }}" alt="">
+        <img style="height: 70px;" src="{{ asset('/public/images/ic-edu-logo.png') }}" alt="">
         <div style="text-align: center;line-height: 7px;">
             <h2 style="text-decoration: underline;">INVOICE</h2>
             <h3>{{ $transaksi->no_invoice }}</h3>

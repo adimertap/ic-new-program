@@ -27,7 +27,7 @@
                             </p>
                         </div>
                         <div class="col-lg-6 col-12 text-center">
-                            <img src="{{asset('images/new/brevet.png')}}" class="img-fluid-kelas" alt="">
+                            <img src="{{asset('/public/images/new/brevet.png')}}" class="img-fluid-kelas" alt="">
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
             <div class="products-wrap">
                 @foreach ($produk as $item)
                 <div class="product-card">
-                    <img src="{{ asset('images/produk/katalog.png') }}" alt="cover" width="300" height="230">
+                    <img src="{{ asset('/public/images/produk/katalog.png') }}" alt="cover" width="300" height="230">
                     <div class="product-detail pt-3">
                         <div class="stars">
                             @if ($item->online == 1)
@@ -66,7 +66,7 @@
                             @else
                             <span class="badge badge-danger mr-2">Offline</span>
                             @endif
-                            <img src="{{ asset('images/new/star.png') }}" height="40" width="85" alt="">
+                            <img src="{{ asset('/public/images/new/star.png') }}" height="40" width="85" alt="">
                         </div>
                         <p class="title-detail mt-4 uppercase">{{ $item->nama_produk }} {{ $item->kelas }}</p>
                         <div class="time">

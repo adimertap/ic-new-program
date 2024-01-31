@@ -9,7 +9,7 @@
     <meta name="author" content="" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>ICEDUCATION - USER</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/ic-bulet.png')}}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/public/images/ic-bulet.png')}}" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>

@@ -9,7 +9,7 @@ Status Pembayaran |
     <div class="container" style="margin-top: 5px">
         <div class="row text-center">
             <div class="col-lg-12 col-12" style="padding-left: 400px;padding-right: 400px">
-                <img src="{{ asset('images/new/success.png') }}"class="mb-2" alt="">
+                <img src="{{ asset('/public/images/new/success.png') }}"class="mb-2" alt="">
             </div>
             <div class=" col-lg-12 col-12 header-wrap mt-4">
                 <p class="story" style="color: rgb(51, 196, 60) !important">

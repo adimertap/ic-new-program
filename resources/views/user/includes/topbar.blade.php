@@ -19,7 +19,7 @@
           <strong>{{ Auth::user()->name }}</strong>
         </span>
         <img class="img-profile rounded-circle"
-          src="{{ (Auth::user()->image_name) ? asset('profile/'.Auth::user()->image_name) : asset('userAdmin/img/undraw_profile.svg')  }}" />
+          src="{{ (Auth::user()->image_name) ? asset('/public/profile/'.Auth::user()->image_name) : asset('/public/userAdmin/img/undraw_profile.svg')  }}" />
       </a>
       <!-- Dropdown - User Information -->
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

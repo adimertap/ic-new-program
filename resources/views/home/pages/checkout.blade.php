@@ -58,7 +58,7 @@
                 <div class="checkout-item">
                     <div class="product-card">
                         <div class="product-detail">
-                            <img src="{{ asset('images/produk/katalog.png') }}" alt="cover" width="400" height="400"
+                            <img src="{{ asset('/public/images/produk/katalog.png') }}" alt="cover" width="400" height="400"
                                 id="imageCheckout">
                             <div class="text-center">
                                 @if ($item->online == 1)

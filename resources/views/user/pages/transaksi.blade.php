@@ -1,7 +1,7 @@
 @extends('user.layouts.user-app')
 
 @push('css')
-<link href="{{ asset('assets/plugins/highlight/styles/github-gist.css')}}" rel="stylesheet">
+<link href="{{ asset('/public/assets/plugins/highlight/styles/github-gist.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')

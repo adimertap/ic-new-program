@@ -20,17 +20,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   --}}
   {{--
-  <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"> --}}
+  <link href="{{ asset('/public/assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"> --}}
   {{--
-  <link href="{{ asset('assets/plugins/perfectscroll/perfect-scrollbar.css')}}" rel="stylesheet"> --}}
-  <link href="{{ asset('assets/plugins/pace/pace.css')}}" rel="stylesheet">
+  <link href="{{ asset('/public/assets/plugins/perfectscroll/perfect-scrollbar.css')}}" rel="stylesheet"> --}}
+  <link href="{{ asset('/public/assets/plugins/pace/pace.css')}}" rel="stylesheet">
 
-  <link href="{{ asset('assets/css/main.css')}}" rel="stylesheet">
-  <link href="{{ asset('assets/css/custom.css')}}" rel="stylesheet">
+  <link href="{{ asset('/public/assets/css/main.css')}}" rel="stylesheet">
+  <link href="{{ asset('/public/assets/css/custom.css')}}" rel="stylesheet">
 
   <!-- Additional CSS Files -->
 
-  <link rel="stylesheet" type="text/css" href="{{ asset('landing_page/assets/css/bootstrap.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('/public/landing_page/assets/css/bootstrap.min.css')}}">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
   <!-- GOOGLE WEB FONT -->
@@ -52,7 +52,7 @@
       <div class="container text-center mb-4">
         <div class="row">
           <div class="col">
-            <a href="{{ route('home-beranda')}}"><img src="{{ asset('images/ic-edu-logo.png')}}" alt="" /></a>
+            <a href="{{ route('home-beranda')}}"><img src="{{ asset('/public/images/ic-edu-logo.png')}}" alt="" /></a>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
               <div class="carousel-inner">
                 <div class="carousel-item active" data-bs-interval="5000">
                   <figure>
-                    <img src="{{ asset('images/ic-bulet.png')}}" alt="" style="width: 30%" />
+                    <img src="{{ asset('/public/images/ic-bulet.png')}}" alt="" style="width: 30%" />
                   </figure>
                   <h2>Jasa - IC Consultant</h2>
                   <p>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="carousel-item" data-bs-interval="5000">
                   <figure>
-                    <img src="{{ asset('landing_page/assets/images/register/Tax.svg')}}" alt="" style="width: 30%" />
+                    <img src="{{ asset('/public/landing_page/assets/images/register/Tax.svg')}}" alt="" style="width: 30%" />
                   </figure>
                   <h2>Jasa Konsultan Pajak</h2>
                   <p>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="carousel-item" data-bs-interval="5000">
                   <figure>
-                    <img src="{{ asset('landing_page/assets/images/register/Secure Payment.svg')}}" alt=""
+                    <img src="{{ asset('/public/landing_page/assets/images/register/Secure Payment.svg')}}" alt=""
                       style="width: 30%" />
                   </figure>
                   <h2>Jasa Konsultan Bea Cukai</h2>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="carousel-item" data-bs-interval="5000">
                   <figure>
-                    <img src="{{ asset('landing_page/assets/images/register/registration_bg.svg')}}" alt=""
+                    <img src="{{ asset('/public/landing_page/assets/images/register/registration_bg.svg')}}" alt=""
                       style="width: 30%" />
                   </figure>
                   <h2>Jasa Accounting / Pembukuan</h2>
@@ -114,7 +114,7 @@
                 </div>
                 <div class="carousel-item" data-bs-interval="5000">
                   <figure>
-                    <img src="{{ asset('landing_page/assets/images/register/Calculator.svg')}}" alt=""
+                    <img src="{{ asset('/public/landing_page/assets/images/register/Calculator.svg')}}" alt=""
                       style="width: 30%" />
                   </figure>
                   <h2>Jasa Audit</h2>
@@ -129,7 +129,7 @@
                 </div>
                 <div class="carousel-item" data-bs-interval="5000">
                   <figure>
-                    <img src="{{ asset('landing_page/assets/images/register/Law Book.svg')}}" alt="" width="30%" />
+                    <img src="{{ asset('/public/landing_page/assets/images/register/Law Book.svg')}}" alt="" width="30%" />
                   </figure>
                   <h2>Jasa Konsultan Hukum</h2>
                   <p>
@@ -141,7 +141,7 @@
                 </div>
                 <div class="carousel-item" data-bs-interval="5000">
                   <figure>
-                    <img src="{{ asset('landing_page/assets/images/register/Male Lawyer.svg')}}" alt="" width="30%" />
+                    <img src="{{ asset('/public/landing_page/assets/images/register/Male Lawyer.svg')}}" alt="" width="30%" />
                   </figure>
                   <h2>Jasa Konsultan Manajemen</h2>
                   <p>
@@ -153,7 +153,7 @@
                 </div>
                 <div class="carousel-item" data-bs-interval="5000">
                   <figure>
-                    <img src="{{ asset('landing_page/assets/images/register/CSR.svg')}}" alt="" width="30%" />
+                    <img src="{{ asset('/public/landing_page/assets/images/register/CSR.svg')}}" alt="" width="30%" />
                   </figure>
                   <h2>Jasa Konsultan CSR dan Sustainability</h2>
                   <p>
@@ -165,7 +165,7 @@
                 </div>
                 <div class="carousel-item" data-bs-interval="5000">
                   <figure>
-                    <img src="{{ asset('landing_page/assets/images/register/Report.svg')}}" alt="" width="30%" />
+                    <img src="{{ asset('/public/landing_page/assets/images/register/Report.svg')}}" alt="" width="30%" />
                   </figure>
                   <h2>Jasa Konsultan Property dan Bisnis</h2>
                   <p>
@@ -371,11 +371,11 @@
   </footer>
 
   <!-- jQuery -->
-  <script src="{{ asset('landing_page/assets/js/jquery-2.1.0.min.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/jquery-2.1.0.min.js')}}"></script>
 
   <!-- Bootstrap -->
-  <script src="{{ asset('landing_page/assets/js/popper.js')}}"></script>
-  <script src="{{ asset('landing_page/assets/js/bootstrap.min.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/popper.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/bootstrap.min.js')}}"></script>
 
   <script type="text/javascript">
     var BASE_URL = "{{ url('')}}"
@@ -385,24 +385,24 @@
   </script>
 
   <!-- Plugins -->
-  <script src="{{ asset('landing_page/assets/js/owl-carousel.js')}}"></script>
-  <script src="{{ asset('landing_page/assets/js/scrollreveal.min.js')}}"></script>
-  <script src="{{ asset('landing_page/assets/js/waypoints.min.js')}}"></script>
-  <script src="{{ asset('landing_page/assets/js/jquery.counterup.min.js')}}"></script>
-  <script src="{{ asset('landing_page/assets/js/imgfix.min.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/owl-carousel.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/scrollreveal.min.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/waypoints.min.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/jquery.counterup.min.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/imgfix.min.js')}}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
   <!-- Global Init -->
-  <script src="{{ asset('landing_page/assets/js/custom.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/custom.js')}}"></script>
 
   <!-- Common script -->
-  <script src="{{ asset('landing_page/assets/js/common_scripts_min.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/common_scripts_min.js')}}"></script>
   <!-- Wizard script -->
-  <script src="{{ asset('landing_page/assets/js/registration_wizard_func.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/registration_wizard_func.js')}}"></script>
   <!-- Theme script -->
-  <script src="{{ asset('landing_page/assets/js/functions.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/functions.js')}}"></script>
   {{-- default --}}
-  <script src="{{ asset('landing_page/assets/js/loadingoverlay.min.js')}}"></script>
+  <script src="{{ asset('/public/landing_page/assets/js/loadingoverlay.min.js')}}"></script>
 
   <script type="text/javascript">
     $("#wrapped").submit(function(e){

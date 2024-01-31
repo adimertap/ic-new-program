@@ -27,7 +27,7 @@ Kelas Ujian
                     py-2
                 ">
                 <div class="card-body">
-                    <img src="{{ asset('userAdmin/frontend/image/katalog.png')}}" class="card-img-top" alt="">
+                    <img src="{{ asset('/public/userAdmin/frontend/image/katalog.png')}}" class="card-img-top" alt="">
                     <div class="row no-gutters align-items-center">
                         <div class="col">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">

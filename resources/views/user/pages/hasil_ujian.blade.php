@@ -116,5 +116,5 @@
 @endsection
 
 @push('addon-style')
-<link rel="stylesheet" href="{{ asset('user_dashboard/frontend/styles/menu-html.css')}}" />
+<link rel="stylesheet" href="{{ asset('/public/user_dashboard/frontend/styles/menu-html.css')}}" />
 @endpush

@@ -5,11 +5,11 @@ Master Sertifikat
 @endsection
 
 @push('css')
-<link href="{{ asset('assets/plugins/highlight/styles/github-gist.css')}}" rel="stylesheet">
-<link href="{{ asset('assets/plugins/datatables/datatables.min.css')}}" rel="stylesheet">
-<link href="{{ asset('assets/plugins/flatpickr/flatpickr.min.css')}}" rel="stylesheet">
-<link href="{{ asset('assets/plugins/dropzone/min/dropzone.min.css')}}" rel="stylesheet">
-<link href="{{ asset('assets/plugins/datatables/rowGroup.dataTables.min.css')}}" rel="stylesheet">
+<link href="{{ asset('/public/assets/plugins/highlight/styles/github-gist.css')}}" rel="stylesheet">
+<link href="{{ asset('/public/assets/plugins/datatables/datatables.min.css')}}" rel="stylesheet">
+<link href="{{ asset('/public/assets/plugins/flatpickr/flatpickr.min.css')}}" rel="stylesheet">
+<link href="{{ asset('/public/assets/plugins/dropzone/min/dropzone.min.css')}}" rel="stylesheet">
+<link href="{{ asset('/public/assets/plugins/datatables/rowGroup.dataTables.min.css')}}" rel="stylesheet">
 <link href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
 @endpush
@@ -321,12 +321,12 @@ Master Sertifikat
 @endsection
 
 @push('js')
-<script src="{{ asset('assets/plugins/bootstrap/js/popper.min.js')}}"></script>
-<script src="{{ asset('assets/plugins/highlight/highlight.pack.js')}}"></script>
-<script src="{{ asset('assets/plugins/datatables/datatables.min.js')}}"></script>
-<script src="{{ asset('assets/js/pages/datatables.js')}}"></script>
-<script src="{{ asset('assets/plugins/flatpickr/flatpickr.js')}}"></script>
-<script src="{{ asset('assets/js/pages/datepickers.js')}}"></script>
+<script src="{{ asset('/public/assets/plugins/bootstrap/js/popper.min.js')}}"></script>
+<script src="{{ asset('/public/assets/plugins/highlight/highlight.pack.js')}}"></script>
+<script src="{{ asset('/public/assets/plugins/datatables/datatables.min.js')}}"></script>
+<script src="{{ asset('/public/assets/js/pages/datatables.js')}}"></script>
+<script src="{{ asset('/public/assets/plugins/flatpickr/flatpickr.js')}}"></script>
+<script src="{{ asset('/public/assets/js/pages/datepickers.js')}}"></script>
 
 <script>
    function ulangiFunction(itemId) {

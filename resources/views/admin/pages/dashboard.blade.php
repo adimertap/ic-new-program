@@ -7,7 +7,7 @@ Dashboard
 @push('css')
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800&display=swap"
     rel="stylesheet">
-<link href="{{ asset('assets/plugins/apexcharts/apexcharts.css')}}" rel="stylesheet">
+<link href="{{ asset('/public/assets/plugins/apexcharts/apexcharts.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -93,7 +93,7 @@ Dashboard
 @endsection
 
 @push('js')
-<script src="{{ asset('assets/plugins/apexcharts/apexcharts.min.js')}}"></script>
+<script src="{{ asset('/public/assets/plugins/apexcharts/apexcharts.min.js')}}"></script>
 <script>
 
     function chart(chart) {

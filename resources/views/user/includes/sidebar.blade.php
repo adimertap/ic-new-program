@@ -7,7 +7,7 @@
         justify-content-center
         " href="{{ route('user-dashboard')}}">
             <div class="sidebar-brand-icon">
-                <img src="{{ asset('userAdmin/img/ic-bulet.png')}}" alt="" height="40" />
+                <img src="{{ asset('/public/userAdmin/img/ic-bulet.png')}}" alt="" height="40" />
             </div>
             <div class="sidebar-brand-text mx-3">ICEDUCATION</div>
         </a>
