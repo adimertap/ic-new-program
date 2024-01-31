@@ -211,7 +211,7 @@ class CheckoutController extends Controller
 
                 $data = array();
                 $data['email'] = Auth::user()->email;
-                $data['subject'] = 'Invoice IC Education';
+                $data['subject'] = 'Info Pembelian Kelas dan Pembayaran';
                 $data['nama'] = Auth::user()->name;
                 // $data['instansi'] = $instansiCheck->nama;
                 $data['deskripsi'] = 'Pembelian produk ' . $nama_produk . ' Hari ' . $produk->kelas . ' ( ' . $isOnline . ' ) ';
@@ -235,7 +235,7 @@ class CheckoutController extends Controller
                 try {
                     Mail::send('mail', $data, function ($message) use ($data, $pdf) {
                         $message->to($data["username"])
-                            ->subject("Invoice IC Education")
+                            ->subject("Info Pembelian Kelas dan Pembayaran")
                             ->cc(['adimertap@gmail.com', 'adimerta@student.unud.ac.id'])
                             // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
                             ->attachData($pdf->output(), "invoice.pdf");
@@ -379,7 +379,7 @@ class CheckoutController extends Controller
 
             $data = array();
             $data['email'] = Auth::user()->email;
-            $data['subject'] = 'Invoice IC Education';
+            $data['subject'] = 'Info Pembelian Kelas dan Pembayaran';
             $data['nama'] = Auth::user()->name;
             $data['deskripsi'] = 'Pembelian produk ' . $nama_produk . ' Hari ' . $produk->kelas . ' ( ' . $isOnline . ' ) ';
             $data['nominal'] = $produk->harga;
@@ -408,7 +408,7 @@ class CheckoutController extends Controller
             try {
                 Mail::send('mail-midtrans', $data, function ($message) use ($data, $pdf) {
                     $message->to($data["username"])
-                        ->subject("Invoice IC Education")
+                        ->subject("Info Pembelian Kelas dan Pembayaran")
                         ->cc(['adimertap@gmail.com', 'adimerta@student.unud.ac.id'])
                         // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
                         ->attachData($pdf->output(), "invoice.pdf");

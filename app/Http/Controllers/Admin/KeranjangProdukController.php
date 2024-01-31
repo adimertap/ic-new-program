@@ -87,7 +87,7 @@ class KeranjangProdukController extends Controller
 
       $data = array();
       $data['email'] = $getTransaksi[0]->user->email;
-      $data['subject'] = 'Invoice IC Education';
+      $data['subject'] = 'Info Pembelian Kelas dan Pembayaran';
       $data['nama'] = $getTransaksi[0]->user->name;
       $data['deskripsi'] = 'Pembelian produk ' . $nama_produk . ' Hari ' . $produk->kelas . ' ( ' . $isOnline . ' ) ';
       $data['nominal'] = $produk->harga;
@@ -111,8 +111,8 @@ class KeranjangProdukController extends Controller
         Mail::send('mail', $data, function ($message) use ($data, $pdf) {
           $message->to($data["email"], $data["nama"])
             ->subject($data["subject"])
-            ->cc('adimertap@gmail.com')
-            // ->cc('info@iceducation.co.id')
+            // ->cc('adimertap@gmail.com')
+            ->cc('info@iceducation.co.id')
             ->attachData($pdf->output(), "invoice.pdf");
         });
       } catch (JWTException $exception) {
@@ -134,7 +134,7 @@ class KeranjangProdukController extends Controller
 
       $data = array();
       $data['email'] = $transaksi->user->email;
-      $data['subject'] = 'Konfirmasi Transaksi IC Education';
+      $data['subject'] = 'Terima Kasih, Pembayaran Anda Sudah Kami Terima';
       $data['nama'] = $transaksi->user->name;
       $data['produk'] = str_replace('-', " ", strtoupper($produk->nama_produk));
       $data['isregonly'] = "2";
@@ -269,7 +269,7 @@ class KeranjangProdukController extends Controller
 
       $data = array();
       $data['email'] = Auth::user()->email;
-      $data['subject'] = 'Invoice IC Education';
+      $data['subject'] = 'Info Pembelian Kelas dan Pembayaran';
       $data['nama'] = Auth::user()->name;
       $data['deskripsi'] = 'Pembelian produk ' . $nama_produk . ' Hari ' . $produk->kelas . ' ( ' . $isOnline . ' ) ';
       $data['nominal'] = $produk->harga;

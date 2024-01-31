@@ -78,18 +78,20 @@
     <tr></tr>
     <tr>
       <td>
-        Link akan valid selama 1 hari atau 24 Jam, jika melewati batas waktu tersebut link akan kedaluarsa dan Anda diharuskan melakukan checkout ulang kembali pada portal.
-        Pastikan Anda telah membayar sebelum link kedaluarsa. Butuh bantuan pembayaran bisa melalui whatsapp <a href="https://api.whatsapp.com/send?phone=+62 811-1474-251">+62 811-1474-251 </a> atau email
+        Link akan valid selama 1 hari atau 24 Jam, jika melewati batas waktu tersebut link akan kedaluarsa dan Anda
+        diharuskan melakukan checkout ulang kembali pada portal.
+        Pastikan Anda telah membayar sebelum link kedaluarsa. Butuh bantuan pembayaran bisa melalui whatsapp <a
+          href="https://api.whatsapp.com/send?phone=+62 811-1474-251">+62 811-1474-251 </a> atau email
         kami di <a href="mailto:info@iceducation.co.id">info@iceducation.co.id</a>
       </td>
     </tr>
     <tr></tr>
     @elseif ($isregonly == '2')
-    <td>Pembayaran Anda sudah kami konfirmasi, terimakasih atas kepercayaannya untuk mengikuti {{$produk}} di IC
+    <td>Pembayaran Anda sudah kami terima, terimakasih atas kepercayaannya untuk mengikuti {{$produk}} di IC
       Education,</td>
     @elseif ($isregonly == '3')
-    <td>Pembayaran Anda sudah kami konfirmasi, silahkan login ke <a
-        href="https://dev.iceducation.co.id/list-materi">dashboard anda</a> untuk mengerjakan ujian ulang anda, terima
+    <td>Pembayaran Anda sudah kami terima, silahkan login ke <a
+        href="https://dev.iceducation.co.id/list-materi">dashboard anda</a> untuk mengerjakan ujian, terima
       kasih atas kepercayaannya untuk mengikuti {{ $produk }} di IC Education,</td>
     @endif
     {{-- @endif --}}
@@ -100,10 +102,10 @@
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td>Untuk login ke aplikasi silahkan gunakan:</td>
+      <td>Terima kasih telah melakukan pendaftaran di Website IC Education</td>
     </tr>
     <tr>
-      <td>Username: {{$username}}</td>
+      <td>Untuk login ke aplikasi silahkan gunakan:</td>
     </tr>
     <tr>
       <td>&nbsp;</td>
@@ -113,7 +115,7 @@
       <td>Atas perhatian dan kerjasamanya kami ucapkan terimakasih</td>
     </tr>
     <tr>
-      <td>&nbsp;</td>
+      <td>Username: {{$username}}</td>
     </tr>
     <tr>
       <td>Hormat Kami</td>

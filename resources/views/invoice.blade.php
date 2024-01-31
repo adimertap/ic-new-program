@@ -91,13 +91,13 @@
                 </tr>
 
                 <tr>
-                  <td colspan="2" style="padding-top: 7px;text-align: right;">
-                      + Biaya Admin
-                  </td>
-                  <td style="padding-top: 7px;padding-right: 15px;text-align: right;font-size: 1.2em;">
-                     {{convert_to_rupiah(5000)}}
-                  </td>
-              </tr>
+                    <td colspan="2" style="padding-top: 7px;text-align: right;">
+                        + Biaya Admin
+                    </td>
+                    <td style="padding-top: 7px;padding-right: 15px;text-align: right;font-size: 1.2em;">
+                        {{convert_to_rupiah(5000)}}
+                    </td>
+                </tr>
                 <tr>
                     <td colspan="2" style="padding-top: 7px;text-align: right;">TOTAL</td>
                     <td style="padding-top: 7px;padding-right: 15px;text-align: right;font-size: 1.2em;">Rp.
@@ -133,7 +133,7 @@
                     </td>
                 </tr>
                 @if($transaksi->type_pembayaran == 'Manual')
-                  <tr>
+                <tr>
                     <td colspan="3" style="color:#5D6975;font-size: 1em;border-top:1px solid #eee;padding-left: 15px;">
                         Please
                         Transfer Payment to:</td>
@@ -149,11 +149,11 @@
                 </tr>
                 @else
                 <tr>
-                  <td colspan="3" style="color:#5D6975;font-size: 1em;border-top:1px solid #eee;padding-left: 15px;">
-                      Powered By: Midtrans Automatic Payment</td>
-                  </tr>
+                    <td colspan="3" style="color:#5D6975;font-size: 1em;border-top:1px solid #eee;padding-left: 15px;">
+                        Powered By: Midtrans Automatic Payment</td>
+                </tr>
                 @endif
-               
+
             </tfoot>
         </table>
         <table style="float: right;text-align: center;padding-left: 15px;padding-right: 30px;" border="0">
@@ -164,13 +164,12 @@
                 <td>Finance</td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
+                <td>
+                    <img src="{{ public_path('userAdmin/frontend/image/ttd_finance2.png')}}" alt="" style="margin: 5px 0px 5px 0px; width:170px" />
+                </td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>Novita Mardika</td>
+                <td>Dwi Permatasari</td>
             </tr>
         </table>
     </main>

@@ -73,11 +73,11 @@
         kami di <a href="mailto:info@iceducation.co.id">info@iceducation.co.id</a></td>
     </tr>
     @elseif ($isregonly == '2')
-    <td>Pembayaran Anda sudah kami konfirmasi, terimakasih atas kepercayaannya untuk mengikuti {{$produk}} di IC
+    <td>Pembayaran Anda sudah kami terima, terimakasih atas kepercayaannya untuk mengikuti {{$produk}} di IC
       Education,</td>
     @elseif ($isregonly == '3')
-    <td>Pembayaran Anda sudah kami konfirmasi, silahkan login ke <a
-        href="https://dev.iceducation.co.id/list-materi">dashboard anda</a> untuk mengerjakan ujian ulang anda, terima
+    <td>Pembayaran Anda sudah kami terima, silahkan login ke <a
+        href="https://iceducation.co.id/list-materi">dashboard anda</a> untuk mengerjakan ujian, terima
       kasih atas kepercayaannya untuk mengikuti {{ $produk }} di IC Education,</td>
     @endif
     {{-- @endif --}}

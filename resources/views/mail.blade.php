@@ -399,20 +399,23 @@
                                             kami di <a href="mailto:info@iceducation.co.id">info@iceducation.co.id</a>
                                         </p>
                                         @elseif ($isregonly == '2')
-                                        <p>Pembayaran Anda sudah kami konfirmasi, terimakasih atas kepercayaannya untuk
+                                        <p>Pembayaran Anda sudah kami terima, terimakasih atas kepercayaannya untuk
                                             mengikuti {{$produk}} di IC
                                             Education,</p>
                                         @elseif ($isregonly == '3')
-                                        <p>Pembayaran Anda sudah kami konfirmasi, silahkan login ke <a
+                                        <p>Pembayaran Anda sudah kami terima, silahkan login ke <a
                                                 href="https://dev.iceducation.co.id/list-materi">dashboard anda</a>
-                                            untuk mengerjakan ujian ulang anda,
+                                            untuk mengerjakan ujian,
                                             terima
                                             kasih atas kepercayaannya untuk mengikuti {{ $produk }} di IC Education,</p>
                                         @endif
                                         @endif
                                         @if(!empty($username))
-                                          <p>Untuk login ke aplikasi silahkan gunakan:</p>
-                                          <p>Username: {{$username}}</p>
+                                        <p>Terima kasih telah melakukan pendaftaran di website IC Education</p>
+                                        <p>Untuk login ke aplikasi silahkan gunakan:</p>
+                                        <p>Username: {{$username}}</p>
+                                        <p>Untuk pembelian kelas silahkan klik dibawah ini:</p>
+                                        <a href="https://dev.iceducation.co.id/produk/brevet">Beli Kelas</a>
                                         @endif
                                         <p>Atas perhatian dan kerjasamanya kami ucapkan terimakasih</p>
                                         <p>Hormat Kami</p>

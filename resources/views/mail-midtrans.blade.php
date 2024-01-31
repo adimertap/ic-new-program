@@ -400,13 +400,13 @@
                                           kami di <a href="mailto:info@iceducation.co.id">info@iceducation.co.id</a>
                                         </p>
                                         @elseif ($isregonly == '2')
-                                        <p>Pembayaran Anda sudah kami konfirmasi, terimakasih atas kepercayaannya untuk
+                                        <p>Pembayaran Anda sudah kami terima, terimakasih atas kepercayaannya untuk
                                             mengikuti {{$produk}} di IC
                                             Education,</p>
                                         @elseif ($isregonly == '3')
-                                        <p>Pembayaran Anda sudah kami konfirmasi, silahkan login ke <a
+                                        <p>Pembayaran Anda sudah kami terima, silahkan login ke <a
                                                 href="https://dev.iceducation.co.id/list-materi">dashboard anda</a>
-                                            untuk mengerjakan ujian ulang anda,
+                                            untuk mengerjakan ujian,
                                             terima
                                             kasih atas kepercayaannya untuk mengikuti {{ $produk }} di IC Education,</p>
                                         @endif

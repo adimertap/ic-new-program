@@ -613,7 +613,7 @@ class KelasController extends Controller
 
                 $data = array();
                 $data['email'] = Auth::user()->email;
-                $data['subject'] = 'Invoice IC Education';
+                $data['subject'] = 'Info Pembelian Kelas dan Pembayaran';
                 $data['nama'] = Auth::user()->name;
                 $data['deskripsi'] = 'Ujian Ulang ' . $nama_produk;
                 $data['nominal'] = '50.000';
@@ -638,7 +638,7 @@ class KelasController extends Controller
                 try {
                     Mail::send('mail', $data, function ($message) use ($data, $pdf) {
                         $message->to($data["username"])
-                            ->subject("Invoice IC Education")
+                            ->subject("Info Pembelian Kelas dan Pembayaran")
                             ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
                             // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
                             ->attachData($pdf->output(), "invoice.pdf");
@@ -739,7 +739,7 @@ class KelasController extends Controller
 
             $data = array();
             $data['email'] = Auth::user()->email;
-            $data['subject'] = 'Invoice IC Education';
+            $data['subject'] = 'Info Pembelian Kelas dan Pembayaran';
             $data['nama'] = Auth::user()->name;
             $data['deskripsi'] = 'Pembayaran Ujian Ulang ' . $nama_produk;
             $data['nominal'] = '55.000';
@@ -766,7 +766,7 @@ class KelasController extends Controller
             try {
                 Mail::send('mail-midtrans', $data, function ($message) use ($data, $pdf) {
                     $message->to($data["username"])
-                        ->subject("Invoice IC Education")
+                        ->subject("Info Pembelian Kelas dan Pembayaran")
                         ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
                         // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
                         ->attachData($pdf->output(), "invoice.pdf");

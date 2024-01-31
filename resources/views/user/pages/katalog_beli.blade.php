@@ -128,7 +128,8 @@
                     ><img src="{{ url('user_dashboard/frontend/image/mandiri.svg')}}" alt=""
                   /></a>
                   <a href=""
-                    ><img
+                    >
+                    <img
                       src="{{ url('user_dashboard/frontend/image/bni.svg')}}"
                       alt=""
                       style="margin-top: 5px"

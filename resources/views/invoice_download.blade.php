@@ -202,13 +202,13 @@
                 <td>Finance</td>
             </tr>
             <tr>
-                <td>&nbsp;</td>
+                <td>
+                    <img src="{{ public_path('userAdmin/frontend/image/ttd_finance2.png')}}" alt="" style="margin: 5px 0px 5px 0px; width:170px" />
+                </td>
             </tr>
+            
             <tr>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>Novita Mardika</td>
+                <td>Dwi Permatasari</td>
             </tr>
         </table>
     </main>

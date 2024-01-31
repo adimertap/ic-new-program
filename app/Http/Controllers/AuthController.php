@@ -179,7 +179,7 @@ class AuthController extends Controller
             } else {
                 $data = array();
                 $data['email'] = $request->input('email');
-                $data['subject'] = 'Informasi IC Education';
+                $data['subject'] = 'Pendaftaran IC Education Berhasil';
                 $data['nama'] = $request->input('nama');
                 $data['username'] = $request->input('email');
                 $data['password'] = $pwd;

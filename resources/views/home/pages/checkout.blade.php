@@ -179,7 +179,7 @@
                                     <select name="jenis" type="text" id="jenis_edit"
                                         class="form-control form-control-sm" value="">
                                         <option value="Manual">Manual Confirm</option>
-                                        <option value="Otomatis">Otomatis Midtrans</option>
+                                        {{-- <option value="Otomatis">Otomatis Midtrans</option> --}}
                                     </select>
                                 </div>
                                 <div class="grids-item3 mt-3">

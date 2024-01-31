@@ -216,7 +216,7 @@ class KeranjangProdukOtomatisController extends Controller
     
                 $data = array();
                 $data['email'] = $user->email;
-                $data['subject'] = 'Invoice IC Education';
+                $data['subject'] = 'Info Pembelian Kelas dan Pembayaran';
                 $data['nama'] = Auth::user()->name;
                 $data['deskripsi'] = 'Pembelian produk ' . $nama_produk . ' Hari ' . $produk->kelas . ' ( ' . $isOnline . ' ) ';
                 $data['nominal'] = $produk->harga;
@@ -235,7 +235,7 @@ class KeranjangProdukOtomatisController extends Controller
                 try {
                     Mail::send('mail-midtrans-kurang', $data, function ($message) use ($data, $pdf) {
                         $message->to($data["username"])
-                            ->subject("Invoice IC Education")
+                            ->subject("Info Pembelian Kelas dan Pembayaran")
                             ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
                             // ->cc(['info@iceducation.co.id'])
                             ->attachData($pdf->output(), "invoice.pdf");
