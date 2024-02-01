@@ -103,6 +103,7 @@ class KeranjangProdukController extends Controller
       $data['no_invoice'] = $no_invoice;
       $data['produk'] = $nama_produk;
       $data['isregonly'] = "0";
+      $data['mail_cc_1'] = env('MAIL_CC_1');
 
       $pdf = PDF::loadView('invoice', $data);
       $pdf->setPaper('A4', 'portrait');
@@ -111,8 +112,7 @@ class KeranjangProdukController extends Controller
         Mail::send('mail', $data, function ($message) use ($data, $pdf) {
           $message->to($data["email"], $data["nama"])
             ->subject($data["subject"])
-            // ->cc('adimertap@gmail.com')
-            ->cc('info@iceducation.co.id')
+            ->cc($data["mail_cc_1"])
             ->attachData($pdf->output(), "invoice.pdf");
         });
       } catch (JWTException $exception) {
@@ -138,6 +138,9 @@ class KeranjangProdukController extends Controller
       $data['nama'] = $transaksi->user->name;
       $data['produk'] = str_replace('-', " ", strtoupper($produk->nama_produk));
       $data['isregonly'] = "2";
+      $data['mail_cc_1'] = env('MAIL_CC_1');
+      $data['mail_cc_2'] = env('MAIL_CC_2');
+      $data['mail_cc_3'] = env('MAIL_CC_3');
 
       if ($transaksi->slug == $ujian->slug) {
         $data['isregonly'] = '3';
@@ -147,8 +150,7 @@ class KeranjangProdukController extends Controller
         Mail::send('mail', $data, function ($message) use ($data) {
           $message->to($data["email"], $data["nama"])
             ->subject($data["subject"])
-            ->cc(['adimertap@gmail.com', 'contact.adimertap@gmail.com']);
-            // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com']);
+            ->cc($data["mail_cc_1"], $data["mail_cc_2"], $data["mail_cc_3"]);
         });
       } catch (JWTException $exception) {
         $serverstatuscode = "0";
@@ -207,12 +209,12 @@ class KeranjangProdukController extends Controller
       $mail = [
         'username' => $products->username,
         'nama' => $products->user->name,
+        'mail_cc_1' => env('MAIL_CC_1')
       ];
 
       try {
         Mail::to(validate_email($mail["username"]) ? $mail["username"] : "info@iceducation.co.id")
-          ->cc('adimertap@gmail.com')
-          // ->cc('info@iceducation.co.id')
+          ->cc($mail["mail_cc_1"])
           ->send(new CancelTransactionMail($mail));
       } catch (JWTException $exception) {
         $serverstatuscode = "0";
@@ -284,6 +286,9 @@ class KeranjangProdukController extends Controller
       $data['no_invoice'] = $keranjangBaru->no_invoice;
       $data['produk'] = $produk->nama_produk;
       $data['isregonly'] = "0";
+      $data['mail_cc_1'] = env('MAIL_CC_1');
+      $data['mail_cc_2'] = env('MAIL_CC_2');
+      $data['mail_cc_3'] = env('MAIL_CC_3');
 
       if ($request->input('voucher') && $voucherDiskon->is_active == '1') {
         $setelahDiskon = $produk->harga - $voucherDiskon->nilai;
@@ -302,8 +307,7 @@ class KeranjangProdukController extends Controller
           Mail::send('mail', $data, function ($message) use ($data, $pdf) {
               $message->to($data["email"], $data["nama"])
                   ->subject($data["subject"])
-                  ->cc(['adimertap@gmail.com', 'contact.adimertap@gmail.com'])
-                  // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
+                  ->cc($data["mail_cc_1"], $data["mail_cc_2"], $data["mail_cc_3"])
                   ->attachData($pdf->output(), "invoice.pdf");
           });
       } catch (JWTException $exception) {

@@ -188,12 +188,15 @@ class AuthController extends Controller
                 $data['password'] = $pwd;
                 $data['produk'] = $request->input('nama_produk');
                 $data['isregonly'] = "1";
+                $data['mail_cc_1'] = env('MAIL_CC_1');
+                $data['mail_cc_2'] = env('MAIL_CC_2');
+                $data['mail_cc_3'] = env('MAIL_CC_3');
 
                 try {
                     Mail::send('mail', $data, function ($message) use ($data) {
                         $message->to($data["email"], $data["nama"])
-                            ->subject($data["subject"]);
-                            // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com']);
+                            ->subject($data["subject"])
+                            ->cc($data["mail_cc_1"], $data["mail_cc_2"], $data["mail_cc_3"]);
                     });
                 } catch (JWTException $exception) {
                     $serverstatuscode = "0";

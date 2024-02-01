@@ -228,7 +228,10 @@ class CheckoutController extends Controller
                 $data['produk'] = $produk->nama_produk;
                 $data['diskon'] = $transaksi->diskon;
                 $data['isregonly'] = "0";
-
+                $data['mail_cc_1'] = env('MAIL_CC_1');
+                $data['mail_cc_2'] = env('MAIL_CC_2');
+                $data['mail_cc_3'] = env('MAIL_CC_3');
+                
                 $pdf = PDF::loadview('invoice_download', ['instansi' => $instansiCheck, 'transaksi' => $transaksi, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
                 $pdf->setPaper('A4', 'portrait');
 
@@ -236,8 +239,7 @@ class CheckoutController extends Controller
                     Mail::send('mail', $data, function ($message) use ($data, $pdf) {
                         $message->to($data["username"])
                             ->subject("Info Pembelian Kelas dan Pembayaran")
-                            ->cc(['adimertap@gmail.com', 'adimerta@student.unud.ac.id'])
-                            // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
+                            ->cc($data["mail_cc_1"], $data["mail_cc_2"], $data["mail_cc_3"])
                             ->attachData($pdf->output(), "invoice.pdf");
                     });
                 } catch (JWTException $exception) {
@@ -396,6 +398,9 @@ class CheckoutController extends Controller
             $data['diskon'] = $transaksi->diskon;
             $data['isregonly'] = "0";
             $data['link'] =  $paymentUrl;
+            $data['mail_cc_1'] = env('MAIL_CC_1');
+            $data['mail_cc_2'] = env('MAIL_CC_2');
+            $data['mail_cc_3'] = env('MAIL_CC_3');
 
             $user_test = User::where('email', Auth::user()->email)->first();
             $instansi_pdf = Kerjasama::where('id', $user_test->kerjasama_id)->first();
@@ -409,8 +414,7 @@ class CheckoutController extends Controller
                 Mail::send('mail-midtrans', $data, function ($message) use ($data, $pdf) {
                     $message->to($data["username"])
                         ->subject("Info Pembelian Kelas dan Pembayaran")
-                        ->cc(['adimertap@gmail.com', 'adimerta@student.unud.ac.id'])
-                        // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
+                        ->cc($data["mail_cc_1"], $data["mail_cc_2"], $data["mail_cc_3"])
                         ->attachData($pdf->output(), "invoice.pdf");
                 });
             } catch (JWTException $exception) {

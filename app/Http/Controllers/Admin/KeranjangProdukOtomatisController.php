@@ -229,6 +229,7 @@ class KeranjangProdukOtomatisController extends Controller
                 $data['diskon'] = $transaksi->diskon;
                 $data['link'] =  $paymentUrl;
                 $data['besaran'] = $harga_user;
+                $data['mail_cc_1'] = env('MAIL_CC_1');
                 $pdf = PDF::loadview('invoice_download', ['transaksi' => $transaksi, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
                 $pdf->setPaper('A4', 'portrait');
     
@@ -236,8 +237,7 @@ class KeranjangProdukOtomatisController extends Controller
                     Mail::send('mail-midtrans-kurang', $data, function ($message) use ($data, $pdf) {
                         $message->to($data["username"])
                             ->subject("Info Pembelian Kelas dan Pembayaran")
-                            ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
-                            // ->cc(['info@iceducation.co.id'])
+                            ->cc($data["mail_cc_1"])
                             ->attachData($pdf->output(), "invoice.pdf");
                     });
                 } catch (JWTException $exception) {

@@ -629,7 +629,10 @@ class KelasController extends Controller
                 $data['produk'] = $produk->nama_produk;
                 $data['diskon'] = $keranjang->diskon;
                 $data['isregonly'] = "0";
-                
+                $data['mail_cc_1'] = env('MAIL_CC_1');
+                $data['mail_cc_2'] = env('MAIL_CC_2');
+                $data['mail_cc_3'] = env('MAIL_CC_3');
+
                 $authUser = User::where('email', Auth::user()->email)->first();
                 $instansi = Kerjasama::where('id', $authUser->kerjasama_id)->first();
                 $pdf = PDF::loadview('invoice_download', ['transaksi' => $keranjang, 'instansi' => $instansi, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
@@ -639,8 +642,7 @@ class KelasController extends Controller
                     Mail::send('mail', $data, function ($message) use ($data, $pdf) {
                         $message->to($data["username"])
                             ->subject("Info Pembelian Kelas dan Pembayaran")
-                            ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
-                            // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
+                            ->cc($data["mail_cc_1"], $data["mail_cc_2"], $data["mail_cc_3"])
                             ->attachData($pdf->output(), "invoice.pdf");
                     });
                 } catch (JWTException $exception) {
@@ -756,6 +758,9 @@ class KelasController extends Controller
             $data['diskon'] = 0;
             $data['isregonly'] = "0";
             $data['link'] =  $paymentUrl;
+            $data['mail_cc_1'] = env('MAIL_CC_1');
+            $data['mail_cc_2'] = env('MAIL_CC_2');
+            $data['mail_cc_3'] = env('MAIL_CC_3');
 
             $authUser = User::where('email', Auth::user()->email)->first();
              $instansi = Kerjasama::where('id', $authUser->kerjasama_id)->first();
@@ -767,8 +772,7 @@ class KelasController extends Controller
                 Mail::send('mail-midtrans', $data, function ($message) use ($data, $pdf) {
                     $message->to($data["username"])
                         ->subject("Info Pembelian Kelas dan Pembayaran")
-                        ->cc(['adimertap@gmail.com','adimerta@student.unud.ac.id'])
-                        // ->cc(['info@iceducation.co.id', 'ritarohati18@gmail.com', 'junaidi.yasin@indonesiaconsult.com'])
+                        ->cc($data["mail_cc_1"], $data["mail_cc_2"], $data["mail_cc_3"])
                         ->attachData($pdf->output(), "invoice.pdf");
                 });
             } catch (JWTException $exception) {
