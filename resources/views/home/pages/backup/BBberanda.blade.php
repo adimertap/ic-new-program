@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="basis-1/2 flex justify-center">
-                <img src="{{ asset('/public/images/slider-icon.png')}}" alt="" />
+                <img src="{{ asset('/images/slider-icon.png')}}" alt="" />
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
 <div class="container mx-auto p-10" id="about">
     <div class="flex flex-wrap pt-20">
         <div class="w-full lg:w-1/2 self-center opacity-0" id="imageLeft">
-            <img src="{{ asset('/public/images/left-image.png')}}" alt="" />
+            <img src="{{ asset('/images/left-image.png')}}" alt="" />
         </div>
         <div class="w-full lg:w-1/2 self-center p-10">
             <div class="flex justify-center">
@@ -70,7 +70,7 @@
             <div class="mt-8 flex flex-col space-y-5">
                 <div class="flex space-x-5">
                     <div class="flex-none w-14">
-                        <img src="{{ asset('/public/images/ic-satu.png')}}" alt="" />
+                        <img src="{{ asset('/images/ic-satu.png')}}" alt="" />
                     </div>
                     <div class="flex-auto">
                         <h1 class="uppercase text-2xl font-semibold">Kelas Brevet ab/c</h1>
@@ -83,7 +83,7 @@
 
                 <div class="flex space-x-5">
                     <div class="flex-none w-14">
-                        <img src="{{ asset('/public/images/ic-satu.png')}}" alt="" />
+                        <img src="{{ asset('/images/ic-satu.png')}}" alt="" />
                     </div>
                     <div class="flex-auto">
                         <h1 class="uppercase text-2xl font-semibold">In House Training</h1>
@@ -94,7 +94,7 @@
 
                 <div class="flex space-x-5">
                     <div class="flex-none w-14">
-                        <img src="{{ asset('/public/images/ic-satu.png')}}" alt="" />
+                        <img src="{{ asset('/images/ic-satu.png')}}" alt="" />
                     </div>
                     <div class="flex-auto">
                         <h1 class="uppercase text-2xl font-semibold">fgd</h1>
@@ -106,7 +106,7 @@
         </div>
 
         <div class="w-full lg:w-1/2 self-center opacity-0" id="imageRight">
-            <img src="{{ asset('/public/images/right-image.png')}}" alt="" />
+            <img src="{{ asset('/images/right-image.png')}}" alt="" />
         </div>
     </div>
 </div>
@@ -125,7 +125,7 @@
             </div>
         </div>
         <div class="text-center">
-            <img src="{{ asset('/public/images/npsn-icedu.png')}}" alt="" class="w-2/4 inline-block" />
+            <img src="{{ asset('/images/npsn-icedu.png')}}" alt="" class="w-2/4 inline-block" />
         </div>
     </div>
 </div>

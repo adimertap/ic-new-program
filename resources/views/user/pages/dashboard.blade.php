@@ -35,7 +35,7 @@ Dashboard
                 <div class="card-body">
                     <div class="text-center">
                         <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem"
-                            src="{{ asset('/public/userAdmin/img/undraw_posting_photo.svg')}}" alt="..." />
+                            src="{{ asset('/userAdmin/img/undraw_posting_photo.svg')}}" alt="..." />
                     </div>
                     <div class="table-event table-responsive">
                         <table class="table">

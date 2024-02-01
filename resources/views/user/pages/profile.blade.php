@@ -29,7 +29,7 @@
       <div class="row">
         <div class="col-md-2 text-center">
           <img class=""
-            src="{{ ($data->image_name) ? asset('/public/profile/'.$data->image_name) : asset('/public/userAdmin/img/profil.png') }}"
+            src="{{ ($data->image_name) ? asset('/public/profile/'.$data->image_name) : asset('/userAdmin/img/profil.png') }}"
             alt="" width="80%">
         </div>
         <div class="col-md-8 my-auto">
@@ -143,11 +143,11 @@
 @endsection
 
 @push('addon-style')
-<link href="{{ asset('/public/assets/plugins/flatpickr/flatpickr.min.css')}}" rel="stylesheet">
+<link href="{{ asset('/assets/plugins/flatpickr/flatpickr.min.css')}}" rel="stylesheet">
 @endpush
 
 @push('addon-script')
-<script src="{{ asset('/public/assets/plugins/flatpickr/flatpickr.js')}}"></script>
+<script src="{{ asset('/assets/plugins/flatpickr/flatpickr.js')}}"></script>
 <script>
   $(".tanggal").flatpickr({
         altInput: true,

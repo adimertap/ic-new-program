@@ -9,7 +9,7 @@ Forgot Password - ICEDUCATION
     @include('sweetalert::alert')
     <section class="login-user">
         <div class="left">
-            <img src="{{ asset('/public/images/new/login-img2.png') }}" alt="">
+            <img src="{{ asset('/images/new/login-img2.png') }}" alt="">
             <p class="judul">IC-Education</p>
             <p class="text">Lembaga Pelatihan dan Pendidikan Non Formal dalam bidang keuangan dan bisnis.</p>
         </div>
@@ -17,7 +17,7 @@ Forgot Password - ICEDUCATION
             <form action="{{ route('forgot-password-auth')}}" method="post">
                 @csrf
                 <h1 class="header-third">
-                    <img src="{{ asset('/public/images/ic-edu-logo.png')}}" alt="" />
+                    <img src="{{ asset('/images/ic-edu-logo.png')}}" alt="" />
                 </h1>
                 <p class="subheader mt-5">
                     <b>Forgot Password?</b> Please input your Email

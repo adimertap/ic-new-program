@@ -18,7 +18,7 @@
                 <div class="card card-contact">
                     <div class="d-flex justify-content-start">
                         <div class="left">
-                            <img src="{{ asset('/public/images/new/agenda2.png')}}" alt="agenda-item" />
+                            <img src="{{ asset('/images/new/agenda2.png')}}" alt="agenda-item" />
                         </div>
                         <div class="right">
                             <h1 class="uppercase font-semibold text-xl">GP Plaza, Unit R3, Ground Floor</h1>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="col-12 d-flex justify-content-end">
                     <div class="con">
-                        <img src="{{ asset('/public/images/ic-edu-logo.png')}}" alt="iceducation-logo" id="logoFooter" class="" />
+                        <img src="{{ asset('/images/ic-edu-logo.png')}}" alt="iceducation-logo" id="logoFooter" class="" />
                         <p class="m-0 mt-5 email">Email Us:</p>
                         <a href="mailto:info@iceducation.co.id" target="_blank" class="text-white hover:font-medium hover:text-lg hover:text-blue">info@iceducation.co.id</a>
                     </div>

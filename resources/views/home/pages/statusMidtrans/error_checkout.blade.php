@@ -9,7 +9,7 @@ Status Kelas |
     <div class="container" style="margin-top: 5px">
         <div class="row text-center">
             <div class="col-lg-12 col-12" style="padding-left: 400px;padding-right: 400px">
-                <img src="{{ asset('/public/images/new/error.png') }}"class="mb-1" alt=" ">
+                <img src="{{ asset('/images/new/error.png') }}"class="mb-1" alt=" ">
             </div>
             <div class=" col-lg-12 col-12 header-wrap mt-4">
                 <p class="story" style="color: red !important">

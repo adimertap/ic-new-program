@@ -150,18 +150,21 @@ class AuthController extends Controller
         $tahun = date('Y');
         $no_invoice = 'NO. INV-' . $invoice . '/ICEDU/' . $bulan . '/' . $tahun;
 
-        User::create([
-            'name' => $request->input('nama'),
-            // 'no_hp' => $request->input('no_hp'),
-            'email' => $request->input('email'),
-            // 'pekerjaan' => $request->input('pekerjaan'),
-            // 'kerjasama_id' => $request->input('kerjasama'),
-            'username' => $request->input('email'),
-            'active' => '1',
-            'role' => '2',
-            'password' => Hash::make($pwd),
-            'created_at' => date('Y-m-d H:i:s')
-        ]);
+        $checkUser = User::where('username', $request->input('email'))->first();
+        if(!$checkUser){
+            User::create([
+                'name' => $request->input('nama'),
+                // 'no_hp' => $request->input('no_hp'),
+                'email' => $request->input('email'),
+                // 'pekerjaan' => $request->input('pekerjaan'),
+                // 'kerjasama_id' => $request->input('kerjasama'),
+                'username' => $request->input('email'),
+                'active' => '1',
+                'role' => '2',
+                'password' => Hash::make($pwd),
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+        }
 
         if (isset($slugProduct) && !empty($slugProduct)) {
             KeranjangProduk::create([
@@ -172,7 +175,7 @@ class AuthController extends Controller
                 'created_at' => date('Y-m-d H:i:s')
             ]);
         }
-
+    
         if (auth()->attempt(array('username' => $request->input('email'), 'password' => $pwd))) {
             if (isset($slugProduct) && !empty($slugProduct)) {
                 return redirect()->route('keranjang-invoice');

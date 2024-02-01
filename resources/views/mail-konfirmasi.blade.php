@@ -144,7 +144,7 @@
   <p>Dear {{$nama}}</p>
   <p>Terimakasih sudah melakukan pendaftaran di IC Education dan {{ $produk == "seminar" ? "Persyaratan" : "Pembayaran"
     }} Anda terkonfirmasi sudah kami terima.</p>
-  <p><img style="width: 50px;height: auto;" src="{{ URL::asset('/public/images/sukses.png') }}" /></p>
+  <p><img style="width: 50px;height: auto;" src="{{ URL::asset('/images/sukses.png') }}" /></p>
   <p style="margin-top: -22px;font-style: italic;">{{ $produk == "seminar" ? "Persyaratan" : "Pembayaran" }} sukses</p>
   <p>Jika Anda memiliki pertanyaan, silakan hubungi Customer Service kami melalui email <a
       href="mailto:info@iceducatio.co.id">info@iceducatio.co.id</a> atau WA/Call 08111-474-251.</p>

@@ -5,10 +5,10 @@ Master Gallery
 @endsection
 
 @push('css')
-<link href="{{ asset('/public/assets/plugins/highlight/styles/github-gist.css')}}" rel="stylesheet">
-<link href="{{ asset('/public/assets/plugins/datatables/datatables.min.css')}}" rel="stylesheet">
-<link href="{{ asset('/public/assets/plugins/flatpickr/flatpickr.min.css')}}" rel="stylesheet">
-<link href="{{ asset('/public/assets/plugins/dropzone/min/dropzone.min.css')}}" rel="stylesheet">
+<link href="{{ asset('/assets/plugins/highlight/styles/github-gist.css')}}" rel="stylesheet">
+<link href="{{ asset('/assets/plugins/datatables/datatables.min.css')}}" rel="stylesheet">
+<link href="{{ asset('/assets/plugins/flatpickr/flatpickr.min.css')}}" rel="stylesheet">
+<link href="{{ asset('/assets/plugins/dropzone/min/dropzone.min.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -146,12 +146,12 @@ Master Gallery
 @endsection
 
 @push('js')
-<script src="{{ asset('/public/assets/plugins/bootstrap/js/popper.min.js')}}"></script>
-<script src="{{ asset('/public/assets/plugins/highlight/highlight.pack.js')}}"></script>
-<script src="{{ asset('/public/assets/plugins/datatables/datatables.min.js')}}"></script>
-<script src="{{ asset('/public/assets/js/pages/datatables.js')}}"></script>
-<script src="{{ asset('/public/assets/plugins/flatpickr/flatpickr.js')}}"></script>
-<script src="{{ asset('/public/assets/js/pages/datepickers.js')}}"></script>
+<script src="{{ asset('/assets/plugins/bootstrap/js/popper.min.js')}}"></script>
+<script src="{{ asset('/assets/plugins/highlight/highlight.pack.js')}}"></script>
+<script src="{{ asset('/assets/plugins/datatables/datatables.min.js')}}"></script>
+<script src="{{ asset('/assets/js/pages/datatables.js')}}"></script>
+<script src="{{ asset('/assets/plugins/flatpickr/flatpickr.js')}}"></script>
+<script src="{{ asset('/assets/js/pages/datepickers.js')}}"></script>
 <script>
     $('body').on('click', '#edit-galeri', function(){
         document.getElementById("myForm").reset();

@@ -20,13 +20,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   --}}
   {{--
-  <link href="{{ asset('/public/assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"> --}}
+  <link href="{{ asset('/assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet"> --}}
   {{--
-  <link href="{{ asset('/public/assets/plugins/perfectscroll/perfect-scrollbar.css')}}" rel="stylesheet"> --}}
-  <link href="{{ asset('/public/assets/plugins/pace/pace.css')}}" rel="stylesheet">
+  <link href="{{ asset('/assets/plugins/perfectscroll/perfect-scrollbar.css')}}" rel="stylesheet"> --}}
+  <link href="{{ asset('/assets/plugins/pace/pace.css')}}" rel="stylesheet">
 
-  <link href="{{ asset('/public/assets/css/main.css')}}" rel="stylesheet">
-  <link href="{{ asset('/public/assets/css/custom.css')}}" rel="stylesheet">
+  <link href="{{ asset('/assets/css/main.css')}}" rel="stylesheet">
+  <link href="{{ asset('/assets/css/custom.css')}}" rel="stylesheet">
 
   <!-- Additional CSS Files -->
 
@@ -52,7 +52,7 @@
       <div class="container text-center mb-4">
         <div class="row">
           <div class="col">
-            <a href="{{ route('home-beranda')}}"><img src="{{ asset('/public/images/ic-edu-logo.png')}}" alt="" /></a>
+            <a href="{{ route('home-beranda')}}"><img src="{{ asset('/images/ic-edu-logo.png')}}" alt="" /></a>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
               <div class="carousel-inner">
                 <div class="carousel-item active" data-bs-interval="5000">
                   <figure>
-                    <img src="{{ asset('/public/images/ic-bulet.png')}}" alt="" style="width: 30%" />
+                    <img src="{{ asset('/images/ic-bulet.png')}}" alt="" style="width: 30%" />
                   </figure>
                   <h2>Jasa - IC Consultant</h2>
                   <p>

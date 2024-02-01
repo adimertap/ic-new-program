@@ -2,7 +2,7 @@
 <header class="absolute top-10 left-0 flex items-center w-full">
     <div class="container mx-auto px-10">
         <div class="relative flex items-center justify-between py-1">
-            <img src="{{ asset('/public/images/ic-edu-logo.png') }}" alt="iceducation-logo" class="mx-auto md:mx-0" />
+            <img src="{{ asset('/images/ic-edu-logo.png') }}" alt="iceducation-logo" class="mx-auto md:mx-0" />
             <nav id="nav-menu" class="hidden lg:block">
                 <ul class="flex flex-row space-x-10">
                     <li class="group">
