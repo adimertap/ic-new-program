@@ -45,7 +45,7 @@ Users
                         <th>Domisili</th>
                         <th>Jenis Kelamin</th>
                         <th>Instansi</th>
-                        <th style="width: 100px">Action</th>
+                        <th style="width: 200px">Action</th>
                       </tr>
                     </thead>
                     <tbody class="list">
@@ -58,12 +58,11 @@ Users
                         <td>{{ $user->domisili }}</td>
                         <td>{{ $user->jenis_kelamin }}</td>
                         <td>{{ $user->kerjasama->nama ?? '' }}</td>
-                        <td class="d-flex justify-between">
-                          <button href="" class="btn btn-sm btn-info me-2 resetBtn" value="{{ $user->id }}"
+                        <td class="row">
+                          <button href="" class="btn btn-sm btn-warning resetBtn" value="{{ $user->id }}"
                             type="button" onclick="resetFunction({{ $user->id }})">
                             Reset
                           </button>
-
                           <a href="{{ route('admin-user-dapodik', $user->id) }}"
                             class="btn btn-sm btn-primary me-2">Dapodik</a>
                           <form action="{{ route('admin-delete-user', $user->id )}}" method="post" id="delete-user">

@@ -66,8 +66,8 @@ Master Trash Keranjang Produk
                                     @foreach ($trashProducts as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->user->name ?? 'user deleted' }}</td>
-                                        <td>{{ $item->user->email ?? 'user deleted'}}</td>
+                                        <td>{{ $item->username ?? 'user deleted' }}</td>
+                                        <td>{{ $item->username ?? 'user deleted'}}</td>
                                         <td>{{ $item->user->no_hp ?? 'user deleted'}}</td>
                                         <td>{{ $item->user->pekerjaan ?? 'user deleted'}}</td>
                                         <td>{{ $item->produk->nama_produk ?? 'product deleted' }}</td>

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Dapodik;
 use Alert;
+use App\Models\KeranjangProduk;
+use App\Models\TrashKeranjangProduk;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -79,6 +81,32 @@ class UserController extends Controller
         $params['updated_at'] = $data['updated_at'];
         $params['no_hp'] = $data['no_hp'];
         $params['pekerjaan'] = $data['pekerjaan'];
+
+        $keranjang = KeranjangProduk::where('username', $data->username)->get();
+        for ($i = 0; $i < count($keranjang); $i++) {
+            $item = $keranjang[$i];
+
+            $kr = new TrashKeranjangProduk();
+            $kr->username = $item->username;
+            $kr->status = $item->status;
+            $kr->diskon = $item->diskon;
+            $kr->slug = $item->slug;
+            $kr->sertifikat = $item->sertifikat;
+            $kr->aktif = $item->aktif;
+            $kr->note = $item->note;
+            $kr->no_invoice = $item->no_invoice;
+            $kr->total_price = $item->total_price;
+            $kr->payment_status = $item->payment_status;
+            $kr->tenor = $item->tenor;
+            $kr->type_pembayaran = $item->type_pembayaran;
+            $kr->midtrans_url = $item->midtrans_url;
+            $kr->midtrans_booking_code = $item->midtrans_booking_code;
+            $kr->save();
+
+            $update = KeranjangProduk::find($item->id);
+            $update->aktif = 0;
+            $update->update();
+        }
 
         if (TrashUsers::updateOrCreate($params)) {
             $data->delete();

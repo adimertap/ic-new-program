@@ -15,7 +15,7 @@ class TrashKeranjangProduk extends Model
     protected $table = "tmp_keranjang_produk";
 
 	protected $fillable = [
-		'id', 'username', 'status', 'diskon', 'slug', 'sertifikat', 'aktif',  'note',   'no_invoice', 'created_at', 'updated_at'
+		'id', 'username', 'status', 'diskon', 'slug', 'sertifikat', 'aktif',  'note',   'no_invoice', 'created_at', 'updated_at','total_price','payment_status','tenor','type_pembayaran','midtrans_url','midtrans_booking_code'
     ];
 
     /**

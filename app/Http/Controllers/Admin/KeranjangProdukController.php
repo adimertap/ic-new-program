@@ -39,6 +39,7 @@ class KeranjangProdukController extends Controller
         $products = KeranjangProduk::
         with(['produk', 'Instansi','Voucher'])
         ->where('type_pembayaran', 'Manual')
+        ->where('aktif', 1)
         ->where('id_instansi', $id);
         if($request->filterKelas){
           $products->where('slug', $request->filterKelas);

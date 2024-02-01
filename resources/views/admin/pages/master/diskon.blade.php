@@ -59,8 +59,7 @@ Instansi
                                                 <td>Rp {{ convert_to_rupiah($disc->nilai) }}</td>
                                                 <td>
                                                     <div class="form-check form-switch">
-                                                        <input data-id="{{ $disc->id }}"
-                                                            class="form-check-input is_active" type="checkbox"
+                                                        <input data-id="{{ $disc->id }}" class="form-check-input is_active" type="checkbox"
                                                             data-toggle="toggle" data-on="1" data-off="0"
                                                             name="is_active" {{ $disc->is_active ? "checked": ""}}>
                                                     </div>
@@ -157,38 +156,40 @@ Instansi
 
 <script>
     $(document).ready(function () {
-        var table = $('#example').DataTable();
-    })
-    $(".flatpickr1").flatpickr();
-
-    $(function () {
-        $(".is_active").change(function () {
-            var status = $(this).prop('checked') == true ? 1 : 0
-            var voucherId = $(this).data('id')
-            console.log(status)
-
-            $.ajax({
-                type: 'GET',
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "{{ route('admin-toggle-active') }}",
-                data: {
-                    'voucherId': voucherId,
-                    'status': status
-                },
-                success: function () {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Status voucher berhasil dirubah',
-                        showConfirmButton: false,
-                        timer: 1300
-                    })
-                }
-            })
+        var table = $('#example').DataTable({
+            "pageLength": 50
         });
+        $(".flatpickr1").flatpickr();
+
+        $(function () {
+            $(".is_active").change(function () {
+                var status = $(this).prop('checked') == true ? 1 : 0
+                var voucherId = $(this).data('id')
+
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ route('admin-toggle-active') }}",
+                    data: {
+                        'voucherId': voucherId,
+                        'status': status
+                    },
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Status voucher berhasil dirubah',
+                            showConfirmButton: false,
+                            timer: 1300
+                        })
+                    }
+                })
+            });
+        })
     })
+    
 
 </script>
 @endpush
