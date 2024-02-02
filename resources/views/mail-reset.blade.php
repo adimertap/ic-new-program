@@ -323,7 +323,7 @@
                                     <div class="text-author">
                                         <h2 style="font-weight: 700">Reset Password</h2>
                                         <p>Klik tombol berikut untuk merubah password Anda</p>
-                                        <p style="margin-top:20px"><a href="http://127.0.0.1:8000/change-password/?email={{ $email }}"
+                                        <p style="margin-top:20px"><a href="https://iceducation.co.id/change-password/?email={{ $email }}"
                                                 class="btn btn-primary">Reset Password</a></p>
                                         <p style="margin-top: 20px">Hormat Kami</p>
                                         <p style="margin-top: 10px; font-weight:600">IC Education</p>
