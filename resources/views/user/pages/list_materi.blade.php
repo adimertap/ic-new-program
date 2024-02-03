@@ -23,10 +23,10 @@ Kumpulan Materi
             <div class="brevet">
 
                 @if ($materi != null && $reqSertif != 1)
-                @foreach ($materi as $key => $materi )
+                    @foreach ($materi as $key => $materi )
 
-                <!-- website version -->
-                <div class="row container mt-2 d-md-flex text-center">
+                    <!-- website version -->
+                    <div class="row container mt-2 d-md-flex text-center">
                     <div class="bg-circle col-lg-10 bg-white">
                         <h5 class="mt-2">{{ $materi['description'] }}</h5>
                     </div>
@@ -79,15 +79,13 @@ Kumpulan Materi
                     </div>
                     @endif
 
-                </div>
+                    </div>
 
-                @endforeach
+                    @endforeach
 
                 @else
                 <div class="row container mt-2 d-md-flex justify-content-center">
-                    <h3 class="text-danger">{{ $reqSertif == 1 ? 'Terima kasih telah mengikuti ujian online' : 'Belum
-                        Waktunya
-                        Ujian' }}</h3>
+                    <h3 class="text-danger">{{ $reqSertif == 1 ? 'Terima kasih telah mengikuti ujian online' : 'Belum Waktunya Ujian' }}</h3>
                 </div>
                 @endif
             </div>

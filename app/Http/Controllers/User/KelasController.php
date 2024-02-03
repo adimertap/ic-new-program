@@ -57,8 +57,6 @@ class KelasController extends Controller
             ->where('slug', 'like', 'ujian%')->latest()
             ->first();
 
-        // return $cekUjian;
-
         $transaksi = KeranjangProduk::with('produk')
             ->where('username', Auth()->user()->username)
             ->where('slug', 'like', 'brevet-ab%')->latest('created_at')->value('slug');
@@ -73,6 +71,7 @@ class KelasController extends Controller
             $kode_akses = $a->akses_ujian;
         }
 
+
         $materi = Materi::query()
             ->with(['produk', 'peserta' => function ($query) {
                 $query->where('user_id', auth()->user()->id);
@@ -83,6 +82,7 @@ class KelasController extends Controller
                 $q->first();
             }])
             ->get();
+
 
         $cekPeserta = PesertaUjian::where('user_id', auth()->user()->id)
             ->where('slug_product', $slug)
@@ -105,7 +105,7 @@ class KelasController extends Controller
         } else if ($kode_akses == '2') {
             // return $cekBrevet;
             // if ($cekBrevet->payment_status != 'Paid' && $cekBrevet->tenor != 'Full') {
-            if($cekBrevet->status == '4'){
+            if ($cekBrevet->status == '4') {
                 $passing = $materi_setengah;
                 $keterangan = "Silahkan menyelesaikan angsuran untuk membuka ujian tahap kedua";
             } else {
@@ -114,7 +114,6 @@ class KelasController extends Controller
         } else {
             $passing = [];
         }
-        // return $transaksi;
 
         return view('user.pages.list_materi', [
             'materi' => $passing,
@@ -177,9 +176,11 @@ class KelasController extends Controller
         $hasil = Ujian::where('user_id', auth()->user()->id)
             ->where('materi_id', $idMateri)
             ->pluck('soal_id');
-        // return $hasil;
 
-        $soal = BankSoalUjian::leftjoin('jawaban_temp', 'jawaban_temp.soal_id', 'soal_ujian.id')
+        $soal = BankSoalUjian::leftjoin('jawaban_temp', function ($join) use ($idMateri) {
+            $join->on('jawaban_temp.soal_id', '=', 'soal_ujian.id')
+                ->where('jawaban_temp.user_id', '=', [Auth::user()->id]);
+        })
             ->where('soal_ujian.materi_id', $idMateri)
             ->whereIn('no_soal', $hasil)
             ->get();
@@ -189,12 +190,15 @@ class KelasController extends Controller
 
         if (!count($hasil)) { // ini buat materi yg belum pernah di ambil
             if ($idMateri == '11') {
-                $tes = BankSoalUjian::leftjoin('jawaban_temp', 'jawaban_temp.soal_id', 'soal_ujian.id')
+                $tes = BankSoalUjian::leftjoin('jawaban_temp', function ($join) use ($idMateri) {
+                    $join->on('jawaban_temp.soal_id', '=', 'soal_ujian.id')
+                        ->where('jawaban_temp.user_id', '=', [Auth::user()->id]);
+                })
                     ->where('soal_ujian.materi_id', $idMateri)
                     ->Where('soal_ujian.kode_soal', 'like', 'PPN & PPnBM_HBS_09_2022')
                     ->take(25)
                     ->get();
-                    // return $tes;
+                // return $tes;
 
                 $soal = new \Illuminate\Pagination\LengthAwarePaginator(
                     $tes->forPage($page, $perPage),
@@ -205,7 +209,10 @@ class KelasController extends Controller
                 );
             } else {
                 // $soal = BankSoalUjian::where('materi_id', $idMateri)->take(5)->get();
-                $tes = BankSoalUjian::leftjoin('jawaban_temp', 'jawaban_temp.soal_id', 'soal_ujian.id')
+                $tes = BankSoalUjian::leftjoin('jawaban_temp', function ($join) use ($idMateri) {
+                    $join->on('jawaban_temp.soal_id', '=', 'soal_ujian.id')
+                        ->where('jawaban_temp.user_id', '=', [Auth::user()->id]);
+                })
                     ->where('soal_ujian.materi_id', $idMateri)
                     ->take(25)
                     ->get();
@@ -218,7 +225,10 @@ class KelasController extends Controller
                 );
             }
         } elseif (!count($cek_lulus)) { //belum selesai
-            $tes = BankSoalUjian::leftjoin('jawaban_temp', 'jawaban_temp.soal_id', 'soal_ujian.id')
+            $tes = BankSoalUjian::leftjoin('jawaban_temp', function ($join) use ($idMateri) {
+                $join->on('jawaban_temp.soal_id', '=', 'soal_ujian.id')
+                    ->where('jawaban_temp.user_id', '=', [Auth::user()->id]);
+            })
                 ->where('soal_ujian.materi_id', $idMateri)
                 // ->WhereIn('soal_ujian.no_soal', $hasil)
                 ->take(25)
@@ -233,7 +243,10 @@ class KelasController extends Controller
             );
         } elseif ($cek_lulus != 'Lulus') {
             if ($idMateri == '11') {
-                $tes = BankSoalUjian::leftjoin('jawaban_temp', 'jawaban_temp.soal_id', 'soal_ujian.id')
+                $tes = BankSoalUjian::leftjoin('jawaban_temp', function ($join) use ($idMateri) {
+                    $join->on('jawaban_temp.soal_id', '=', 'soal_ujian.id')
+                        ->where('jawaban_temp.user_id', '=', [Auth::user()->id]);
+                })
                     ->where('soal_ujian.materi_id', $idMateri)
                     ->Where('soal_ujian.kode_soal', 'like', 'PPN & PPnBM_HBS_09_2022')
                     ->take(25)
@@ -248,7 +261,10 @@ class KelasController extends Controller
                 );
             } else {
                 // $soal = BankSoalUjian::where('materi_id', $idMateri)->take(5)->get();
-                $tes = BankSoalUjian::leftjoin('jawaban_temp', 'jawaban_temp.soal_id', 'soal_ujian.id')
+                $tes = BankSoalUjian::leftjoin('jawaban_temp', function ($join) use ($idMateri) {
+                    $join->on('jawaban_temp.soal_id', '=', 'soal_ujian.id')
+                        ->where('jawaban_temp.user_id', '=', [Auth::user()->id]);
+                })
                     ->where('soal_ujian.materi_id', $idMateri)
                     ->take(25)
                     ->get();
@@ -264,17 +280,17 @@ class KelasController extends Controller
         }
 
         //delete nomor sebelumnya
-        Ujian::where('user_id', auth()->user()->id)
-            ->where('materi_id', $idMateri)
-            ->delete();
+        // Ujian::where('user_id', auth()->user()->id)
+        //     ->where('materi_id', $idMateri)
+        //     ->delete();
 
-        foreach ($tes as $key) {
-            Ujian::create([
-                'user_id' => auth()->user()->id,
-                'soal_id' => $key->no_soal,
-                'materi_id' => $idMateri,
-            ]);
-        }
+        // foreach ($tes as $key) {
+        //     Ujian::create([
+        //         'user_id' => auth()->user()->id,
+        //         'soal_id' => $key->no_soal,
+        //         'materi_id' => $idMateri,
+        //     ]);
+        // }
 
         $materi = Materi::find($idMateri);
 
@@ -298,24 +314,41 @@ class KelasController extends Controller
             $skor = 0;
             $count_jawaban = count($jawaban_user);
 
-            for($i = 0; $i < $count_jawaban; $i++){
+            for ($i = 0; $i < $count_jawaban; $i++) {
                 $key = $jawaban_user[$i];
 
-                if($key->jawaban == $key->jawaban_user){
+                if ($key->jawaban == $key->jawaban_user) {
                     $status = 1;
                     $skor += 4;
-                }else{
+                } else {
                     $status = "2";
                 }
 
-                Ujian::where('user_id', Auth()->user()->id)
-                ->where('soal_id', $key->no_soal)
-                ->where('materi_id', $request->materi_id)
-                ->update([
-                    'jawaban' => $key->jawaban_user,
-                    'benar' => $status
-                ]);
+                $checkUjian = Ujian::where('user_id', Auth::user()->id)
+                    ->where('soal_id', $key->no_soal)
+                    ->where('materi_id', $request->materi_id)
+                    ->first();
+                if($checkUjian){
+                    $checkUjian->jawaban = $key->jawaban_user;
+                    $checkUjian->benar = $status;
+                    $checkUjian->update();
+                }else{
+                    $add = New Ujian();
+                    $add->user_id = Auth::user()->id;
+                    $add->soal_id = $key->no_soal;
+                    $add->materi_id = $request->materi_id;
+                    $add->jawaban = $key->jawaban_user;
+                    $add->benar = $status;
+                    $add->save();
+                }
 
+                // Ujian::where('user_id', Auth()->user()->id)
+                //     ->where('soal_id', $key->no_soal)
+                //     ->where('materi_id', $request->materi_id)
+                //     ->update([
+                //         'jawaban' => $key->jawaban_user,
+                //         'benar' => $status
+                //     ]);
             }
 
             if ($skor < 60) {
@@ -367,13 +400,13 @@ class KelasController extends Controller
                 ->update([
                     'used' => 'used',
                 ]);
-                
+
             $cekUjian = KeranjangProduk::with('produk')
                 ->where('username', auth()->user()->username)
                 ->where('slug', 'like', 'ujian%')->latest()
                 ->first();
 
-            if($cekUjian){
+            if ($cekUjian) {
                 $cekUjian->used = 'used';
                 $cekUjian->update();
             }
@@ -519,26 +552,33 @@ class KelasController extends Controller
                 $check->update();
             }
 
-            $checkUjian = Ujian::where('soal_id', $request->soal_id)
-                ->where('materi_id', $request->materi_id)
-                ->where('user_id', Auth::user()->id)
-                ->first();
+            // $checkUjian = Ujian::where('soal_id', $request->soal_id)
+            //     ->where('materi_id', $request->materi_id)
+            //     ->where('user_id', Auth::user()->id)
+            //     ->first();
 
-            $jawabanBenar = BankSoalUjian::where('materi_id', $request->materi_id)
-                ->where('id', $request->soal_id)
-                ->first();
-            if ($jawabanBenar->jawaban == $request->input('jawaban')) {
-                $statusBenar = 1;
-            } else {
-                $statusBenar = 2;
-            }
+            // $jawabanBenar = BankSoalUjian::where('materi_id', $request->materi_id)
+            //     ->where('id', $request->soal_id)
+            //     ->first();
+            // if ($jawabanBenar->jawaban == $request->input('jawaban')) {
+            //     $statusBenar = 1;
+            // } else {
+            //     $statusBenar = 2;
+            // }
 
-            if ($checkUjian) {
-                $checkUjian->jawaban = $request->input('jawaban');
-                $checkUjian->benar = $statusBenar;
-                $checkUjian->update();
-            }
-
+            // if ($checkUjian) {
+            //     $checkUjian->jawaban = $request->input('jawaban');
+            //     $checkUjian->benar = $statusBenar;
+            //     $checkUjian->update();
+            // } else {
+            //     $simpanUjian = new Ujian();
+            //     $simpanUjian->user_id = Auth::user()->id;
+            //     $simpanUjian->soal_id = $request->soal_id;
+            //     $simpanUjian->materi_id = $request->materi_id;
+            //     $simpanUjian->jawaban = $request->input('jawaban');
+            //     $simpanUjian->benar = $statusBenar;
+            //     $simpanUjian->save();
+            // }
 
             return $check;
 
@@ -569,9 +609,9 @@ class KelasController extends Controller
                 ->where('users.id', Auth::user()->id)->first();
 
             $lastData = KeranjangProduk::latest()->first();
-            if(!$lastData){
+            if (!$lastData) {
                 $nomor = 1;
-            }else{
+            } else {
                 $nomor = $lastData->id + 1;
             }
             if ($nomor <= 10) {
@@ -581,7 +621,7 @@ class KelasController extends Controller
             } else {
                 $formattedNomor = (string) $nomor;
             }
-        
+
             $bulan = number2roman(date('m'));
             $tahun = date('Y');
             $no_invoice = 'NO. INV-' . $formattedNomor . '/ICEDU/' . $bulan . '/' . $tahun;
@@ -603,9 +643,9 @@ class KelasController extends Controller
             // return $keranjang;
             // return $user;
 
-            if($request->type == 'Otomatis'){
+            if ($request->type == 'Otomatis') {
                 $this->getSnapRedirectKelas($keranjang, $request, $user);
-            }else{
+            } else {
                 $produk = Produk::where('slug', $keranjang->slug)->first();
                 $nama_produk = str_replace('-', " ", strtoupper($produk->nama_produk));
                 $isOnline = $produk->online == '1' ? 'Online' : '';
@@ -649,7 +689,6 @@ class KelasController extends Controller
                     $serverstatuscode = "0";
                     $serverstatusdes = $exception->getMessage();
                 }
-
             }
             DB::commit();
             return redirect()->route('transaksi');
@@ -661,8 +700,8 @@ class KelasController extends Controller
 
     public function getSnapRedirectKelas(KeranjangProduk $keranjang, $request, $user)
     {
-       
-        $orderId = $keranjang->id. '-' .Str::random(5);
+
+        $orderId = $keranjang->id . '-' . Str::random(5);
         $keranjang->midtrans_booking_code = $orderId;
         $price = 50000;
 
@@ -675,7 +714,7 @@ class KelasController extends Controller
 
         $item_details[] = [
             'id' => 1,
-            'price' =>  + 5000,
+            'price' =>  +5000,
             'quantity' => 1,
             'name' => "Biaya Admin",
         ];
@@ -727,7 +766,7 @@ class KelasController extends Controller
             'seller_details' => $seller_details
         ];
 
-        try{
+        try {
             DB::beginTransaction();
             $paymentUrl = \Midtrans\Snap::createTransaction($midtrans_params)->redirect_url;
             $keranjang->midtrans_url = $paymentUrl;
@@ -763,9 +802,9 @@ class KelasController extends Controller
             $data['mail_cc_3'] = env('MAIL_CC_3');
 
             $authUser = User::where('email', Auth::user()->email)->first();
-             $instansi = Kerjasama::where('id', $authUser->kerjasama_id)->first();
+            $instansi = Kerjasama::where('id', $authUser->kerjasama_id)->first();
 
-            $pdf = PDF::loadview('invoice_download', ['transaksi' => $keranjang, 'instansi'=> $instansi, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
+            $pdf = PDF::loadview('invoice_download', ['transaksi' => $keranjang, 'instansi' => $instansi, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
             $pdf->setPaper('A4', 'portrait');
 
             try {
@@ -785,7 +824,7 @@ class KelasController extends Controller
             // header('Location: '.$paymentUrl);
             // return $paymentUrl;
 
-        }catch (Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             return $e;
         }
