@@ -19,7 +19,7 @@
             </div>
             <hr class="sidebar-divider">
             <div class="brevet">
-
+              
                 @foreach ($soal as $index => $item)
                 <form action="" id="form" method="POST">
                     @csrf
@@ -78,13 +78,13 @@
                                 Selesai
                             </button>
                             <form id="form_save" action="{{ route('simpanJawaban') }}" method="POST"
-                                style="display: none">
-                                <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" id="materi_id" name="materi_id" value="{{ $materi->id }}">
-                                <input type="hidden" id="soal_id" name="soal_id" value="{{ $item->id }}">
-                                <input type="hidden" id="slug_id" name="slug" value="{{ $slug }}">
-                                <input type="hidden" id="type_id" name="type" value="waktu_belum_habis">
-                            </form>
+                            style="display: none">
+                            <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" id="materi_id" name="materi_id" value="{{ $materi->id }}">
+                            <input type="hidden" id="soal_id" name="soal_id" value="{{ $item->id }}">
+                            <input type="hidden" id="slug_id" name="slug" value="{{ $slug }}">
+                            <input type="hidden" id="type_id" name="type" value="waktu_belum_habis">
+                            </form> 
                             @else
                             <a href="{{ $soal->nextPageUrl() }}" id="nextButton"
                                 class="relative inline-flex items-center px-3 py-1 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
@@ -116,12 +116,6 @@
             confirmButtonText: 'Ya Selesai!'
         }).then((result) => {
             if (result.isConfirmed) {
-                for (let key in localStorage) {
-                    if (key.startsWith('countdown_value')) {
-                        localStorage.removeItem(key);
-                    }
-                }
-
                 event.preventDefault()
                 document.getElementById('form_save').submit()
             }
@@ -160,14 +154,15 @@
             }
         });
 
+        var csrfToken = '<?php echo csrf_token(); ?>';
+        var time = 60 * 60;
+        // var time = 1 * 60;
         var slug = $('#slug_materi').val()
-        var time = 60 * 60; 
-        var countdownValue = localStorage.getItem('countdown_value-' + slug);
-        if (countdownValue === null || isNaN(countdownValue)) {
-            countdownValue = time;
-        }
+        // var sessionName = 'countdown_value-' + slug
+        // var tes = '<?php echo "countdown_value-" . strval($slug); ?>';
+        // var countdownValue = window[tes] || <?php echo session(strval($slug), 0) ?: 'time'; ?>;
+        var countdownValue = <?php echo session('countdown_value', 0); ?> || time;
         var targetTime = new Date().getTime() + (countdownValue * 1000);
-    
         var countdownInterval = setInterval(function () {
             var now = new Date().getTime();
             var timeRemaining = targetTime - now;
@@ -185,18 +180,14 @@
 
                 clearInterval(countdownInterval);
                 $('.countdown').text('Habis! Redirect to Next Page');
-
+                
                 $.ajax({
                     url: '/simpan-jawaban',
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json',
                     success: function(response) {
-                        for (let key in localStorage) {
-                            if (key.startsWith('countdown_value')) {
-                                localStorage.removeItem(key);
-                            }
-                        }
+                        console.log(response)
                         Swal.fire({
                             icon: 'success',
                             title: 'Waktu Habis',
@@ -216,7 +207,20 @@
             var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
             $('.countdown').text(minutes + ' minutes, ' + seconds + ' seconds');
 
-            localStorage.setItem('countdown_value-' + slug, Math.floor(timeRemaining / 1000));
+            $.ajax({
+                url: `/countdown`,
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': csrfToken },
+                data: {
+                    countdown_value: Math.floor(timeRemaining / 1000)
+                },
+                success: function(response) {
+                    console.log('Countdown value stored in session via controller.');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error storing countdown value in session via controller: ' + error);
+                }
+            });
         }, 1000);
     })
 

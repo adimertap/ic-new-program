@@ -32,7 +32,7 @@
                 style="border: 1px solid #ddd;width: 250px;align-items:center !important;padding-left: 25px;margin-top: 25px;margin-bottom: 25px;">
                 <p style="white-space:nowrap;color:#5D6975;">Bill To:</p>
                 <p style="white-space:nowrap;font-weight: bold;margin-bottom:0">{{$transaksi->user->name}}</p>
-                <p style="font-size: 10px;margin-top:5px" class="uppercase-first">{{$instansi->nama }}</p>
+                <p style="font-size: 10px;margin-top:5px" class="uppercase-first">{{$instansi->nama ?? '' }}</p>
 
             </div>
         </td>

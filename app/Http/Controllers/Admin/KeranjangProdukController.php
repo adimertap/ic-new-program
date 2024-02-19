@@ -57,7 +57,6 @@ class KeranjangProdukController extends Controller
         $instansi = Kerjasama::where('id', $id)->first();
         $activeProducts = Produk::where('aktif', '1')->get();
 
-
         return view('admin.pages.keranjang-produk', [
           'products' => $products,
           'active' => $activeProducts,

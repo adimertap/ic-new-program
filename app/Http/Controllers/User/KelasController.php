@@ -45,10 +45,10 @@ class KelasController extends Controller
 
     function list()
     {
+        Session::forget('countdown_value');
         $cekBrevet = KeranjangProduk::with('produk')
             ->where('username', auth()->user()->username)
             ->where('slug', 'like', 'brevet-ab%')
-            // ->whereIn('tenor', ['50', '75', 'Full'])->latest()
             ->whereIn('status', ['2', '4'])->latest()
             ->first();
 
@@ -82,6 +82,8 @@ class KelasController extends Controller
                 $q->first();
             }])
             ->get();
+
+            // return $materi;
 
 
         $cekPeserta = PesertaUjian::where('user_id', auth()->user()->id)
@@ -167,6 +169,7 @@ class KelasController extends Controller
             // ->whereIn('tenor', ['50', '75', 'Full'])->latest()
             ->where('status', '2')->orWhere('status', '4')->latest()
             ->first();
+        $newslug = $cekBrevet->slug;
 
         $cek_lulus = PesertaUjian::where('user_id', auth()->user()->id)
             ->where('materi_id', $idMateri)
@@ -297,7 +300,7 @@ class KelasController extends Controller
         return view('user.pages.soal', [
             'soal' => $soal,
             'cekBrevet' => $cekBrevet,
-            'slug' => $slug,
+            'slug' => $newslug,
             'materi' => $materi,
         ]);
     }
@@ -306,28 +309,28 @@ class KelasController extends Controller
     {
         try {
             DB::beginTransaction();
-            $jawaban_user = JawabanUser::join('soal_ujian', 'jawaban_temp.soal_id', 'soal_ujian.id')
+
+            $jawaban_user = JawabanUser::leftjoin('soal_ujian', 'jawaban_temp.soal_id', 'soal_ujian.id')
                 ->where('jawaban_temp.materi_id', $request->materi_id)
                 ->where('jawaban_temp.user_id', Auth::user()->id)
                 ->get();
-
+                
             $skor = 0;
             $count_jawaban = count($jawaban_user);
-
             for ($i = 0; $i < $count_jawaban; $i++) {
                 $key = $jawaban_user[$i];
-
                 if ($key->jawaban == $key->jawaban_user) {
                     $status = 1;
                     $skor += 4;
                 } else {
-                    $status = "2";
+                    $status = 2;
                 }
-
+                
                 $checkUjian = Ujian::where('user_id', Auth::user()->id)
                     ->where('soal_id', $key->no_soal)
                     ->where('materi_id', $request->materi_id)
                     ->first();
+                    
                 if($checkUjian){
                     $checkUjian->jawaban = $key->jawaban_user;
                     $checkUjian->benar = $status;
@@ -341,14 +344,6 @@ class KelasController extends Controller
                     $add->benar = $status;
                     $add->save();
                 }
-
-                // Ujian::where('user_id', Auth()->user()->id)
-                //     ->where('soal_id', $key->no_soal)
-                //     ->where('materi_id', $request->materi_id)
-                //     ->update([
-                //         'jawaban' => $key->jawaban_user,
-                //         'benar' => $status
-                //     ]);
             }
 
             if ($skor < 60) {
@@ -368,12 +363,7 @@ class KelasController extends Controller
                 $lulus = 'Lulus';
             }
 
-            if (Session::has('countdown_value')) {
-                Session::forget('countdown_value');
-            }
-
             JawabanUser::where('materi_id', $request->materi_id)->where('user_id', Auth::user()->id)->delete();
-
             session(['hasil' => $skor, 'abjad' => $nilai_abjad, 'lulus' => $lulus]);
 
             $cek = PesertaUjian::select('nilai_angka')
@@ -381,7 +371,7 @@ class KelasController extends Controller
                 ->where('materi_id', $request->materi_id)
                 ->where('slug_product', $request->slug)
                 ->first();
-
+            
             $materi_slug = Materi::query()
                 ->with(['produk', 'peserta' => function ($query) {
                     $query->where('user_id', auth()->user()->id);
@@ -399,13 +389,12 @@ class KelasController extends Controller
                 ->where('slug', $request->slug)
                 ->update([
                     'used' => 'used',
-                ]);
+            ]);
 
             $cekUjian = KeranjangProduk::with('produk')
                 ->where('username', auth()->user()->username)
                 ->where('slug', 'like', 'ujian%')->latest()
                 ->first();
-
             if ($cekUjian) {
                 $cekUjian->used = 'used';
                 $cekUjian->update();
@@ -443,93 +432,6 @@ class KelasController extends Controller
             return $th;
             DB::rollBack();
         }
-    }
-
-    public function pembahasan($materi_id)
-    {
-        $cekBrevet = KeranjangProduk::with('produk')
-            ->where('username', Auth()->user()->username)
-            ->where('slug', 'like', 'brevet-ab%')
-            // ->whereIn('tenor', ['50', '75', 'Full'])->latest()
-            ->where('status', '2')->orWhere('status', '4')->latest()
-            ->first();
-
-        $getUjian = Ujian::with(['soal' => function ($query) use ($materi_id) {
-            $query->where('materi_id', $materi_id);
-        }])
-            ->where('user_id', auth()->user()->id)
-            ->where('materi_id', $materi_id);
-
-        $noSoal = $getUjian->get();
-        $ujian = $getUjian->paginate(1);
-
-        $materi = Materi::query()
-            ->with(['produk', 'peserta' => function ($query) {
-                $query->where('user_id', auth()->user()->id);
-            }, 'keranjang' => function ($q) {
-                $q->where('username', auth()->user()->username);
-            }])
-            ->where('id', $materi_id)
-            ->pluck('slug');
-
-        $nama_materi = Materi::find($materi_id);
-
-        $peserta = PesertaUjian::where('user_id', auth()->user()->id)
-            ->where('materi_id', $materi_id)
-            ->get();
-
-        $hasilUjian = PesertaUjian::where('user_id', auth()->user()->id)->get();
-
-        $hasil = session('hasil') ?? $peserta[0]->nilai_angka;
-        $abjad = session('abjad') ?? $peserta[0]->nilai_abjad;
-        $lulus = session('lulus') ?? $peserta[0]->lulus;
-
-        $data = array();
-        $data['subject'] = 'Notifikasi Hasil Ujian';
-        $data['nama'] = $peserta[0]->user->name;
-        $data['email'] = $peserta[0]->user->email;
-        $data['kelas'] = $cekBrevet->produk->kelas . ' Full Day';
-        $data['Angkatan'] = number2roman($cekBrevet->produk->angkatan);
-        $data['tanggal_ujian'] = $peserta[0]->created_at->format('d/m/Y');
-        $data['materi_ujian'] = $nama_materi->description;
-        $data['nilai_ujian'] = $hasil;
-        $data['status_ujian'] = $lulus;
-        $data['hasil_ujian'] = $hasilUjian;
-        $data['cek_hasil'] = $hasil;
-
-        // if (count($hasilUjian) == '8') {
-        //     $data['cek_ujian'] = "1";
-        //     try {
-        //         Mail::send('mail-ujian', $data, function ($message) use ($data) {
-        //             $message->to($data["email"], $data["nama"])
-        //                 ->subject($data["subject"]);
-        //         });
-        //     } catch (JWTException $exception) {
-        //         $serverstatuscode = "0";
-        //         $serverstatusdes = $exception->getMessage();
-        //     }
-        // } else {
-        //     $data['cek_ujian'] = "0";
-        //     try {
-        //         Mail::send('mail-ujian', $data, function ($message) use ($data) {
-        //             $message->to($data["email"], $data["nama"])
-        //                 ->subject($data["subject"]);
-        //         });
-        //     } catch (JWTException $exception) {
-        //         $serverstatuscode = "0";
-        //         $serverstatusdes = $exception->getMessage();
-        //     }
-        // }
-
-        return view('user.pages.pembahasan', [
-            'bahas' => $ujian,
-            'noSoal' => $noSoal,
-            'cekBrevet' => $cekBrevet,
-            'nilai' => $hasil,
-            'abjad' => $abjad,
-            'lulus' => $lulus,
-            'nama_materi' => $nama_materi,
-        ]);
     }
 
     public function jawaban(Request $request)
@@ -600,14 +502,99 @@ class KelasController extends Controller
         }
     }
 
+    public function pembahasan($materi_id)
+    {
+        $cekBrevet = KeranjangProduk::with('produk')
+            ->where('username', Auth()->user()->username)
+            ->where('slug', 'like', 'brevet-ab%')
+            // ->whereIn('tenor', ['50', '75', 'Full'])->latest()
+            ->where('status', '2')->orWhere('status', '4')->latest()
+            ->first();
+
+        $getUjian = Ujian::with(['soal' => function ($query) use ($materi_id) {
+            $query->where('materi_id', $materi_id);
+        }])
+            ->where('user_id', auth()->user()->id)
+            ->where('materi_id', $materi_id)
+            ->where('benar', '!=', '');
+
+        $noSoal = $getUjian->get();
+        $ujian = $getUjian->paginate(1);
+
+        $materi = Materi::query()
+            ->with(['produk', 'peserta' => function ($query) {
+                $query->where('user_id', auth()->user()->id);
+            }, 'keranjang' => function ($q) {
+                $q->where('username', auth()->user()->username);
+            }])
+            ->where('id', $materi_id)
+            ->pluck('slug');
+
+        $nama_materi = Materi::find($materi_id);
+
+        $peserta = PesertaUjian::where('user_id', auth()->user()->id)
+            ->where('materi_id', $materi_id)
+            ->get();
+
+        $hasilUjian = PesertaUjian::where('user_id', auth()->user()->id)->get();
+
+        $hasil = session('hasil') ?? $peserta[0]->nilai_angka;
+        $abjad = session('abjad') ?? $peserta[0]->nilai_abjad;
+        $lulus = session('lulus') ?? $peserta[0]->lulus;
+
+        $data = array();
+        $data['subject'] = 'Notifikasi Hasil Ujian';
+        $data['nama'] = $peserta[0]->user->name;
+        $data['email'] = $peserta[0]->user->email;
+        $data['kelas'] = $cekBrevet->produk->kelas . ' Full Day';
+        $data['Angkatan'] = number2roman($cekBrevet->produk->angkatan);
+        $data['tanggal_ujian'] = $peserta[0]->created_at->format('d/m/Y');
+        $data['materi_ujian'] = $nama_materi->description;
+        $data['nilai_ujian'] = $hasil;
+        $data['status_ujian'] = $lulus;
+        $data['hasil_ujian'] = $hasilUjian;
+        $data['cek_hasil'] = $hasil;
+
+        if (count($hasilUjian) == '8') {
+            $data['cek_ujian'] = "1";
+            try {
+                Mail::send('mail-ujian', $data, function ($message) use ($data) {
+                    $message->to($data["email"], $data["nama"])
+                        ->subject($data["subject"]);
+                });
+            } catch (JWTException $exception) {
+                $serverstatuscode = "0";
+                $serverstatusdes = $exception->getMessage();
+            }
+        } else {
+            $data['cek_ujian'] = "0";
+            try {
+                Mail::send('mail-ujian', $data, function ($message) use ($data) {
+                    $message->to($data["email"], $data["nama"])
+                        ->subject($data["subject"]);
+                });
+            } catch (JWTException $exception) {
+                $serverstatuscode = "0";
+                $serverstatusdes = $exception->getMessage();
+            }
+        }
+        return view('user.pages.pembahasan', [
+            'bahas' => $ujian,
+            'noSoal' => $noSoal,
+            'cekBrevet' => $cekBrevet,
+            'nilai' => $hasil,
+            'abjad' => $abjad,
+            'lulus' => $lulus,
+            'nama_materi' => $nama_materi,
+        ]);
+    }
+
     public function ujianUlang(Request $request)
     {
         try {
             DB::beginTransaction();
             $materi = Materi::where('id', $request->materi_id)->first();
-            $user = User::with('kerjasama')
-                ->where('users.id', Auth::user()->id)->first();
-
+            $user = User::with('kerjasama')->where('users.id', Auth::user()->id)->first();
             $lastData = KeranjangProduk::latest()->first();
             if (!$lastData) {
                 $nomor = 1;
@@ -638,10 +625,10 @@ class KelasController extends Controller
             $keranjang->type_pembayaran = $request->type;
             $keranjang->harga_kelas = 50000;
             $keranjang->tenor = 'Full';
+            $keranjang->data = 'New';
             $keranjang->save();
 
             // return $keranjang;
-            // return $user;
 
             if ($request->type == 'Otomatis') {
                 $this->getSnapRedirectKelas($keranjang, $request, $user);
@@ -674,7 +661,8 @@ class KelasController extends Controller
                 $data['mail_cc_3'] = env('MAIL_CC_3');
 
                 $authUser = User::where('email', Auth::user()->email)->first();
-                $instansi = Kerjasama::where('id', $authUser->kerjasama_id)->first();
+                $instansi = Kerjasama::where('id', $user->kerjasama_id)->first();
+
                 $pdf = PDF::loadview('invoice_download', ['transaksi' => $keranjang, 'instansi' => $instansi, 'nama_produk' => $nama_produk, 'tanggal' => $tanggal, 'isOnline' => $isOnline, 'produk' => $produk]);
                 $pdf->setPaper('A4', 'portrait');
 

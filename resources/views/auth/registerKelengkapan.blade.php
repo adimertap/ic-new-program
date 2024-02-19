@@ -112,7 +112,7 @@
                                         {{ $lembaga->nama }}
                                     </option>
                                     @endforeach
-                                    <option value="Lainnya">LAINNYA</option>
+                                    <option value="Lainnya">Tambah Instansi</option>
                                 </select>
                                 @error('kerjasama')<div class="text-danger error-valid mb-1">{{ $message }}
                                 </div> @enderror
