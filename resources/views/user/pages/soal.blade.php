@@ -77,14 +77,6 @@
                                 class="btn btn-primary relative inline-flex items-center px-3 py-1 ml-3 text-sm font-medium text-white bg-blue-500 border border-gray-300 leading-5 rounded-md hover:bg-blue-600 focus:outline-none focus:ring ring-blue-300 active:bg-blue-700 transition ease-in-out duration-150">
                                 Selesai
                             </button>
-                            <form id="form_save" action="{{ route('simpanJawaban') }}" method="POST"
-                                style="display: none">
-                                <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" id="materi_id" name="materi_id" value="{{ $materi->id }}">
-                                <input type="hidden" id="soal_id" name="soal_id" value="{{ $item->id }}">
-                                <input type="hidden" id="slug_id" name="slug" value="{{ $slug }}">
-                                <input type="hidden" id="type_id" name="type" value="waktu_belum_habis">
-                            </form>
                             @else
                             <a href="{{ $soal->nextPageUrl() }}" id="nextButton"
                                 class="relative inline-flex items-center px-3 py-1 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
@@ -94,6 +86,14 @@
                         </div>
                     </nav>
                 </div>
+                <form id="form_save" action="{{ route('simpanJawaban') }}" method="POST"
+                    style="display: none">
+                    <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" id="materi_id" name="materi_id" value="{{ $materi->id }}">
+                    <input type="hidden" id="soal_id" name="soal_id" value="{{ $item->id }}">
+                    <input type="hidden" id="slug_id" name="slug" value="{{ $slug }}">
+                    <input type="hidden" id="type_id" name="type" value="waktu_belum_habis">
+                </form>
                 @endforeach
             </div>
         </div>
@@ -116,16 +116,18 @@
             confirmButtonText: 'Ya Selesai!'
         }).then((result) => {
             if (result.isConfirmed) {
+                var slug = $('#slug_materi').val()
+                var materi_id = $('#materi_id').val()
+
                 for (let key in localStorage) {
-                    if (key.startsWith('countdown_value')) {
+                    if (key.startsWith('countdown_value-' + slug + '-materi-' + materi_id)) {
                         localStorage.removeItem(key);
                     }
                 }
-
                 event.preventDefault()
                 document.getElementById('form_save').submit()
             }
-        })
+        });
     }
 
     $(document).ready(function () {
@@ -135,7 +137,6 @@
             var materi_id = $('input[name="materi_id"]').val();
             var token = $('input[name="_token"]').val();
             var jawaban = $('input[name="jawaban"]:checked').val();
-
             if (jawaban != undefined || jawaban != null) {
                 var data = {
                     _token: token,
@@ -143,7 +144,6 @@
                     soal_id: soal_id,
                     jawaban: jawaban,
                 };
-                console.log(data);
 
                 $.ajax({
                     url: '/soal/jawaban/user',
@@ -161,64 +161,37 @@
         });
 
         var slug = $('#slug_materi').val()
+        var materi_id = $('#materi_id').val()
         var time = 60 * 60; 
-        var countdownValue = localStorage.getItem('countdown_value-' + slug);
+        var countdownValue = localStorage.getItem('countdown_value-' + slug + '-materi-' + materi_id);
         if (countdownValue === null || isNaN(countdownValue)) {
             countdownValue = time;
         }
         var targetTime = new Date().getTime() + (countdownValue * 1000);
-    
         var countdownInterval = setInterval(function () {
             var now = new Date().getTime();
             var timeRemaining = targetTime - now;
             if (timeRemaining <= 0) {
-                var materi_id = $('#materi_id').val();
-                var soal_id = $('#soal_id').val();
-                var token = $('#_token').val();
-
-                var data = {
-                    _token: token,
-                    materi_id: materi_id,
-                    soal_id: soal_id,
-                    type: "waktu_habis"
-                }
-
+                $('#type_id').val('waktu_habis')
                 clearInterval(countdownInterval);
-                $('.countdown').text('Habis! Redirect to Next Page');
-
-                $.ajax({
-                    url: '/simpan-jawaban',
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    success: function(response) {
-                        for (let key in localStorage) {
-                            if (key.startsWith('countdown_value')) {
-                                localStorage.removeItem(key);
-                            }
-                        }
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Waktu Habis',
-                            text: `Selamat Anda telah menyelesaikan Kuis`,
-                        })
-                        window.location.href = '/pembahasan/' + response.materi_id
-                        console.log('Times up, Form Submitted');
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Form data submission failed:', error);
+                $('.countdown').text('Waktu Habis, Otomatis ke Halaman Selanjutnya');
+                let slug2 = $('#slug_materi').val()
+                let materi_id2 = $('#materi_id').val()
+                for (let key in localStorage) {
+                    if (key.startsWith('countdown_value-' + slug2 + '-materi-' + materi_id2)) {
+                        localStorage.removeItem(key);
+                        break;
                     }
-                });
+                }
+                document.getElementById('form_save').submit();
                 return;
             }
-
             var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
             $('.countdown').text(minutes + ' minutes, ' + seconds + ' seconds');
-
-            localStorage.setItem('countdown_value-' + slug, Math.floor(timeRemaining / 1000));
+            localStorage.setItem('countdown_value-' + slug + '-materi-' + materi_id, Math.floor(timeRemaining / 1000));
         }, 1000);
-    })
+    });
 
 </script>
 @endpush

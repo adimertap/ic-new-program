@@ -124,9 +124,7 @@ class CheckoutController extends Controller
     public function update(Request $request, $slug)
     {
         try {
-            // return $request;
             // DB::beginTransaction();
-
             $find_produk = Produk::where('slug', $slug)->first();
             $user = User::where('id', Auth::user()->id)->first();
 
@@ -143,7 +141,6 @@ class CheckoutController extends Controller
             } else {
                 $formattedNomor = (string) $nomor;
             }
-
 
             $bulan = number2roman(date('m'));
             $tahun = date('Y');
@@ -167,6 +164,12 @@ class CheckoutController extends Controller
             if($check){
                 $transaksi = $check;
             }else{
+                if(!$request->instansi || $request->instansi == 0){
+                    $newInstansi = 6;
+                }else{
+                    $newInstansi = $request->instansi;
+                }
+
                 $transaksi = new KeranjangProduk;
                 $transaksi->username = $user->email;
                 $transaksi->payment_status = 'Pending';
@@ -181,7 +184,7 @@ class CheckoutController extends Controller
                 $transaksi->diskon = $request->diskon_hidden;
                 $transaksi->type_diskon = $request->type_diskon;
                 $transaksi->harga_kelas = $request->harga_asli;
-                $transaksi->id_instansi = $request->instansi;
+                $transaksi->id_instansi = $newInstansi;
                 $transaksi->status = 1;
                 $transaksi->voucher_text_id = $vcdisc;
                 $transaksi->harga_kelas_after_disc = $request->harga_kelas_after_disc - $voucherNilai;

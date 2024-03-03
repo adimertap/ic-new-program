@@ -129,11 +129,11 @@ class TandaTanganController extends Controller
                         ->attachData($pdf->output(), "sertifikat.pdf");
                 });
 
-                Mail::send('mail-sertif', $data, function ($message) use ($data) {
-                $message->to($data["email"], $data["nama"])
-                    ->subject($data["subject"]);
-                    // ->cc($data["mail_cc_1"]);
-                });
+                // Mail::send('mail-sertif', $data, function ($message) use ($data) {
+                // $message->to($data["email"], $data["nama"])
+                //     ->subject($data["subject"]);
+                //     // ->cc($data["mail_cc_1"]);
+                // });
             } catch (JWTException $exception) {
                 $serverstatuscode = "0";
                 $serverstatusdes = $exception->getMessage();

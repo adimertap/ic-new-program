@@ -276,6 +276,7 @@ Route::middleware('user')->group(function() {
 
     Route::post('/simpan-jawaban', [KelasController::class, 'simpanJawaban'])
         ->name('simpanJawaban');
+
     Route::get('/pembahasan/{materi_id}',[KelasController::class, 'pembahasan'])
         ->name('pembahasan');
 

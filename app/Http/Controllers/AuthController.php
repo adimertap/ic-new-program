@@ -140,11 +140,8 @@ class AuthController extends Controller
     public function authRegister(Request $request)
     {
         $slugProduct = $request->slug;
-
         $pwd = $request->input('password');
-        $nourut = KeranjangProduk::selectRaw('MAX(SUBSTRING(no_invoice, 9, 3)) AS no_invoice')
-            ->first();
-
+        $nourut = KeranjangProduk::selectRaw('MAX(SUBSTRING(no_invoice, 9, 3)) AS no_invoice')->first();
         $invoice = sprintf('%03d', ($nourut['no_invoice'] + 1));
         $bulan = number2roman(date('m'));
         $tahun = date('Y');
@@ -154,10 +151,7 @@ class AuthController extends Controller
         if(!$checkUser){
             User::create([
                 'name' => $request->input('nama'),
-                // 'no_hp' => $request->input('no_hp'),
                 'email' => $request->input('email'),
-                // 'pekerjaan' => $request->input('pekerjaan'),
-                // 'kerjasama_id' => $request->input('kerjasama'),
                 'username' => $request->input('email'),
                 'active' => '1',
                 'role' => '2',
@@ -175,34 +169,34 @@ class AuthController extends Controller
                 'created_at' => date('Y-m-d H:i:s')
             ]);
         }
+
+        $data = array();
+        $data['email'] = $request->input('email');
+        $data['subject'] = 'Pendaftaran IC Education Berhasil';
+        $data['nama'] = $request->input('nama');
+        $data['username'] = $request->input('email');
+        $data['password'] = $pwd;
+        $data['produk'] = '';
+        $data['isregonly'] = "1";
+        $data['mail_cc_1'] = env('MAIL_CC_1');
+        $data['mail_cc_2'] = env('MAIL_CC_2');
+        $data['mail_cc_3'] = env('MAIL_CC_3');
+
+        try {
+            Mail::send('mail', $data, function ($message) use ($data) {
+                $message->to($data["email"], $data["nama"])
+                    ->subject($data["subject"])
+                    ->cc($data["mail_cc_1"], $data["mail_cc_2"], $data["mail_cc_3"]);
+            });
+        } catch (JWTException $exception) {
+            $serverstatuscode = "0";
+            $serverstatusdes = $exception->getMessage();
+        }
     
         if (auth()->attempt(array('username' => $request->input('email'), 'password' => $pwd))) {
             if (isset($slugProduct) && !empty($slugProduct)) {
                 return redirect()->route('keranjang-invoice');
             } else {
-                $data = array();
-                $data['email'] = $request->input('email');
-                $data['subject'] = 'Pendaftaran IC Education Berhasil';
-                $data['nama'] = $request->input('nama');
-                $data['username'] = $request->input('email');
-                $data['password'] = $pwd;
-                $data['produk'] = $request->input('nama_produk');
-                $data['isregonly'] = "1";
-                $data['mail_cc_1'] = env('MAIL_CC_1');
-                $data['mail_cc_2'] = env('MAIL_CC_2');
-                $data['mail_cc_3'] = env('MAIL_CC_3');
-
-                try {
-                    Mail::send('mail', $data, function ($message) use ($data) {
-                        $message->to($data["email"], $data["nama"])
-                            ->subject($data["subject"])
-                            ->cc($data["mail_cc_1"], $data["mail_cc_2"], $data["mail_cc_3"]);
-                    });
-                } catch (JWTException $exception) {
-                    $serverstatuscode = "0";
-                    $serverstatusdes = $exception->getMessage();
-                }
-
                 return redirect()->route('user-dashboard')->with('success', 'Anda tidak membeli produk apapun, Ayo buruan beli. Silahkan cek email yang terdaftar untuk mendapatkan informasi login');
             }
         } else {

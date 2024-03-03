@@ -47,36 +47,35 @@
                     </div>
                 </div>
                 @if ($item->jawaban == $item->soal->jawaban)
-                <div class="row justify-content-center d-block mt-3">
-                    <div class="col">
-                        <div class="bg-success rounded d-block py-3 px-5 text-white">
+                    <div class="row justify-content-center d-block mt-3">
+                        <div class="col">
+                            <div class="bg-success rounded d-block py-3 px-5 text-white">
 
-                            @switch($item->jawaban)
-                            @case('a')
-                            <p> <strong>Jawaban Kamu Benar</strong> <br> {{ $item->soal->a }}</p>
-                            @break
+                                @switch($item->jawaban)
+                                @case('a')
+                                <p> <strong>Jawaban Kamu Benar</strong> <br> {{ $item->soal->a }}</p>
+                                @break
 
-                            @case('b')
-                            <p> <strong>Jawaban Kamu Benar</strong> <br>{{ $item->soal->b }}</p>
-                            @break
+                                @case('b')
+                                <p> <strong>Jawaban Kamu Benar</strong> <br>{{ $item->soal->b }}</p>
+                                @break
 
-                            @case('c')
-                            <p> <strong>Jawaban Kamu Benar</strong> <br>{{ $item->soal->c }}</p>
-                            @break
+                                @case('c')
+                                <p> <strong>Jawaban Kamu Benar</strong> <br>{{ $item->soal->c }}</p>
+                                @break
 
-                            @case('d')
-                            <p> <strong>Jawaban Kamu Benar</strong> <br>{{ $item->soal->d }}</p>
-                            @break
-                            @default
+                                @case('d')
+                                <p> <strong>Jawaban Kamu Benar</strong> <br>{{ $item->soal->d }}</p>
+                                @break
+                                @default
 
-                            @endswitch
+                                @endswitch
 
-                            <br>
-                            {{ $item->soal->pembahasan }}
+                                <br>
+                                {{ $item->soal->pembahasan }}
+                            </div>
                         </div>
                     </div>
-                </div>
-
                 @elseif ($item->jawaban != $item->soal->jawaban)
                 @if ($item->jawaban)
                 <div class="row justify-content-center d-block mt-3">
@@ -170,9 +169,13 @@
 
 @section('addon-script')
 <script>
-    // $(document).ready(function () {
-    //   $('#exampleModal').modal('show');
-    // });
+    $(document).ready(function () {
+        for (let key in localStorage) {
+            if (key.startsWith('countdown_value-')) {
+                localStorage.removeItem(key);
+            }
+        }
+    });
 
 </script>
 @endsection

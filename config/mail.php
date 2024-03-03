@@ -39,8 +39,8 @@ return [
             'host' => env('MAIL_HOST', 'mail.indonesiaconsult.com'),
             'port' => env('MAIL_PORT', 465),
             'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
-            'username' => env('MAIL_USERNAME', 'no-reply@indonesiaconsult.com'),
-            'password' => env('MAIL_PASSWORD', '1c.Consultant^%'),
+            'username' => env('MAIL_USERNAME', 'no-reply2@indonesiaconsult.com'),
+            'password' => env('MAIL_PASSWORD', 'e$n%&eVr]N%w'),
             'timeout' => null,
             'local_domain' => null,
             'stream' => [
