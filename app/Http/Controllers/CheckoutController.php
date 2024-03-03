@@ -8,6 +8,7 @@ use App\Models\Diskon;
 use App\Models\KeranjangProduk;
 use App\Models\Kerjasama;
 use App\Models\MetaDescription;
+use App\Models\MidtransHistory;
 use App\Models\Produk;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -19,15 +20,17 @@ use Midtrans\Config;
 use Illuminate\Support\Facades\Mail;
 use Throwable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Response;
 
 class CheckoutController extends Controller
 {
     public function __construct()
     {
-        Config::$serverKey = "SB-Mid-server-ThmSXotcqD9A6m7KSd-SIaEG";
-        Config::$isProduction = false;
-        Config::$isSanitized = false;
-        Config::$is3ds = false;
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
+        Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
+        Config::$is3ds = env('MIDTRANS_IS_3DS');
     }
 
     /**
@@ -318,9 +321,10 @@ class CheckoutController extends Controller
                 ];
             }
 
+            $biaya_admin = env('MIDTRANS_BIAYA_ADMIN');
             $item_details[] = [
                 'id' => 1,
-                'price' =>  +5000,
+                'price' =>  $biaya_admin,
                 'quantity' => 1,
                 'name' => "Biaya Admin",
             ];
@@ -437,22 +441,62 @@ class CheckoutController extends Controller
     public function midtransCallback(Request $request)
     {
         try {
-            $notif = $request->method() == 'POST' ? new Midtrans\Notification() : Midtrans\Transaction::status($request->order_id);
+            $payload = $request;
+            // $payload = $request->method() == 'POST' ? new Midtrans\Notification() : Midtrans\Transaction::status($request->order_id);
+            $serverKey = env('MIDTRANS_SERVER_KEY');
+            $hashed = hash('sha512',$payload->order_id.$request->status_code.$request->gross_amount.$serverKey);
+            if($hashed == $payload->signature_key){
+                $transaction_status = $payload->transaction_status;
+                $fraud = $payload->fraud_status;
+                $checkout_id = explode('-', $payload->order_id)[0];
+                $checkout = KeranjangProduk::where('id', $checkout_id)->first();
 
-            $transaction_status = $notif->transaction_status;
-            $fraud = $notif->fraud_status;
+                $history = new MidtransHistory();
+                $history->order_id = $payload->order_id;
+                $history->keranjang_id = $checkout->id;
+                $history->status = $payload->transaction_status;
+                $history->payload_json = $payload;
+                $history->save();
 
-            $checkout_id = explode('-', $notif->order_id)[0];
-            $checkout = KeranjangProduk::where('id', $checkout_id)->first();
-
-            if ($transaction_status == 'capture') {
-                if ($fraud == 'challenge') {
-                    $checkout->payment_status = 'Pending';
+                if ($transaction_status == 'capture') {
+                    if ($fraud == 'challenge') {
+                        $checkout->payment_status = 'Pending';
+                        $checkout->save();
+                        return response()->json(['message' => 'Payment Pending'], 200);
+                    } else if ($fraud == 'accept') {
+                        if ($checkout->sisaTenor == '25') {
+                            $status = '5';
+                            $pstatus = 'Cicilan';
+                        } else if ($checkout->sisaTenor == '50') {
+                            $status = '3';
+                            $pstatus = 'Cicilan';
+                        } else if ($checkout->sisaTenor == '75') {
+                            $status = '4';
+                            $pstatus = 'Cicilan';
+                        } else if ($checkout->sisaTenor == 'Full') {
+                            $status = '2';
+                            $pstatus = 'Paid';
+                        }
+                        $checkout->tenor = $checkout->sisaTenor;
+                        $checkout->status = $status;
+                        $checkout->payment_status = $pstatus;
+                        $checkout->update();
+                        return response()->json(['message' => 'Payment Success'], 200);
+                    }
+                } else if ($transaction_status == 'cancel') {
+                    if ($fraud == 'challenge') {
+                        $checkout->payment_status = 'Failed';
+                        $checkout->save();
+                        return response()->json(['message' => 'Payment Failed'], 500);
+                    } else if ($fraud == 'accept') {
+                        $checkout->payment_status = 'Failed';
+                        $checkout->save();
+                    }
+                } else if ($transaction_status == 'deny') {
+                    $checkout->payment_status = 'Failed';
                     $checkout->save();
-                    return response()->json(['message' => 'Payment Pending'], 200);
-                    // $viewName = 'home.pages.statusMidtrans.pending_checkout';
-                    // return view('home.pages.statusMidtrans.pending_checkout');
-                } else if ($fraud == 'accept') {
+                    return response()->json(['message' => 'Payment Failed'], 500);
+                } else if ($transaction_status == 'settlement') {
                     if ($checkout->sisaTenor == '25') {
                         $status = '5';
                         $pstatus = 'Cicilan';
@@ -471,66 +515,22 @@ class CheckoutController extends Controller
                     $checkout->payment_status = $pstatus;
                     $checkout->update();
                     return response()->json(['message' => 'Payment Success'], 200);
-                    // $viewName = 'home.pages.statusMidtrans.success_checkout';
-                    // return view('home.pages.statusMidtrans.success_checkout');
-                }
-            } else if ($transaction_status == 'cancel') {
-                if ($fraud == 'challenge') {
+                } else if ($transaction_status == 'pending') {
+                    $checkout->payment_status = 'Pending';
+                    $checkout->save();
+                    return response()->json(['message' => 'Payment Pending'], 200);
+                } else if ($transaction_status == 'expire') {
                     $checkout->payment_status = 'Failed';
                     $checkout->save();
                     return response()->json(['message' => 'Payment Failed'], 500);
-                    // $viewName = 'home.pages.statusMidtrans.error_checkout';
-                    // return view('home.pages.statusMidtrans.error_checkout');
-                } else if ($fraud == 'accept') {
-                    $checkout->payment_status = 'Failed';
-                    $checkout->save();
                 }
-            } else if ($transaction_status == 'deny') {
-                $checkout->payment_status = 'Failed';
-                $checkout->save();
-                return response()->json(['message' => 'Payment Failed'], 500);
-                // $viewName = 'home.pages.statusMidtrans.error_checkout';
-                // return view('home.pages.statusMidtrans.error_checkout');
-            } else if ($transaction_status == 'settlement') {
-                if ($checkout->sisaTenor == '25') {
-                    $status = '5';
-                    $pstatus = 'Cicilan';
-                } else if ($checkout->sisaTenor == '50') {
-                    $status = '3';
-                    $pstatus = 'Cicilan';
-                } else if ($checkout->sisaTenor == '75') {
-                    $status = '4';
-                    $pstatus = 'Cicilan';
-                } else if ($checkout->sisaTenor == 'Full') {
-                    $status = '2';
-                    $pstatus = 'Paid';
-                }
-                $checkout->tenor = $checkout->sisaTenor;
-                $checkout->status = $status;
-                $checkout->payment_status = $pstatus;
-                $checkout->update();
-                return response()->json(['message' => 'Payment Success'], 200);
-                // $viewName = 'home.pages.statusMidtrans.success_checkout';
-                // return view('home.pages.statusMidtrans.success_checkout');
-            } else if ($transaction_status == 'pending') {
-                $checkout->payment_status = 'Pending';
-                $checkout->save();
-                return response()->json(['message' => 'Payment Pending'], 200);
-                // $viewName = 'home.pages.statusMidtrans.pending_checkout';
-                // return view('home.pages.statusMidtrans.pending_checkout');
-            } else if ($transaction_status == 'expire') {
-                $checkout->payment_status = 'Failed';
-                $checkout->save();
-                return response()->json(['message' => 'Payment Failed'], 500);
-                // $viewName = 'home.pages.statusMidtrans.error_checkout';
-                // return view('home.pages.statusMidtrans.error_checkout');
+            }else{
+                return response()->json(['message' => 'Unauthorized'], 403);
             }
-            // return view($viewName);
         } catch (\Throwable $th) {
+            return $th;
             \Log::error('Exception in Midtrans callback: ' . $th->getMessage());
-
-            // Return a JSON response to acknowledge the notification
-            return response()->json(['message' => 'Notification processing error'], Response::HTTP_OK);
+            return response()->json(['message' => 'Payment Failed, Notification processing error', 'error' => $th], Response::HTTP_OK);
         }
     }
 

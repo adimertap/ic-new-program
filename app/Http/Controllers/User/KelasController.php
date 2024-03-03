@@ -32,11 +32,10 @@ class KelasController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('auth');
-        Config::$serverKey = "SB-Mid-server-ThmSXotcqD9A6m7KSd-SIaEG";
-        Config::$isProduction = false;
-        Config::$isSanitized = false;
-        Config::$is3ds = false;
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
+        Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
+        Config::$is3ds = env('MIDTRANS_IS_3DS');
     }
 
     public function index(Request $request)
