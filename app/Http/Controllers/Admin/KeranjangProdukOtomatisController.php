@@ -21,16 +21,10 @@ class KeranjangProdukOtomatisController extends Controller
 {
     public function __construct()
     {
-        // Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        // Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
-        // Midtrans\Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
-        // Midtrans\Config::$is3ds = env('MIDTRANS_IS_3DS');
-
-        // Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        Midtrans\Config::$serverKey = "SB-Mid-server-ThmSXotcqD9A6m7KSd-SIaEG";
-        Midtrans\Config::$isProduction = false;
-        Midtrans\Config::$isSanitized = false;
-        Midtrans\Config::$is3ds = false;
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
+        Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
+        Config::$is3ds = env('MIDTRANS_IS_3DS');
     }
     /**
      * Display a listing of the resource.

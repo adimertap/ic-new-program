@@ -30,10 +30,10 @@ class DashboardController extends Controller
 {
     public function __construct()
     {
-        Config::$serverKey = "SB-Mid-server-ThmSXotcqD9A6m7KSd-SIaEG";
-        Config::$isProduction = false;
-        Config::$isSanitized = false;
-        Config::$is3ds = false;
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
+        Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
+        Config::$is3ds = env('MIDTRANS_IS_3DS');
     }
 
     public function dashboard(Request $request)
@@ -373,18 +373,14 @@ class DashboardController extends Controller
             'category' => $nama_produk,
         ];
 
-        if($transaksi->total_price != 55000){
-            $item_details[] = [
-                'id' => 1,
-                'price' =>  +5000,
-                'quantity' => 1,
-                'name' => "Biaya Admin",
-            ];
-        }
-      
+        $biaya_admin = env('MIDTRANS_BIAYA_ADMIN');
 
-
-        // return $transaksi->cicilan_temp_idr;
+        $item_details[] = [
+            'id' => 1,
+            'price' =>  $biaya_admin,
+            'quantity' => 1,
+            'name' => "Biaya Admin",
+        ];
 
         $transaction_details = [
             'order_id' => $orderId,
