@@ -92,6 +92,8 @@ class KelasController extends Controller
         $materi_setengah = Materi::query()
             ->with(['produk', 'peserta' => function ($query) {
                 $query->where('user_id', auth()->user()->id);
+                $query->where('slug_product', '!=', null);
+                $query->where('slug_product', '!=', '');
                 $query->get();
             }, 'keranjang' => function ($q) {
                 $q->where('username', auth()->user()->username);
