@@ -118,7 +118,7 @@ class KelasController extends Controller
             $passing = [];
         }
 
-        // return $materi[0]->peserta->slug_product;
+        // return $passing;
         // return $transaksi;
 
 
@@ -144,8 +144,7 @@ class KelasController extends Controller
         $cekBrevet = KeranjangProduk::with('produk')
             ->where('username', Auth()->user()->username)
             ->where('slug', 'like', 'brevet-ab%')
-            // ->whereIn('tenor', ['50', '75', 'Full'])->latest()
-            ->where('status', '2')->orWhere('status', '4')->latest()
+            ->whereIn('status', ['2', '4', '3'])->latest()
             ->first();
         $newslug = $cekBrevet->slug;
 
@@ -172,8 +171,7 @@ class KelasController extends Controller
         $cekBrevet = KeranjangProduk::with('produk')
             ->where('username', Auth()->user()->username)
             ->where('slug', 'like', 'brevet-ab%')
-            // ->whereIn('tenor', ['50', '75', 'Full'])->latest()
-            ->where('status', '2')->orWhere('status', '4')->latest()
+            ->whereIn('status', ['2', '4', '3'])->latest()
             ->first();
         $newslug = $cekBrevet->slug;
 
@@ -341,6 +339,7 @@ class KelasController extends Controller
 
         $materi = Materi::find($idMateri);
 
+
         return view('user.pages.soal', [
             'soal' => $soal,
             'cekBrevet' => $cekBrevet,
@@ -454,7 +453,7 @@ class KelasController extends Controller
                     'materi_id' => $request->materi_id,
                     'nilai_angka' => $skor,
                     'nilai_abjad' => $nilai_abjad,
-                    'slug_pr`oduct' =>  $request->slug,
+                    'slug_product' =>  $request->slug,
                     'lulus' => $lulus,
                 ]);
             }

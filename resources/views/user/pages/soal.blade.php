@@ -15,7 +15,8 @@
                     </div>
 
                 </div>
-                <p class="text-muted mt-1">Jenis Soal Pilihan Ganda: Anda harus memilih satu</p>
+                <p class="text-muted mt-1">Jenis Soal Pilihan Ganda: Anda harus memilih satu
+                </p>
             </div>
             <hr class="sidebar-divider">
             <div class="brevet">
