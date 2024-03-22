@@ -59,12 +59,12 @@ class KelasController extends Controller
 
         $transaksi = KeranjangProduk::with('produk')
             ->where('username', Auth()->user()->username)
+            ->whereIn('status',['2','3','4'])
             ->where('slug', 'like', 'brevet-ab%')->latest('created_at')->value('slug');
 
         $slug = $cekBrevet->slug;
         $reqSertif = Sertifikat::where('username', auth()->user()->username)->value('request');
         $keterangan = "";
-
 
         $akses = Produk::where('slug', $slug)->get();
         $kode_akses = '';
@@ -117,6 +117,10 @@ class KelasController extends Controller
         } else {
             $passing = [];
         }
+
+        // return $materi[0]->peserta->slug_product;
+        // return $transaksi;
+
 
         return view('user.pages.list_materi', [
             'materi' => $passing,
@@ -450,7 +454,7 @@ class KelasController extends Controller
                     'materi_id' => $request->materi_id,
                     'nilai_angka' => $skor,
                     'nilai_abjad' => $nilai_abjad,
-                    'slug_product' =>  $request->slug,
+                    'slug_pr`oduct' =>  $request->slug,
                     'lulus' => $lulus,
                 ]);
             }

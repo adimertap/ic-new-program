@@ -14,8 +14,10 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Midtrans;
 use PDF;
-use Illuminate\Support\Facades\Mail;
 
+
+use Illuminate\Support\Facades\Mail;
+use Midtrans\Config;
 
 class KeranjangProdukOtomatisController extends Controller
 {
